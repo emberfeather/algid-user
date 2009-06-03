@@ -1,14 +1,14 @@
 {
-	'information': {
-		'key': 'user',
-		'title': 'User Management',
-		'i18n': {
-			'locales': 'en_US'
+	"information": {
+		"key": "user",
+		"title": "User Management",
+		"i18n": {
+			"locales": "en_US"
 		},
-		'prerequisites': {
+		"prerequisites": {
 		},
-		'version': '0.1.0'
+		"version": "0.1.0"
 	},
-	'navigation': [
+	"navigation": [
 	]
 }
