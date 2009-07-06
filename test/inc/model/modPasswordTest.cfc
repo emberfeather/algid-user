@@ -37,12 +37,17 @@
 	
 	<cffunction name="testMinLength" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
+		<cfset var minLength = 7 />
 		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var testPassword = '' />
+		<cfset var i = '' />
+		
+		<cfset testPassword = left( generateSecretKey('DESEDE'), minLength - 1 ) />
 		
 		<cftry>
-			<cfset password.setPassword('123456') />
+			<cfset password.setPassword(testPassword) />
 			
-			<cfset fail("Should not be able to set the password without a minimum length.") />
+			<cfset fail("Should not be able to set the password without the minimum length of #minLength#.") />
 			
 			<cfcatch type="mxunit.exception.AssertionFailedError">
 				<cfrethrow />
