@@ -38,7 +38,7 @@
 		<!--- Make sure that we have a value for the hash --->
 		<cfif variables.instance['hash'] EQ ''>
 			<!--- Generate the hash --->
-			<cfset variables.instance['hash'] = hashPassword( this.getPassword() ) />
+			<cfset variables.instance['hash'] = hashPassword() />
 		</cfif>
 		
 		<cfreturn variables.instance['hash'] />
@@ -52,9 +52,7 @@
 			<cfset base62 = createObject('component', 'cf-compendium.inc.resource.utility.base62').init() />
 			
 			<!--- Generate the salt by converting a large random number to a base 62 format --->
-			<cfset variables.instance['salt'] = base62.valueToBase62( randRange(1000000, 2147483646, 'SHA1PRNG') + randRange(1, 2147483646, 'SHA1PRNG') ) />
-			
-			<cfthrow message="#hash(variables.instance['salt'],'SHA-256','utf-8')#" />
+			<cfset variables.instance['salt'] = base62.valueToBase62( randRange(500000, 2147483646, 'SHA1PRNG') + randRange(500000, 2147483646, 'SHA1PRNG') ) />
 		</cfif>
 		
 		<cfreturn variables.instance['salt'] />
@@ -65,9 +63,16 @@
 	</cffunction>
 	
 	<cffunction name="hashPassword" access="public" returntype="string" output="false">
-		<cfargument name="password" type="string" required="true" />
+		<cfargument name="password" type="string" default="" />
 		
-		<cfreturn hash( getSalt() & '|' & arguments.password, 'SHA-512', 'utf-8' ) />
+		<cfset arguments.password = trim(arguments.password) />
+		
+		<!--- If not given a password to hash use the local password --->
+		<cfif arguments.password EQ ''>
+			<cfset arguments.password = this.getPassword() />
+		</cfif>
+		
+		<cfreturn hash( this.getSalt() & '~' & arguments.password, 'SHA-512', 'utf-8' ) />
 	</cffunction>
 	
 	<cffunction name="setSaltAndHash" access="public" returntype="void" output="false">
