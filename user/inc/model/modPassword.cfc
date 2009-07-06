@@ -9,7 +9,10 @@
 		
 		<!--- Password --->
 		<cfset attr = {
-				attribute = 'password'
+				attribute = 'password',
+				validation = {
+					minLength = 7
+				}
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
@@ -99,11 +102,6 @@
 		<cfset arguments.password = trim(arguments.password) />
 		
 		<!--- Test password for proper complexity requirements --->
-		
-		<!--- Check the password for the minimum length --->
-		<cfif len(arguments.password) LT minLength>
-			<cfthrow message="Password must be at least #minLength# characters long" detail="The password was only #len(arguments.password)# characters" />
-		</cfif>
 		
 		<!--- Check for non-alpha characters --->
 		<cfset results = reReplace(arguments.password, nonAlphaExpr, '', 'all') />
