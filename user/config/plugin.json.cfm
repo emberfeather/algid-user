@@ -13,6 +13,8 @@
 	"navigation": [
 	],
 	"admin": {
-		"title": "Users"
+		"title": "Users",
+		"navigation": [
+		]
 	}
 }
