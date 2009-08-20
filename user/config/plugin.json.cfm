@@ -7,7 +7,7 @@
 	},
 	"key": "user",
 	"prerequisites": {
-		"error": "0.1.000"
+		"tagger": "0.1.000"
 	},
 	"version": "0.1.000"
 }
