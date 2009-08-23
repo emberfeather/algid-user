@@ -5,4 +5,25 @@
 		<edit position="action"/>
 		<list position="secondary"/>
 	</users>
+	
+	<schemes position="main">
+		<add position="action"/>
+		<delete position="action"/>
+		<edit position="action"/>
+		<list position="secondary"/>
+		
+		<scheme position="secondary">
+			<permissions position="secondary">
+				<edit position="action"/>
+				<list position="secondary"/>
+			</permissions>
+			
+			<roles position="secondary">
+				<add position="action"/>
+				<delete position="action"/>
+				<edit position="action"/>
+				<list position="secondary"/>
+			</roles>
+		</scheme>
+	</schemes>
 </navigation>
