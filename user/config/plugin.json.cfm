@@ -7,8 +7,8 @@
 	},
 	"key": "user",
 	"prerequisites": {
-		"algid": "0.1.000",
-		"tagger": "0.1.000"
+		"algid": "0.1.001",
+		"tagger": "0.1.001"
 	},
-	"version": "0.1.000"
+	"version": "0.1.001"
 }
