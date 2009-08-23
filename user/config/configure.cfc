@@ -94,7 +94,7 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user".scheme
 			(
-				"schemeID" integer NOT NULL DEFAULT nextval('"user"."scheme_schemeID_seq"'::regclass),
+				"schemeID" integer NOT NULL DEFAULT nextval('"#variables.datasource.prefix#user"."scheme_schemeID_seq"'::regclass),
 				scheme character varying(75),
 				"createdOn" timestamp without time zone,
 				"updatedOn" timestamp without time zone,
