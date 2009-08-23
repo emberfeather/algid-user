@@ -7,49 +7,55 @@
 		
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
-		<!--- User ID --->
+		<!--- Scheme ID --->
 		<cfset attr = {
-				attribute = 'userID',
+				attribute = 'schemeID',
 				validation = {
 				}
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
-		<!--- Username --->
+		<!--- Created On --->
 		<cfset attr = {
-				attribute = 'username',
+				attribute = 'createdOn',
+				validation = {
+				}
+			} />
+		
+		<cfset addAttribute(argumentCollection = attr) />
+		
+		<!--- Scheme --->
+		<cfset attr = {
+				attribute = 'scheme',
 				validation = {
 					minLength = 5,
-					maxLength = 45
+					maxLength = 50
 				}
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
-		<!--- First Name --->
+		<!--- Updated By --->
 		<cfset attr = {
-				attribute = 'firstName'
+				attribute = 'updatedBy',
+				validation = {
+				}
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
-		<!--- Last Name --->
+		<!--- Updated On --->
 		<cfset attr = {
-				attribute = 'lastName'
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
-		
-		<!--- Email --->
-		<cfset attr = {
-				attribute = 'email'
+				attribute = 'updatedOn',
+				validation = {
+				}
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUser') />
+		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modScheme') />
 		
 		<cfreturn this />
 	</cffunction>
