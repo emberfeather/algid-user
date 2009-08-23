@@ -96,7 +96,7 @@
 			(
 				"schemeID" integer NOT NULL DEFAULT nextval('"#variables.datasource.prefix#user"."scheme_schemeID_seq"'::regclass),
 				scheme character varying(75),
-				"createdOn" timestamp without time zone,
+				"createdOn" timestamp without time zone DEFAULT now(),
 				"updatedOn" timestamp without time zone,
 				"updatedBy" integer,
 				CONSTRAINT "scheme_PK" PRIMARY KEY ("schemeID"),
@@ -119,16 +119,16 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Permission2Tag"
 			(
-			"schemeID" integer NOT NULL,
-			permission character varying(75) NOT NULL,
-			"tagID" integer NOT NULL,
-			CONSTRAINT "bScheme2Permission2Tag_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
-			CONSTRAINT "bScheme2Permission2Tag_schemeID_FK" FOREIGN KEY ("schemeID")
-				REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
-				ON UPDATE CASCADE ON DELETE CASCADE,
-			CONSTRAINT "bScheme2Permission2Tag_userID_FK" FOREIGN KEY ("tagID")
-				REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
-				ON UPDATE CASCADE ON DELETE CASCADE
+				"schemeID" integer NOT NULL,
+				"tagID" integer NOT NULL,
+				permission character varying(75) NOT NULL,
+				CONSTRAINT "bScheme2Permission2Tag_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
+				CONSTRAINT "bScheme2Permission2Tag_schemeID_FK" FOREIGN KEY ("schemeID")
+					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
+					ON UPDATE CASCADE ON DELETE CASCADE,
+				CONSTRAINT "bScheme2Permission2Tag_userID_FK" FOREIGN KEY ("tagID")
+					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
+					ON UPDATE CASCADE ON DELETE CASCADE
 			)
 			WITH (OIDS=FALSE);
 		</cfquery>
