@@ -102,7 +102,8 @@
 				CONSTRAINT "scheme_PK" PRIMARY KEY ("schemeID"),
 				CONSTRAINT "scheme_userID_FK" FOREIGN KEY ("updatedBy")
 					REFERENCES "#variables.datasource.prefix#user"."user" ("userID") MATCH SIMPLE
-					ON UPDATE NO ACTION ON DELETE NO ACTION
+					ON UPDATE NO ACTION ON DELETE NO ACTION,
+				CONSTRAINT "scheme_scheme_U" UNIQUE (scheme)
 			)
 			WITH (OIDS=FALSE);
 		</cfquery>
