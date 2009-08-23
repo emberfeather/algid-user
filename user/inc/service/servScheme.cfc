@@ -28,6 +28,27 @@
 		<cfset arguments.scheme.setSchemeID( results.schemeID ) />
 	</cffunction>
 	
+	<cffunction name="createScheme2Tag2User" access="public" returntype="void" output="false">
+		<cfargument name="scheme" type="component" required="true" />
+		<cfargument name="tag" type="component" required="true" />
+		<cfargument name="user" type="component" required="true" />
+		
+		<cfset var results = '' />
+		
+		<cfquery datasource="#variables.datasource.name#" result="results">
+			INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2User"
+			(
+				"schemeID", 
+				"tagID",
+				"userID"
+			) VALUES (
+				<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.scheme.getSchemeID()#" />,
+				<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.tag.getTagID()#" />,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.user.getUserID()#" />
+			)
+		</cfquery>
+	</cffunction>
+	
 	<cffunction name="readScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="numeric" required="true" />
 		

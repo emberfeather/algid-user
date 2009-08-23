@@ -116,18 +116,18 @@
 			COMMENT ON TABLE "#variables.datasource.prefix#user"."scheme" IS 'Permission Scheme Information';
 		</cfquery>
 		
-		<!--- bScheme2Permission2Tag Table --->
+		<!--- Bridge Scheme to Tag to Permission Table --->
 		<cfquery datasource="#variables.datasource.name#">
-			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Permission2Tag"
+			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
 			(
 				"schemeID" integer NOT NULL,
 				"tagID" integer NOT NULL,
 				permission character varying(75) NOT NULL,
-				CONSTRAINT "bScheme2Permission2Tag_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
-				CONSTRAINT "bScheme2Permission2Tag_schemeID_FK" FOREIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2Permission_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
+				CONSTRAINT "bScheme2Tag2Permission_schemeID_FK" FOREIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Permission2Tag_userID_FK" FOREIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2Permission_userID_FK" FOREIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
@@ -135,28 +135,28 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2Permission2Tag" OWNER TO #variables.datasource.owner#;
+			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			COMMENT ON TABLE "#variables.datasource.prefix#user"."bScheme2Permission2Tag" IS 'Bridge for applying a permission to a tag.';
+			COMMENT ON TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission" IS 'Bridge for applying a permission to a tag.';
 		</cfquery>
 		
-		<!--- bScheme2User2Tag Table --->
+		<!--- Bridge Scheme to Tag to User Table --->
 		<cfquery datasource="#variables.datasource.name#">
-			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2User2Tag"
+			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User"
 			(
 				"schemeID" integer NOT NULL,
 				"userID" integer NOT NULL,
 				"tagID" integer NOT NULL,
-				CONSTRAINT "bScheme2User2Tag_PK" PRIMARY KEY ("schemeID", "userID", "tagID"),
-				CONSTRAINT "bScheme2User2Tag_schemeID_FK" FOREIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2User_PK" PRIMARY KEY ("schemeID", "userID", "tagID"),
+				CONSTRAINT "bScheme2Tag2User_schemeID_FK" FOREIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2User2Tag_tagID_FK" FOREIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2User_tagID_FK" FOREIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2User2Tag_userID_FK" FOREIGN KEY ("userID")
+				CONSTRAINT "bScheme2Tag2User_userID_FK" FOREIGN KEY ("userID")
 					REFERENCES "#variables.datasource.prefix#user"."user" ("userID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
@@ -164,11 +164,11 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2User2Tag" OWNER TO #variables.datasource.owner#;
+			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			COMMENT ON TABLE "#variables.datasource.prefix#user"."bScheme2User2Tag" IS 'Bridge for applying a tag to a user.';
+			COMMENT ON TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User" IS 'Bridge for applying a tag to a user.';
 		</cfquery>
 	</cffunction>
 </cfcomponent>

@@ -15,6 +15,7 @@
 		<permissions position="secondary">
 			<edit position="action"/>
 			<list position="secondary"/>
+			<roles position="secondary"/>
 		</permissions>
 		
 		<roles position="secondary">
@@ -22,6 +23,8 @@
 			<delete position="action"/>
 			<edit position="action"/>
 			<list position="secondary"/>
+			<permissions position="secondary"/>
+			<users position="secondary"/>
 		</roles>
 	</schemes>
 </navigation>
