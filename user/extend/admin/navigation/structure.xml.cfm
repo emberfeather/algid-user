@@ -1,10 +1,9 @@
 <navigation>
-	<users position="main">
-		<add position="action"/>
-		<archive position="action"/>
-		<edit position="action"/>
-		<list position="secondary"/>
-	</users>
+	<account position="main">
+		<logout position="action"/>
+		<password position="secondary"/>
+		<settings position="secondary"/>
+	</account>
 	
 	<schemes position="main">
 		<add position="action"/>
@@ -27,4 +26,11 @@
 			<users position="secondary"/>
 		</roles>
 	</schemes>
+	
+	<users position="main">
+		<add position="action"/>
+		<archive position="action"/>
+		<edit position="action"/>
+		<list position="secondary"/>
+	</users>
 </navigation>
