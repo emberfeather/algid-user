@@ -1,4 +1,16 @@
 <cfcomponent extends="algid.inc.resource.application.configure" output="false">
+	<cffunction name="configureSession" access="public" returntype="void" output="false">
+		<cfargument name="theApplication" type="struct" required="true" />
+		<cfargument name="newSession" type="struct" required="true" />
+		
+		<cfset var temp = '' />
+		
+		<!--- Add the user singleton --->
+		<cfset temp = arguments.newSession.managers.transient.getUser(arguments.theApplication.managers.singleton.getI18N()) />
+		
+		<cfset arguments.newSession.managers.singleton.setUser(temp) />
+	</cffunction>
+	
 	<cffunction name="update" access="public" returntype="void" output="false">
 		<cfargument name="plugin" type="struct" required="true" />
 		<cfargument name="installedVersion" type="string" default="" />
