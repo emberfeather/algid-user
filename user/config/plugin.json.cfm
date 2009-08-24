@@ -10,7 +10,7 @@
 		"algid": "0.1.001",
 		"tagger": "0.1.001"
 	},
-	"session": {
+	"sessionManagers": {
 		"transient": {
 			"user": "plugins.user.inc.model.modUser"
 		}
