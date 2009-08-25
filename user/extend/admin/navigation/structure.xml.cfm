@@ -1,36 +1,36 @@
 <navigation>
 	<account position="main">
-		<logout position="secondary"/>
+		<logout position="action"/>
 		<password position="secondary"/>
 		<settings position="secondary"/>
 	</account>
 	
 	<schemes position="main">
-		<add position="secondary"/>
-		<delete position="secondary"/>
-		<edit position="secondary"/>
-		<list position="secondary"/>
+		<add position="action"/>
+		<delete position="action"/>
+		<edit position="action"/>
+		<list position="action"/>
 		
 		<permissions position="secondary">
-			<edit position="secondary"/>
-			<list position="secondary"/>
+			<edit position="action"/>
+			<list position="action"/>
 			<roles position="secondary"/>
 		</permissions>
 		
 		<roles position="secondary">
-			<add position="secondary"/>
-			<delete position="secondary"/>
-			<edit position="secondary"/>
-			<list position="secondary"/>
+			<add position="action"/>
+			<delete position="action"/>
+			<edit position="action"/>
+			<list position="action"/>
 			<permissions position="secondary"/>
 			<users position="secondary"/>
 		</roles>
 	</schemes>
 	
 	<users position="main">
-		<add position="secondary"/>
-		<archive position="secondary"/>
-		<edit position="secondary"/>
-		<list position="secondary"/>
+		<add position="action"/>
+		<archive position="action"/>
+		<edit position="action"/>
+		<list position="action"/>
 	</users>
 </navigation>
