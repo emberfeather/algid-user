@@ -1,4 +1,4 @@
-<cfset viewScheme = createObject('component', 'plugins.user.inc.view.viewScheme').init(theURL) />
+<cfset viewScheme = application.managers.transient.getViewSchemeForUser(theURL) />
 
 <cfset filter = {
 	} />

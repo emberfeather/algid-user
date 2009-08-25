@@ -1,8 +1,8 @@
 <navigation>
 	<account position="main">
 		<logout position="action"/>
-		<password position="secondary"/>
-		<settings position="secondary"/>
+		<password position="main"/>
+		<settings position="main"/>
 	</account>
 	
 	<schemes position="main">
@@ -11,19 +11,19 @@
 		<edit position="action"/>
 		<list position="action"/>
 		
-		<permissions position="secondary">
+		<permissions position="main">
 			<edit position="action"/>
 			<list position="action"/>
-			<roles position="secondary"/>
+			<roles position="main"/>
 		</permissions>
 		
-		<roles position="secondary">
+		<roles position="main">
 			<add position="action"/>
 			<delete position="action"/>
 			<edit position="action"/>
 			<list position="action"/>
-			<permissions position="secondary"/>
-			<users position="secondary"/>
+			<permissions position="main"/>
+			<users position="main"/>
 		</roles>
 	</schemes>
 	

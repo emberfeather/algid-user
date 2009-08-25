@@ -1,4 +1,4 @@
-<cfset viewSchemePermission = createObject('component', 'plugins.user.inc.view.viewSchemePermission').init(theURL) />
+<cfset viewSchemePermission = application.managers.transient.getViewSchemePermissionForUser(theURL) />
 
 <cfset filter = {
 	} />

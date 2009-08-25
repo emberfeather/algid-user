@@ -1,4 +1,4 @@
-<cfset viewSchemeTag = createObject('component', 'plugins.user.inc.view.viewSchemeTag').init(theURL) />
+<cfset viewSchemeTag = application.managers.transient.getViewSchemeTagForUser(theURL) />
 
 <cfset filter = {
 	} />
