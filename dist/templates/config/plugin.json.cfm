@@ -26,5 +26,5 @@
 			"user": "plugins.user.inc.model.modUser"
 		}
 	},
-	"version": "@project.version@"
+	"version": "@project.version.major@.@project.version.minor@.@project.version.build@"
 }

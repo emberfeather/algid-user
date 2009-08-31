@@ -18,13 +18,13 @@
 	},
 	"key": "user",
 	"prerequisites": {
-		"algid": "0.1.001",
-		"tagger": "0.1.001"
+		"algid": "0.1.1",
+		"tagger": "0.1.1"
 	},
 	"sessionManagers": {
 		"transient": {
 			"user": "plugins.user.inc.model.modUser"
 		}
 	},
-	"version": "0.1.001"
+	"version": "0.1.1"
 }
