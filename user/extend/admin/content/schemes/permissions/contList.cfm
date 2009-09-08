@@ -1,4 +1,4 @@
-<cfset viewSchemePermission = application.managers.transient.getViewSchemePermissionForUser(theURL) />
+<cfset viewSchemePermission = application.factories.transient.getViewSchemePermissionForUser(theURL) />
 
 <cfset filter = {
 	} />

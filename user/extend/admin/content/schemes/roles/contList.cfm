@@ -1,4 +1,4 @@
-<cfset viewSchemeTag = application.managers.transient.getViewSchemeTagForUser(theURL) />
+<cfset viewSchemeTag = application.factories.transient.getViewSchemeTagForUser(theURL) />
 
 <cfset filter = {
 	} />

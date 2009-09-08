@@ -1,4 +1,4 @@
-<cfset viewScheme = application.managers.transient.getViewSchemeForUser(theURL) />
+<cfset viewScheme = application.factories.transient.getViewSchemeForUser(theURL) />
 
 <cfset filter = {
 	} />
