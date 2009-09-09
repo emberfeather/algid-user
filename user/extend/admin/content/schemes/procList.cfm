@@ -1,1 +1,1 @@
-<cfset servScheme = application.factories.transient.getServSchemeForUser(application.settings.datasources.update, i18n, SESSION.locale) />
+<cfset servScheme = application.factories.transient.getServSchemeForUser(application.app.getDSUpdate(), i18n, SESSION.locale) />
