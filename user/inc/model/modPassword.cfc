@@ -10,6 +10,7 @@
 		<!--- Password --->
 		<cfset attr = {
 				attribute = 'password',
+				defaultValue = 'password.123',
 				validation = {
 					minLength = 7
 				}
@@ -95,18 +96,24 @@
 		
 		<cfset var minLength = 7 />
 		<cfset var minNonAlpha = 2 />
-		<cfset var nonAlphaExpr = '[a-zA-Z]' />
 		<cfset var results = '' />
 		
 		<!--- Trim password --->
 		<cfset arguments.password = trim(arguments.password) />
 		
+		<!--- Check for minimum length --->
+		<cfif len(arguments.password) LT minLength>
+			<!--- TODO make this locale friendly --->
+			<cfthrow message="Password must be at least #minNonAlpha# characters" detail="The password only contained #len(results)# characters" />
+		</cfif>
+		
 		<!--- Test password for proper complexity requirements --->
 		
 		<!--- Check for non-alpha characters --->
-		<cfset results = reReplace(arguments.password, nonAlphaExpr, '', 'all') />
+		<cfset results = reReplace(arguments.password, '[a-zA-Z]', '', 'all') />
 		
 		<cfif len(results) LT minNonAlpha>
+			<!--- TODO make this locale friendly --->
 			<cfthrow message="Password must contain at least #minNonAlpha# non-alpha characters" detail="The password only contained #len(results)# non-alpha characters" />
 		</cfif>
 		

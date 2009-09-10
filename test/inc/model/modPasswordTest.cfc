@@ -1,14 +1,14 @@
 <cfcomponent extends="mxunit.framework.TestCase" output="false">
 	<cffunction name="testAutoSalt" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		
 		<cfset assertNotEquals('', password.getSalt()) />
 	</cffunction>
 	
 	<cffunction name="testGetHashFromSaltAndHash" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		
 		<cfset password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm') />
 		
@@ -17,7 +17,7 @@
 	
 	<cffunction name="testGetSaltFromSaltAndHash" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		
 		<cfset password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm') />
 		
@@ -26,7 +26,7 @@
 	
 	<cffunction name="testHashPasswordFromSalt" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		
 		<cfset password.setSalt('nIPEv') />
 		
@@ -38,7 +38,7 @@
 	<cffunction name="testPasswordMinLength" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
 		<cfset var minLength = 7 />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		<cfset var testPassword = '' />
 		<cfset var i = '' />
 		
@@ -61,7 +61,7 @@
 	
 	<cffunction name="testPasswordSansSpecial" access="public" returntype="void" output="false">
 		<cfset var i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-		<cfset var password = createObject('component', 'user.inc.model.modPassword').init(i18n) />
+		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(i18n) />
 		
 		<cftry>
 			<cfset password.setPassword('fullOfText') />
