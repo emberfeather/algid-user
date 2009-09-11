@@ -34,6 +34,13 @@
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
+		<!--- Email --->
+		<cfset attr = {
+				attribute = 'email'
+			} />
+		
+		<cfset addAttribute(argumentCollection = attr) />
+		
 		<!--- Last Name --->
 		<cfset attr = {
 				attribute = 'lastName'
@@ -41,9 +48,10 @@
 		
 		<cfset addAttribute(argumentCollection = attr) />
 		
-		<!--- Email --->
+		<!--- Permissions --->
 		<cfset attr = {
-				attribute = 'email'
+				attribute = 'permissions',
+				defaultValue = []
 			} />
 		
 		<cfset addAttribute(argumentCollection = attr) />
@@ -52,5 +60,11 @@
 		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUser') />
 		
 		<cfreturn this />
+	</cffunction>
+	
+	<cffunction name="hasPermission" access="public" returntype="boolean" output="false">
+		<cfargument name="permission" type="string" required="true" />
+		
+		<cfreturn arrayFind(variables.instance['permissions'], arguments.permission) />
 	</cffunction>
 </cfcomponent>
