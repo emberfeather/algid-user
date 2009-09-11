@@ -3,8 +3,6 @@
 		<cfargument name="i18n" type="component" required="true" />
 		<cfargument name="locale" type="string" default="en_US" />
 		
-		<cfset var attr = '' />
-		
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Password --->

@@ -3,58 +3,44 @@
 		<cfargument name="i18n" type="component" required="true" />
 		<cfargument name="locale" type="string" default="en_US" />
 		
-		<cfset var attr = '' />
-		
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- User ID --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'userID',
 				validation = {
 				}
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+			}) />
 		
 		<!--- Username --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'username',
 				validation = {
 					minLength = 5,
 					maxLength = 45
 				}
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+			}) />
 		
 		<!--- First Name --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'firstName'
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+			}) />
 		
 		<!--- Email --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'email'
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+			}) />
 		
 		<!--- Last Name --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'lastName'
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+			}) />
 		
 		<!--- Permissions --->
-		<cfset attr = {
+		<cfset addAttribute(argumentCollection = {
 				attribute = 'permissions',
-				defaultValue = []
-			} />
-		
-		<cfset addAttribute(argumentCollection = attr) />
+				defaultValue = {}
+			}) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUser') />
@@ -62,9 +48,48 @@
 		<cfreturn this />
 	</cffunction>
 	
+	<cffunction name="addPermissions" access="public" returntype="void" output="false">
+		<cfargument name="scheme" type="string" required="true" />
+		<cfargument name="permissions" type="string" required="true" />
+		
+		<cfset var permission = '' />
+		
+		<cfif NOT structKeyExists(variables.instance['permissions'], arguments.scheme)>
+			<cfset variables.instance['permissions'][arguments.scheme] = [] />
+		</cfif>
+		
+		<cfloop list="#arguments.permissions#" index="permission">
+			<cfset arrayAppend(variables.instance['permissions'][arguments.scheme], permission) />
+		</cfloop>
+	</cffunction>
+	
 	<cffunction name="hasPermission" access="public" returntype="boolean" output="false">
 		<cfargument name="permission" type="string" required="true" />
+		<cfargument name="schemes" type="string" required="true" />
 		
-		<cfreturn arrayFind(variables.instance['permissions'], arguments.permission) />
+		<cfset var scheme = '' />
+		
+		<cfloop list="#arguments.schemes#" index="scheme">
+			<cfif structKeyExists(variables.instance['permissions'], scheme) AND arrayFind(variables.instance['permissions'][scheme], arguments.permission)>
+				<cfreturn true />
+			</cfif>
+		</cfloop>
+		
+		<cfreturn false />
+	</cffunction>
+	
+	<cffunction name="hasPermissions" access="public" returntype="boolean" output="false">
+		<cfargument name="permissions" type="string" required="true" />
+		<cfargument name="schemes" type="string" required="true" />
+		
+		<cfset var permission = '' />
+		
+		<cfloop list="#arguments.permissions#" index="permission">
+			<cfif NOT hasPermission(permission, arguments.schemes)>
+				<cfreturn false />
+			</cfif>
+		</cfloop>
+		
+		<cfreturn true />
 	</cffunction>
 </cfcomponent>
