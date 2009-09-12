@@ -12,30 +12,6 @@
 				}
 			}) />
 		
-		<!--- Username --->
-		<cfset addAttribute(argumentCollection = {
-				attribute = 'username',
-				validation = {
-					minLength = 5,
-					maxLength = 45
-				}
-			}) />
-		
-		<!--- First Name --->
-		<cfset addAttribute(argumentCollection = {
-				attribute = 'firstName'
-			}) />
-		
-		<!--- Email --->
-		<cfset addAttribute(argumentCollection = {
-				attribute = 'email'
-			}) />
-		
-		<!--- Last Name --->
-		<cfset addAttribute(argumentCollection = {
-				attribute = 'lastName'
-			}) />
-		
 		<!--- Permissions --->
 		<cfset addAttribute(argumentCollection = {
 				attribute = 'permissions',
