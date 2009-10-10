@@ -8,6 +8,7 @@
 		<!--- User ID --->
 		<cfset addAttribute(argumentCollection = {
 				attribute = 'userID',
+				defaultValue = 0,
 				validation = {
 				}
 			}) />
@@ -37,6 +38,33 @@
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfset arrayAppend(variables.instance['permissions'][arguments.scheme], permission) />
 		</cfloop>
+	</cffunction>
+	
+	<cffunction name="getPermissions" access="public" returntype="array" output="false">
+		<cfargument name="schemes" type="string" required="true" />
+		
+		<cfset var permission = '' />
+		<cfset var permissions = [] />
+		<cfset var scheme = '' />
+		
+		<!--- If wildcard, return them all --->
+		<cfif arguments.schemes EQ '*'>
+			<cfset arguments.schemes = structKeyList(variables.instance['permissions']) />
+		</cfif>
+		
+		<!--- Find all the permissions for each of the desired schemes --->
+		<cfloop list="#arguments.schemes#" index="scheme">
+			<cfif structKeyExists(variables.instance['permissions'], scheme)>
+				<cfloop array="#variables.instance['permissions'][scheme]#" index="permission">
+					<!--- Prevent duplicate permissions --->
+					<cfif NOT arrayFind(permissions, permission)>
+						<cfset arrayAppend(permissions, permission) />
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfloop>
+		
+		<cfreturn permissions />
 	</cffunction>
 	
 	<cffunction name="hasPermission" access="public" returntype="boolean" output="false">

@@ -1,4 +1,8 @@
 <cfcomponent extends="algid.inc.resource.base.view" output="false">
+	<cffunction name="login" access="public" returntype="string" output="false">
+		<cfreturn 'This functionality needs to be overridden by another plugin.' />
+	</cffunction>
+	
 	<cffunction name="list" access="public" returntype="string" output="false">
 		<cfargument name="items" type="query" required="true" />
 		<cfargument name="filter" type="struct" required="true" />

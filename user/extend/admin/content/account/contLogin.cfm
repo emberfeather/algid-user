@@ -1,0 +1,1 @@
+This should be overridden by another plugin that handles authentication.

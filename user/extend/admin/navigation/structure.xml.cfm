@@ -1,5 +1,6 @@
 <navigation>
 	<account position="main">
+		<login position="action"/>
 		<logout position="action"/>
 		<password position="main"/>
 		<settings position="main"/>
