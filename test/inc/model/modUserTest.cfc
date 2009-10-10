@@ -3,6 +3,44 @@
 		<cfset variables.i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
 	</cffunction>
 	
+	<cffunction name="testGetPermissions" access="public" returntype="void" output="false">
+		<cfset var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n) />
+		
+		<cfset user.addPermissions('scheme', 'take') />
+		<cfset user.addPermissions('scheme', 'give') />
+		
+		<cfset assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme')), 'text')) />
+	</cffunction>
+	
+	<cffunction name="testGetPermissionsWithMultiScheme" access="public" returntype="void" output="false">
+		<cfset var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n) />
+		
+		<cfset user.addPermissions('scheme', 'take') />
+		<cfset user.addPermissions('plan', 'give') />
+		
+		<cfset assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme,plan')), 'text')) />
+	</cffunction>
+	
+	<cffunction name="testGetPermissionsWithMultiSchemeDuplicates" access="public" returntype="void" output="false">
+		<cfset var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n) />
+		
+		<cfset user.addPermissions('scheme', 'take') />
+		<cfset user.addPermissions('plan', 'give') />
+		<cfset user.addPermissions('plan', 'take') />
+		
+		<cfset assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme,plan')), 'text')) />
+	</cffunction>
+	
+	<cffunction name="testGetPermissionsWithMultiSchemeWildcard" access="public" returntype="void" output="false">
+		<cfset var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n) />
+		
+		<cfset user.addPermissions('scheme', 'take') />
+		<cfset user.addPermissions('plan', 'give') />
+		<cfset user.addPermissions('devise', 'plunder') />
+		
+		<cfset assertEquals('give,plunder,take', listSort(arrayToList(user.getPermissions('*')), 'text')) />
+	</cffunction>
+	
 	<cffunction name="testHasPermission" access="public" returntype="void" output="false">
 		<cfset var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n) />
 		
