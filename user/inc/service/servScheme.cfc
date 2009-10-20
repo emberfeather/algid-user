@@ -52,8 +52,11 @@
 	<cffunction name="readScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="numeric" required="true" />
 		
+		<cfset var i18n = '' />
 		<cfset var results = '' />
 		<cfset var scheme = '' />
+		
+		<cfset i18n = variables.transport.applicationSingletons.getI18N() />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
 			SELECT "schemeID", scheme, "createdOn", "updatedOn", "updatedBy"
@@ -61,7 +64,7 @@
 			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.schemeID#" />
 		</cfquery>
 		
-		<cfset scheme = application.factories.transient.getModSchemeForUser(variables.i18n, variables.locale) />
+		<cfset scheme = application.factories.transient.getModSchemeForUser(i18n, variables.transport.locale) />
 		
 		<cfset scheme.deserialize(results) />
 		

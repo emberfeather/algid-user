@@ -1,8 +1,8 @@
-<cfset viewSchemeTag = application.factories.transient.getViewSchemeTagForUser(theURL) />
+<cfset viewSchemeTag = application.factories.transient.getViewSchemeTagForUser( transport ) />
 
 <cfset filter = {
 	} />
 
 <cfset users = servSchemeTag.readTagUsers( filter ) />
 
-<cfoutput>#viewSchemeTag.list( users, filter )#</cfoutput>
+<cfoutput>#viewSchemeTag.list( users )#</cfoutput>
