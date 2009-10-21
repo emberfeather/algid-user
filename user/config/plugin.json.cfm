@@ -29,7 +29,6 @@
 	"sessionSingletons": {
 	},
 	"sessionTransients": {
-		"user": "plugins.user.inc.model.modUser"
 	},
 	"version": "0.1.1"
 }
