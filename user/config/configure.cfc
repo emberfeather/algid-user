@@ -91,6 +91,8 @@
 			CREATE TABLE "#variables.datasource.prefix#user"."user"
 			(
 				"userID" integer NOT NULL DEFAULT nextval('"#variables.datasource.prefix#user"."user_userID_seq"'::regclass),
+				"createdOn" timestamp without time zone DEFAULT now(),
+				"archivedOn" timestamp without time zone,
 				CONSTRAINT "user_PK" PRIMARY KEY ("userID")
 			)
 			WITH (OIDS=FALSE);
@@ -112,11 +114,8 @@
 				scheme character varying(75),
 				"createdOn" timestamp without time zone DEFAULT now(),
 				"updatedOn" timestamp without time zone,
-				"updatedBy" integer,
+				"archivedOn" timestamp without time zone,
 				CONSTRAINT "scheme_PK" PRIMARY KEY ("schemeID"),
-				CONSTRAINT "scheme_userID_FK" FOREIGN KEY ("updatedBy")
-					REFERENCES "#variables.datasource.prefix#user"."user" ("userID") MATCH SIMPLE
-					ON UPDATE NO ACTION ON DELETE NO ACTION,
 				CONSTRAINT "scheme_scheme_U" UNIQUE (scheme)
 			)
 			WITH (OIDS=FALSE);

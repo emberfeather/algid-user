@@ -16,12 +16,10 @@
 				INSERT INTO "#variables.datasource.prefix#user"."scheme"
 				(
 					scheme, 
-					"updatedOn",
-					"updatedBy"
+					"updatedOn"
 				) VALUES (
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getScheme()#" />,
-					now(),
-					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.scheme.getUpdatedBy()#" />
+					now()
 				)
 			</cfquery>
 			
@@ -50,7 +48,7 @@
 		<cfset i18n = variables.transport.applicationSingletons.getI18N() />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
-			SELECT "schemeID", scheme, "createdOn", "updatedOn", "updatedBy"
+			SELECT "schemeID", scheme, "createdOn", "updatedOn"
 			FROM "#variables.datasource.prefix#user"."scheme"
 			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.schemeID#" />
 		</cfquery>
@@ -68,7 +66,7 @@
 		<cfset var results = '' />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
-			SELECT "schemeID", scheme, "createdOn", "updatedOn", "updatedBy"
+			SELECT "schemeID", scheme, "createdOn", "updatedOn"
 			FROM "#variables.datasource.prefix#user"."scheme"
 			WHERE 1=1
 			

@@ -28,13 +28,6 @@
 				}
 			}) />
 		
-		<!--- Updated By --->
-		<cfset addAttribute(argumentCollection = {
-				attribute = 'updatedBy',
-				validation = {
-				}
-			}) />
-		
 		<!--- Updated On --->
 		<cfset addAttribute(argumentCollection = {
 				attribute = 'updatedOn',
