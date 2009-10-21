@@ -8,9 +8,13 @@
 		<!--- User ID --->
 		<cfset addAttribute(argumentCollection = {
 				attribute = 'userID',
-				defaultValue = 0,
-				validation = {
-				}
+				defaultValue = 0
+			}) />
+		
+		<!--- Username --->
+		<cfset addAttribute(argumentCollection = {
+				attribute = 'username',
+				defaultValue = ''
 			}) />
 		
 		<!--- Permissions --->

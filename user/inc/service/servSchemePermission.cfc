@@ -1,23 +1,35 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
 	<cffunction name="createScheme2Tag2Permission" access="public" returntype="void" output="false">
+		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="scheme" type="component" required="true" />
 		<cfargument name="tag" type="component" required="true" />
 		<cfargument name="permission" type="component" required="true" />
 		
+		<cfset var eventLog = '' />
 		<cfset var results = '' />
 		
-		<cfquery datasource="#variables.datasource.name#" result="results">
-			INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
-			(
-				"schemeID", 
-				"tagID",
-				"permission"
-			) VALUES (
-				<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.scheme.getSchemeID()#" />,
-				<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.tag.getTagID()#" />,
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.permission.getPermission()#" />
-			)
-		</cfquery>
+		<!--- Get the event log from the transport --->
+		<cfset eventLog = variables.transport.applicationSingletons.getEventLog() />
+		
+		<!--- TODO Check Permissions --->
+		
+		<cftransaction>
+			<cfquery datasource="#variables.datasource.name#" result="results">
+				INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
+				(
+					"schemeID", 
+					"tagID",
+					"permission"
+				) VALUES (
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.scheme.getSchemeID()#" />,
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.tag.getTagID()#" />,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.permission.getPermission()#" />
+				)
+			</cfquery>
+		</cftransaction>
+		
+		<!--- Log the create event --->
+		<cfset eventLog.logEvent('user', 'createScheme2Tag2Permission', 'Granted the ''' & arguments.permission.getPermission() & ''' permission ''' & arguments.tag.getTag() & ''' tag for the ''' & arguments.scheme.getScheme() & ''' scheme.', arguments.currUser.getUserID()) />
 	</cffunction>
 	
 	<cffunction name="readPermissions" access="public" returntype="query" output="false">

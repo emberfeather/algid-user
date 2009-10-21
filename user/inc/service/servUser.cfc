@@ -1,5 +1,6 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
 	<cffunction name="createUser" access="public" returntype="void" output="false">
+		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="user" type="component" required="true" />
 		
 		<cfthrow message="Not implemented" detail="This function should be overridden by a authentication plugin" />

@@ -1,10 +1,17 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
 	<cffunction name="createScheme2Tag2User" access="public" returntype="void" output="false">
+		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="scheme" type="component" required="true" />
 		<cfargument name="tag" type="component" required="true" />
 		<cfargument name="user" type="component" required="true" />
 		
+		<cfset var eventLog = '' />
 		<cfset var results = '' />
+		
+		<!--- Get the event log from the transport --->
+		<cfset eventLog = variables.transport.applicationSingletons.getEventLog() />
+		
+		<!--- TODO Check Permissions --->
 		
 		<cfquery datasource="#variables.datasource.name#" result="results">
 			INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2User"
@@ -18,6 +25,9 @@
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.user.getUserID()#" />
 			)
 		</cfquery>
+		
+		<!--- Log the create event --->
+		<cfset eventLog.logEvent('user', 'createScheme2Tag2User', 'Granted the ''' & arguments.tag.getTag() & ''' tag to ''' & arguments.user.getUsername() & ''' for the ''' & arguments.scheme.getScheme() & '''.scheme.', arguments.currUser.getUserID()) />
 	</cffunction>
 	
 	<cffunction name="readTagUsers" access="public" returntype="query" output="false">
