@@ -9,6 +9,11 @@
 		<cfset temp = arguments.theApplication.factories.transient.getModUserForUser(arguments.theApplication.managers.singleton.getI18N()) />
 		
 		<cfset arguments.newSession.managers.singleton.setUser(temp) />
+		
+		<!--- Add the user stat singleton --->
+		<cfset temp = arguments.theApplication.factories.transient.getModUserStatForUser(arguments.theApplication.managers.singleton.getI18N()) />
+		
+		<cfset arguments.newSession.managers.singleton.setUserStat(temp) />
 	</cffunction>
 	
 	<cffunction name="update" access="public" returntype="void" output="false">
