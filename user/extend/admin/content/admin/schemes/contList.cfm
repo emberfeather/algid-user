@@ -1,8 +1,5 @@
-<cfset viewScheme = application.factories.transient.getViewSchemeForUser( transport ) />
-
-<cfset filter = {
-	} />
-
 <cfset schemes = servScheme.readSchemes( filter ) />
 
-<cfoutput>#viewScheme.list( schemes )#</cfoutput>
+<cfset paginate = variables.transport.theApplication.factories.transient.getPaginate(schemes.recordcount, SESSION.numPerPage, theURL.searchID('onPage')) />
+
+<cfoutput>#viewMaster.datagrid(transport, schemes, viewScheme, paginate, filter)#</cfoutput>

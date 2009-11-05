@@ -1,8 +1,5 @@
-<cfset viewSchemeTag = application.factories.transient.getViewSchemeTagForUser( transport ) />
-
-<cfset filter = {
-	} />
-
 <cfset users = servSchemeTag.readTagUsers( filter ) />
 
-<cfoutput>#viewSchemeTag.list( users )#</cfoutput>
+<cfset paginate = variables.transport.theApplication.factories.transient.getPaginate(users.recordcount, SESSION.numPerPage, theURL.searchID('onPage')) />
+
+<cfoutput>#viewMaster.datagrid(transport, users, viewSchemeTag, paginate, filter)#</cfoutput>

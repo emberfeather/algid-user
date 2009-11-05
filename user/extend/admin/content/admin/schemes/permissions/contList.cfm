@@ -1,8 +1,5 @@
-<cfset viewSchemePermission = application.factories.transient.getViewSchemePermissionForUser( transport ) />
-
-<cfset filter = {
-	} />
-
 <cfset permissions = servSchemePermission.readPermissions( filter ) />
 
-<cfoutput>#viewSchemePermission.list( permissions )#</cfoutput>
+<cfset paginate = variables.transport.theApplication.factories.transient.getPaginate(permissions.recordcount, SESSION.numPerPage, theURL.searchID('onPage')) />
+
+<cfoutput>#viewMaster.datagrid(transport, permissions, viewSchemePermission, paginate, filter)#</cfoutput>
