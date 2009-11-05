@@ -9,7 +9,7 @@
 		<cfset var results = '' />
 		
 		<!--- Get the event log from the transport --->
-		<cfset eventLog = variables.transport.applicationSingletons.getEventLog() />
+		<cfset eventLog = variables.transport.theApplication.managers.singleton.getEventLog() />
 		
 		<!--- TODO Check Permissions --->
 		
