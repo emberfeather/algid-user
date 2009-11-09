@@ -19,7 +19,7 @@
 		
 		<cfset var filter = '' />
 		
-		<cfset filter = variables.transport.theApplication.factories.transient.getFilter(variables.transport.theApplication.managers.singleton.getI18N()) />
+		<cfset filter = variables.transport.theApplication.factories.transient.getFilterVertical(variables.transport.theApplication.managers.singleton.getI18N()) />
 		
 		<!--- Add the resource bundle for the view --->
 		<cfset filter.addI18NBundle('plugins/user/i18n/inc/view', 'viewScheme') />
