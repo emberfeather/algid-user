@@ -6,34 +6,34 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Scheme ID --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'schemeID',
 				validation = {
 				}
-			}) />
+			) />
 		
 		<!--- Created On --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'createdOn',
 				validation = {
 				}
-			}) />
+			) />
 		
 		<!--- Scheme --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'scheme',
 				validation = {
 					minLength = 5,
 					maxLength = 50
 				}
-			}) />
+			) />
 		
 		<!--- Updated On --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'updatedOn',
 				validation = {
 				}
-			}) />
+			) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modScheme') />

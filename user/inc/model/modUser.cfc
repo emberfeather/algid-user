@@ -6,22 +6,22 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- User ID --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'userID',
 				defaultValue = 0
-			}) />
+			) />
 		
 		<!--- Username --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'username',
 				defaultValue = ''
-			}) />
+			) />
 		
 		<!--- Permissions --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'permissions',
 				defaultValue = {}
-			}) />
+			) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUser') />

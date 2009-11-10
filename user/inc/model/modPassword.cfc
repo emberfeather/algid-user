@@ -6,23 +6,23 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Password --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'password',
 				defaultValue = 'password.123',
 				validation = {
 					minLength = 7
 				}
-			}) />
+			) />
 		
 		<!--- Hash --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'hash'
-			}) />
+			) />
 		
 		<!--- Salt --->
-		<cfset addAttribute(argumentCollection = {
+		<cfset addAttribute(
 				attribute = 'salt'
-			}) />
+			) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modPassword') />
