@@ -9,7 +9,7 @@
 		<cfset filterActive = variables.transport.theApplication.factories.transient.getFilterActive(variables.transport.theApplication.managers.singleton.getI18N()) />
 		
 		<!--- Add the resource bundle for the view --->
-		<cfset filterActive.addI18NBundle('plugins/user/i18n/inc/view', 'viewScheme') />
+		<cfset filterActive.addBundle('plugins/user/i18n/inc/view', 'viewScheme') />
 		
 		<cfreturn filterActive.toHTML(arguments.filter, variables.transport.theRequest.managers.singleton.getURL()) />
 	</cffunction>
@@ -22,7 +22,7 @@
 		<cfset filter = variables.transport.theApplication.factories.transient.getFilterVertical(variables.transport.theApplication.managers.singleton.getI18N()) />
 		
 		<!--- Add the resource bundle for the view --->
-		<cfset filter.addI18NBundle('plugins/user/i18n/inc/view', 'viewScheme') />
+		<cfset filter.addBundle('plugins/user/i18n/inc/view', 'viewScheme') />
 		
 		<!--- Search --->
 		<cfset filter.addFilter('search') />
@@ -42,7 +42,7 @@
 		<cfset datagrid = variables.transport.theApplication.factories.transient.getDatagrid(i18n, variables.transport.locale) />
 		
 		<!--- Add the resource bundle for the view --->
-		<cfset datagrid.addI18NBundle('plugins/user/i18n/inc/view', 'viewScheme') />
+		<cfset datagrid.addBundle('plugins/user/i18n/inc/view', 'viewScheme') />
 		
 		<cfset datagrid.addColumn({
 				key = 'scheme',
