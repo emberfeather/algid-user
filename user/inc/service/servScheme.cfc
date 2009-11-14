@@ -33,7 +33,7 @@
 		</cftransaction>
 		
 		<!--- Log the create event --->
-		<cfset eventLog.logEvent('user', 'createScheme', 'Created the ''' & arguments.scheme.getScheme() & ''' scheme.', arguments.currUser.getUserID()) />
+		<cfset eventLog.logEvent('user', 'createScheme', 'Created the ''' & arguments.scheme.getScheme() & ''' scheme.', arguments.currUser.getUserID(), arguments.scheme.getSchemeID()) />
 		
 		<cfset arguments.scheme.setSchemeID( results.schemeID ) />
 	</cffunction>
