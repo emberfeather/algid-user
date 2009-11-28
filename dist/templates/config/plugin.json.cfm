@@ -28,6 +28,10 @@
 		"algid": "@prerequisites.algid@",
 		"tagger": "@prerequisites.tagger@"
 	},
+	"requestSingletons": {
+	},
+	"requestTransients": {
+	},
 	"sessionSingletons": {
 	},
 	"sessionTransients": {
