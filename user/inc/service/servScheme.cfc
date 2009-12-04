@@ -53,7 +53,7 @@
 			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.schemeID#" />
 		</cfquery>
 		
-		<cfset scheme = application.factories.transient.getModSchemeForUser(i18n, variables.transport.locale) />
+		<cfset scheme = variables.transport.theApplication.factories.transient.getModSchemeForUser(i18n, variables.transport.locale) />
 		
 		<cfset scheme.deserialize(results) />
 		

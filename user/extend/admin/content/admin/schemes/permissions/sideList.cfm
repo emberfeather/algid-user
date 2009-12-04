@@ -1,4 +1,4 @@
-<cfset viewSchemePermission = application.factories.transient.getViewSchemePermissionForUser( transport ) />
+<cfset viewSchemePermission = transport.theApplication.factories.transient.getViewSchemePermissionForUser( transport ) />
 
 <cfset filter = {
 		'search' = theURL.search('search')

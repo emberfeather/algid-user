@@ -1,4 +1,4 @@
-<cfset servScheme = application.factories.transient.getServSchemeForUser(application.app.getDSUpdate(), transport) />
+<cfset servScheme = transport.theApplication.factories.transient.getServSchemeForUser(application.app.getDSUpdate(), transport) />
 
 <cfif CGI.REQUEST_METHOD EQ 'post'>
 	<!--- Update the URL and redirect --->

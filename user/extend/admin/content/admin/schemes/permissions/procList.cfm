@@ -1,4 +1,4 @@
-<cfset servSchemePermission = application.factories.transient.getServSchemePermissionForUser(application.app.getDSUpdate(), transport) />
+<cfset servSchemePermission = transport.theApplication.factories.transient.getServSchemePermissionForUser(application.app.getDSUpdate(), transport) />
 
 <cfif CGI.REQUEST_METHOD EQ 'post'>
 	<!--- Update the URL and redirect --->

@@ -1,4 +1,4 @@
-<cfset viewSchemeTag = application.factories.transient.getViewSchemeTagForUser( transport ) />
+<cfset viewSchemeTag = transport.theApplication.factories.transient.getViewSchemeTagForUser( transport ) />
 
 <cfset filter = {
 		'search' = theURL.search('search')
