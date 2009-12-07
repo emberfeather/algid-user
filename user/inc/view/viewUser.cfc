@@ -3,7 +3,7 @@
 		<cfreturn 'This functionality needs to be overridden by another plugin.' />
 	</cffunction>
 	
-	<cffunction name="list" access="public" returntype="string" output="false">
+	<cffunction name="datagrid" access="public" returntype="string" output="false">
 		<cfargument name="data" type="any" required="true" />
 		<cfargument name="options" type="struct" default="#{}#" />
 		
