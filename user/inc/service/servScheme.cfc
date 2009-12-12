@@ -71,10 +71,10 @@
 			WHERE 1=1
 			
 			<cfif structKeyExists(arguments.filter, 'scheme')>
-				AND scheme = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.scheme#" />
+				and scheme = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.scheme#" />
 			</cfif>
 			
-			ORDER BY scheme ASC
+			orDER BY scheme ASC
 		</cfquery>
 		
 		<cfreturn results />

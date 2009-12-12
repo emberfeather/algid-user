@@ -10,7 +10,7 @@
 		<cfargument name="eventName" type="string" required="true" />
 		
 		<!--- TODO Check if a user is logged in --->
-		<cfif 1 EQ 1>
+		<cfif 1 eq 1>
 			<!--- Dump out the error --->
 			<cfdump var="#arguments.exception#" /><cfabort />
 		<cfelse>

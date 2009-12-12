@@ -23,7 +23,7 @@
 		<cfset var versions = createObject('component', 'algid.inc.resource.utility.version').init() />
 		
 		<!--- fresh => 0.1.0 --->
-		<cfif versions.compareVersions(arguments.installedVersion, '0.1.0') LT 0>
+		<cfif versions.compareVersions(arguments.installedVersion, '0.1.0') lt 0>
 			<!--- Setup the Database --->
 			<cfswitch expression="#variables.datasource.type#">
 				<cfcase value="PostgreSQL">
@@ -48,7 +48,7 @@
 		<!--- User schema --->
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE SCHEMA "#variables.datasource.prefix#user"
-				AUTHORIZATION #variables.datasource.owner#;
+				AUTHorIZATION #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
@@ -56,12 +56,12 @@
 		</cfquery>
 		
 		<!---
-			SEQUENCES
+			SeqUENCES
 		--->
 		
 		<!--- User Sequence --->
 		<cfquery datasource="#variables.datasource.name#">
-			CREATE SEQUENCE "#variables.datasource.prefix#user"."user_userID_seq"
+			CREATE SeqUENCE "#variables.datasource.prefix#user"."user_userID_seq"
 				INCREMENT 1
 				MINVALUE 1
 				MAXVALUE 9223372036854775807
@@ -70,12 +70,12 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."user_userID_seq" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."user_userID_seq" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<!--- Scheme Sequence --->
 		<cfquery datasource="#variables.datasource.name#">
-			CREATE SEQUENCE "#variables.datasource.prefix#user"."scheme_schemeID_seq"
+			CREATE SeqUENCE "#variables.datasource.prefix#user"."scheme_schemeID_seq"
 				INCREMENT 1
 				MINVALUE 1
 				MAXVALUE 9223372036854775807
@@ -84,7 +84,7 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."scheme_schemeID_seq" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."scheme_schemeID_seq" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<!---
@@ -95,8 +95,8 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user"."user"
 			(
-				"userID" integer NOT NULL DEFAULT nextval('"#variables.datasource.prefix#user"."user_userID_seq"'::regclass),
-				"createdOn" timestamp without time zone DEFAULT now(),
+				"userID" integer not NULL DEFAUlt nextval('"#variables.datasource.prefix#user"."user_userID_seq"'::regclass),
+				"createdOn" timestamp without time zone DEFAUlt now(),
 				"archivedOn" timestamp without time zone,
 				CONSTRAINT "user_PK" PRIMARY KEY ("userID")
 			)
@@ -104,7 +104,7 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."user" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."user" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
@@ -115,9 +115,9 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user".scheme
 			(
-				"schemeID" integer NOT NULL DEFAULT nextval('"#variables.datasource.prefix#user"."scheme_schemeID_seq"'::regclass),
+				"schemeID" integer not NULL DEFAUlt nextval('"#variables.datasource.prefix#user"."scheme_schemeID_seq"'::regclass),
 				scheme character varying(75),
-				"createdOn" timestamp without time zone DEFAULT now(),
+				"createdOn" timestamp without time zone DEFAUlt now(),
 				"updatedOn" timestamp without time zone,
 				"archivedOn" timestamp without time zone,
 				CONSTRAINT "scheme_PK" PRIMARY KEY ("schemeID"),
@@ -127,7 +127,7 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."scheme" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."scheme" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
@@ -138,14 +138,14 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
 			(
-				"schemeID" integer NOT NULL,
-				"tagID" integer NOT NULL,
-				permission character varying(75) NOT NULL,
+				"schemeID" integer not NULL,
+				"tagID" integer not NULL,
+				permission character varying(75) not NULL,
 				CONSTRAINT "bScheme2Tag2Permission_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
-				CONSTRAINT "bScheme2Tag2Permission_schemeID_FK" FOREIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2Permission_schemeID_FK" ForEIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2Permission_userID_FK" FOREIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2Permission_userID_FK" ForEIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
@@ -153,7 +153,7 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."bScheme2Tag2Permission" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
@@ -164,17 +164,17 @@
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User"
 			(
-				"schemeID" integer NOT NULL,
-				"userID" integer NOT NULL,
-				"tagID" integer NOT NULL,
+				"schemeID" integer not NULL,
+				"userID" integer not NULL,
+				"tagID" integer not NULL,
 				CONSTRAINT "bScheme2Tag2User_PK" PRIMARY KEY ("schemeID", "userID", "tagID"),
-				CONSTRAINT "bScheme2Tag2User_schemeID_FK" FOREIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2User_schemeID_FK" ForEIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2User_tagID_FK" FOREIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2User_tagID_FK" ForEIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2User_userID_FK" FOREIGN KEY ("userID")
+				CONSTRAINT "bScheme2Tag2User_userID_FK" ForEIGN KEY ("userID")
 					REFERENCES "#variables.datasource.prefix#user"."user" ("userID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
@@ -182,7 +182,7 @@
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
-			ALTER TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User" OWNER TO #variables.datasource.owner#;
+			AlteR TABLE "#variables.datasource.prefix#user"."bScheme2Tag2User" OWNER TO #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">

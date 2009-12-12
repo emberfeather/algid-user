@@ -32,7 +32,7 @@
 	
 	<cffunction name="getHash" access="public" returntype="string" output="false">
 		<!--- Make sure that we have a value for the hash --->
-		<cfif variables.instance['hash'] EQ ''>
+		<cfif variables.instance['hash'] eq ''>
 			<!--- Generate the hash --->
 			<cfset variables.instance['hash'] = hashPassword() />
 		</cfif>
@@ -44,7 +44,7 @@
 		<cfset var base62 = '' />
 		
 		<!--- Make sure that we have a value for the salt --->
-		<cfif variables.instance['salt'] EQ ''>
+		<cfif variables.instance['salt'] eq ''>
 			<cfset base62 = createObject('component', 'cf-compendium.inc.resource.utility.base62').init() />
 			
 			<!--- Generate the salt by converting a large random number to a base 62 format --->
@@ -64,7 +64,7 @@
 		<cfset arguments.password = trim(arguments.password) />
 		
 		<!--- If not given a password to hash use the local password --->
-		<cfif arguments.password EQ ''>
+		<cfif arguments.password eq ''>
 			<cfset arguments.password = this.getPassword() />
 		</cfif>
 		
@@ -74,7 +74,7 @@
 	<cffunction name="setSaltAndHash" access="public" returntype="void" output="false">
 		<cfargument name="saltAndHash" type="string" required="true" />
 		
-		<cfif listLen(arguments.saltAndHash, '|') NEQ 2>
+		<cfif listLen(arguments.saltAndHash, '|') neq 2>
 			<cfthrow message="Salt and Hash incorrectly formatted" detail="The salt and hash value need to be the salt and hash separated by a pipe (|) character" />
 		</cfif>
 		
@@ -94,7 +94,7 @@
 		<cfset arguments.password = trim(arguments.password) />
 		
 		<!--- Check for minimum length --->
-		<cfif len(arguments.password) LT minLength>
+		<cfif len(arguments.password) lt minLength>
 			<!--- TODO make this locale friendly --->
 			<cfthrow message="Password must be at least #minNonAlpha# characters" detail="The password only contained #len(results)# characters" />
 		</cfif>
@@ -104,7 +104,7 @@
 		<!--- Check for non-alpha characters --->
 		<cfset results = reReplace(arguments.password, '[a-zA-Z]', '', 'all') />
 		
-		<cfif len(results) LT minNonAlpha>
+		<cfif len(results) lt minNonAlpha>
 			<!--- TODO make this locale friendly --->
 			<cfthrow message="Password must contain at least #minNonAlpha# non-alpha characters" detail="The password only contained #len(results)# non-alpha characters" />
 		</cfif>

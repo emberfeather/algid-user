@@ -42,15 +42,15 @@
 			WHERE 1=1
 			
 			<cfif structKeyExists(arguments.filter, 'schemeID')>
-				AND s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
+				and s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'tagID')>
-				AND u."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
+				and u."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'userID')>
-				AND u."userID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.userID#" />
+				and u."userID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.userID#" />
 			</cfif>
 		</cfquery>
 		

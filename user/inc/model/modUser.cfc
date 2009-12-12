@@ -35,7 +35,7 @@
 		
 		<cfset var permission = '' />
 		
-		<cfif NOT structKeyExists(variables.instance['permissions'], arguments.scheme)>
+		<cfif not structKeyExists(variables.instance['permissions'], arguments.scheme)>
 			<cfset variables.instance['permissions'][arguments.scheme] = [] />
 		</cfif>
 		
@@ -52,7 +52,7 @@
 		<cfset var scheme = '' />
 		
 		<!--- If wildcard, return them all --->
-		<cfif arguments.schemes EQ '*'>
+		<cfif arguments.schemes eq '*'>
 			<cfset arguments.schemes = structKeyList(variables.instance['permissions']) />
 		</cfif>
 		
@@ -61,7 +61,7 @@
 			<cfif structKeyExists(variables.instance['permissions'], scheme)>
 				<cfloop array="#variables.instance['permissions'][scheme]#" index="permission">
 					<!--- Prevent duplicate permissions --->
-					<cfif NOT arrayFind(permissions, permission)>
+					<cfif not arrayFind(permissions, permission)>
 						<cfset arrayAppend(permissions, permission) />
 					</cfif>
 				</cfloop>
@@ -78,7 +78,7 @@
 		<cfset var scheme = '' />
 		
 		<cfloop list="#arguments.schemes#" index="scheme">
-			<cfif structKeyExists(variables.instance['permissions'], scheme) AND arrayFind(variables.instance['permissions'][scheme], arguments.permission)>
+			<cfif structKeyExists(variables.instance['permissions'], scheme) and arrayFind(variables.instance['permissions'][scheme], arguments.permission)>
 				<cfreturn true />
 			</cfif>
 		</cfloop>
@@ -93,7 +93,7 @@
 		<cfset var permission = '' />
 		
 		<cfloop list="#arguments.permissions#" index="permission">
-			<cfif NOT hasPermission(permission, arguments.schemes)>
+			<cfif not hasPermission(permission, arguments.schemes)>
 				<cfreturn false />
 			</cfif>
 		</cfloop>

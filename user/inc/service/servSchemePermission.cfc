@@ -54,18 +54,18 @@
 			WHERE 1=1
 			
 			<cfif structKeyExists(arguments.filter, 'schemeID')>
-				AND s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
+				and s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'tagID')>
-				AND u."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
+				and u."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'permission')>
-				AND p."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
+				and p."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
 			</cfif>
 			
-			ORDER BY permission ASC
+			orDER BY permission ASC
 		</cfquery>
 		
 		<cfreturn results />
@@ -83,28 +83,28 @@
 				ON s."schemeID" = tu."schemeID"
 			JOIN "#variables.datasource.prefix#user"."bScheme2Tag2Permission" tp
 				ON s."schemeID" = tp."schemeID"
-					AND tu."tagID" = tp."tagID"
+					and tu."tagID" = tp."tagID"
 			JOIN "#variables.datasource.prefix#user"."user" u
 				ON tu."userID" = u."userID"
 			WHERE 1=1
 			
 			<cfif structKeyExists(arguments.filter, 'schemeID')>
-				AND s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
+				and s."schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.schemeID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'tagID')>
-				AND tu."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
+				and tu."tagID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.tagID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'userID')>
-				AND u."userID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.userID#" />
+				and u."userID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.userID#" />
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'permission')>
-				AND tp."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
+				and tp."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
 			</cfif>
 			
-			ORDER BY s.scheme ASC
+			orDER BY s.scheme ASC
 		</cfquery>
 		
 		<cfreturn results />
