@@ -16,6 +16,22 @@
 		<cfset arguments.theSession.managers.singleton.setUserStat(temp) />
 	</cffunction>
 	
+	<cffunction name="canReinitialize" access="public" returntype="boolean" output="false">
+		<cfargument name="theApplication" type="struct" required="true" />
+		<cfargument name="theSession" type="struct" required="true" />
+		<cfargument name="theForm" type="struct" required="true" />
+		
+		<cfset var hasPermission = false />
+		
+		<!--- Check if there is a user set --->
+		<cfset hasPermission = session.managers.singleton.hasUser() />
+		
+		<!--- Check if the user is an admin --->
+		<cfset hasPermission = hasPermission and session.managers.singleton.getUser().hasPermission('reinit', '') />
+		
+		<cfreturn hasPermission />
+	</cffunction>
+	
 	<cffunction name="update" access="public" returntype="void" output="false">
 		<cfargument name="plugin" type="struct" required="true" />
 		<cfargument name="installedVersion" type="string" default="" />

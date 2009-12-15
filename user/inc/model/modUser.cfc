@@ -11,6 +11,12 @@
 				defaultValue = 0
 			) />
 		
+		<!--- Is Deity? --->
+		<cfset addAttribute(
+				attribute = 'isDeity',
+				defaultValue = false
+			) />
+		
 		<!--- Username --->
 		<cfset addAttribute(
 				attribute = 'username',
@@ -77,6 +83,11 @@
 		
 		<cfset var scheme = '' />
 		
+		<!--- Check for master users --->
+		<cfif this.getIsDeity() eq true>
+			<cfreturn true />
+		</cfif>
+		
 		<cfloop list="#arguments.schemes#" index="scheme">
 			<cfif structKeyExists(variables.instance['permissions'], scheme) and arrayFind(variables.instance['permissions'][scheme], arguments.permission)>
 				<cfreturn true />
@@ -91,6 +102,11 @@
 		<cfargument name="schemes" type="string" required="true" />
 		
 		<cfset var permission = '' />
+		
+		<!--- Check for master users --->
+		<cfif this.getIsDeity() eq true>
+			<cfreturn true />
+		</cfif>
 		
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfif not hasPermission(permission, arguments.schemes)>
