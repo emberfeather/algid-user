@@ -65,7 +65,7 @@
 				and p."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
 			</cfif>
 			
-			orDER BY permission ASC
+			ORDER BY permission ASC
 		</cfquery>
 		
 		<cfreturn results />
@@ -104,7 +104,7 @@
 				and tp."permission" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.permission#" />
 			</cfif>
 			
-			orDER BY s.scheme ASC
+			ORDER BY s.scheme ASC
 		</cfquery>
 		
 		<cfreturn results />

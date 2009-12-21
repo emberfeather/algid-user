@@ -74,7 +74,7 @@
 				and scheme = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.scheme#" />
 			</cfif>
 			
-			orDER BY scheme ASC
+			ORDER BY scheme ASC
 		</cfquery>
 		
 		<cfreturn results />
