@@ -11,24 +11,21 @@
 		
 		<!--- TODO Check permissions --->
 		
+		<!--- Create the new ID --->
+		<cfset arguments.scheme.setSchemeID( createUUID() ) />
+		
 		<cftransaction>
 			<cfquery datasource="#variables.datasource.name#" result="results">
 				INSERT INTO "#variables.datasource.prefix#user"."scheme"
 				(
-					scheme, 
+					"schemeID",
+					"scheme", 
 					"updatedOn"
 				) VALUES (
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" />::uuid,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getScheme()#" />,
 					now()
 				)
-			</cfquery>
-			
-			<!--- Query the schemeID --->
-			<!--- TODO replace this with the new id from the insert results --->
-			<cfquery name="results" datasource="#variables.datasource.name#">
-				SELECT "schemeID"
-				FROM "#variables.datasource.prefix#user"."scheme"
-				WHERE scheme = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getScheme()#" />
 			</cfquery>
 		</cftransaction>
 		
@@ -39,9 +36,10 @@
 	</cffunction>
 	
 	<cffunction name="readScheme" access="public" returntype="component" output="false">
-		<cfargument name="schemeID" type="numeric" required="true" />
+		<cfargument name="schemeID" type="string" required="true" />
 		
 		<cfset var i18n = '' />
+		<cfset var objectSerial = '' />
 		<cfset var results = '' />
 		<cfset var scheme = '' />
 		
@@ -50,12 +48,16 @@
 		<cfquery name="results" datasource="#variables.datasource.name#">
 			SELECT "schemeID", scheme, "createdOn", "updatedOn"
 			FROM "#variables.datasource.prefix#user"."scheme"
-			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.schemeID#" />
+			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.schemeID#" />::uuid
 		</cfquery>
 		
 		<cfset scheme = variables.transport.theApplication.factories.transient.getModSchemeForUser(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
 		
-		<cfset scheme.deserialize(results) />
+		<cfif results.recordCount>
+			<cfset objectSerial = variables.transport.theApplication.managers.singleton.getObjectSerial() />
+			
+			<cfset objectSerial.deserialize(results, scheme) />
+		</cfif>
 		
 		<cfreturn scheme />
 	</cffunction>

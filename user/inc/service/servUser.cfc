@@ -7,7 +7,7 @@
 	</cffunction>
 	
 	<cffunction name="readUser" access="public" returntype="component" output="false">
-		<cfargument name="userID" type="numeric" required="true" />
+		<cfargument name="userID" type="string" required="true" />
 		
 		<cfthrow message="Not implemented" detail="This function should be overridden by a authentication plugin" />
 	</cffunction>

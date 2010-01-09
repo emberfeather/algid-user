@@ -8,7 +8,7 @@
 		<!--- User ID --->
 		<cfset addAttribute(
 				attribute = 'userID',
-				defaultValue = 0
+				defaultValue = ''
 			) />
 		
 		<!--- Is Deity? --->
