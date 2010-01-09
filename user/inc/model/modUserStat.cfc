@@ -7,8 +7,7 @@
 		
 		<!--- User ID --->
 		<cfset addAttribute(
-				attribute = 'userID',
-				defaultValue = 0
+				attribute = 'userID'
 			) />
 		
 		<!--- Set the bundle information for translation --->
