@@ -1,78 +1,72 @@
 <cfcomponent extends="mxunit.framework.TestCase" output="false">
-	<cffunction name="setup" access="public" returntype="void" output="false">
-		<cfset variables.i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/')) />
-	</cffunction>
-	
-	<cffunction name="testAutoSalt" access="public" returntype="void" output="false">
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
+	<cfscript>
+		public void function setup() {
+			variables.i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/'));
+		}
 		
-		<cfset assertNotEquals('', password.getSalt()) />
-	</cffunction>
-	
-	<cffunction name="testGetHashFromSaltAndHash" access="public" returntype="void" output="false">
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
-		
-		<cfset password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm') />
-		
-		<cfset assertEquals('Ecnwo2k432n2$kcmo!kcnowkm', password.getHash() ) />
-	</cffunction>
-	
-	<cffunction name="testGetSaltFromSaltAndHash" access="public" returntype="void" output="false">
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
-		
-		<cfset password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm') />
-		
-		<cfset assertEquals('nIPEv', password.getSalt() ) />
-	</cffunction>
-	
-	<cffunction name="testHashPasswordFromSalt" access="public" returntype="void" output="false">
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
-		
-		<cfset password.setSalt('nIPEv') />
-		
-		<cfset password.setPassword('Test4Password!') />
-		
-		<cfset assertEquals('12a8a72423b6330a86f70415acf6ce9536c7ddf4b6a95a9633dddf6fef2cfbf262d729b8946228f9f415cfa90293ebc00f260c03e0385fc1a9ff30a43980198e', password.getHash() ) />
-	</cffunction>
-	
-	<cffunction name="testPasswordMinLength" access="public" returntype="void" output="false">
-		<cfset var minLength = 7 />
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
-		<cfset var testPassword = '' />
-		<cfset var i = '' />
-		
-		<cfset testPassword = left( generateSecretKey('DESEDE'), minLength - 1 ) />
-		
-		<cftry>
-			<cfset password.setPassword(testPassword) />
+		public void function testAutoSalt() {
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
 			
-			<cfset fail("Should not be able to set the password without the minimum length of #minLength#.") />
-			
-			<cfcatch type="mxunit.exception.AssertionFailedError">
-				<cfrethrow />
-			</cfcatch>
-			
-			<cfcatch type="any">
-				<!--- expect to get here --->
-			</cfcatch>
-		</cftry>
-	</cffunction>
-	
-	<cffunction name="testPasswordSansSpecial" access="public" returntype="void" output="false">
-		<cfset var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n) />
+			assertNotEquals('', password.getSalt());
+		}
 		
-		<cftry>
-			<cfset password.setPassword('fullOfText') />
+		public void function testGetHashFromSaltAndHash() {
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
 			
-			<cfset fail("Should not be able to set the password without numbers or special characters.") />
+			password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm');
 			
-			<cfcatch type="mxunit.exception.AssertionFailedError">
-				<cfrethrow />
-			</cfcatch>
+			assertEquals('Ecnwo2k432n2$kcmo!kcnowkm', password.getHash() );
+		}
+		
+		public void function testGetSaltFromSaltAndHash() {
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
 			
-			<cfcatch type="any">
-				<!--- expect to get here --->
-			</cfcatch>
-		</cftry>
-	</cffunction>
+			password.setSaltAndHash('nIPEv|Ecnwo2k432n2$kcmo!kcnowkm');
+			
+			assertEquals('nIPEv', password.getSalt() );
+		}
+		
+		public void function testHashPasswordFromSalt() {
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
+			
+			password.setSalt('nIPEv');
+			
+			password.setPassword('Test4Password!');
+			
+			assertEquals('12a8a72423b6330a86f70415acf6ce9536c7ddf4b6a95a9633dddf6fef2cfbf262d729b8946228f9f415cfa90293ebc00f260c03e0385fc1a9ff30a43980198e', password.getHash() );
+		}
+		
+		public void function testPasswordMinLength() {
+			var minLength = 7;
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
+			var testPassword = '';
+			var i = '';
+			
+			testPassword = left( generateSecretKey('DESEDE'), minLength - 1 );
+			
+			try {
+				password.setPassword(testPassword);
+				
+				fail("Should not be able to set the password without the minimum length of #minLength#.");
+			} catch(mxunit.exception.AssertionFailedError exception) {
+				rethrow();
+			} catch(any exception) {
+				// expect to get here
+			}
+		}
+		
+		public void function testPasswordSansSpecial() {
+			var password = createObject('component', 'plugins.user.inc.model.modPassword').init(variables.i18n);
+			
+			try {
+				password.setPassword('fullOfText');
+				
+				fail("Should not be able to set the password without numbers or special characters.");
+			} catch(mxunit.exception.AssertionFailedError exception) {
+				rethrow();
+			} catch(any exception) {
+				// expect to get here
+			}
+		}
+	</cfscript>
 </cfcomponent>
