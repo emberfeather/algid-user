@@ -48,7 +48,7 @@
 		<cfquery name="results" datasource="#variables.datasource.name#">
 			SELECT "schemeID", scheme, "createdOn", "updatedOn"
 			FROM "#variables.datasource.prefix#user"."scheme"
-			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.schemeID#" />::uuid
+			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.schemeID#" null="#arguments.schemeID eq ''#" />::uuid
 		</cfquery>
 		
 		<cfset scheme = variables.transport.theApplication.factories.transient.getModSchemeForUser(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />

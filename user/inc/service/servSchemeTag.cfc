@@ -21,9 +21,9 @@
 					"tagID",
 					"userID"
 				) VALUES (
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" />::uuid,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag.getTagID()#" />::uuid,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.user.getUserID()#" />::uuid
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" null="#arguments.scheme.getSchemeID() eq ''#" />::uuid,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag.getTagID()#" null="#arguments.tag.getTagID() eq ''#" />::uuid,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.user.getUserID()#" null="#arguments.user.getUserID() eq ''#" />::uuid
 				)
 			</cfquery>
 		</cftransaction>
@@ -44,15 +44,15 @@
 			WHERE 1=1
 			
 			<cfif structKeyExists(arguments.filter, 'schemeID')>
-				and s."schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.schemeID#" />::uuid
+				and s."schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.schemeID#" null="#arguments.filter.schemeID eq ''#" />::uuid
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'tagID')>
-				and u."tagID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.tagID#" />::uuid
+				and u."tagID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.tagID#" null="#arguments.filter.tagID eq ''#" />::uuid
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'userID')>
-				and u."userID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.userID#" />::uuid
+				and u."userID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.userID#" null="#arguments.filter.userID eq ''#" />::uuid
 			</cfif>
 		</cfquery>
 		
