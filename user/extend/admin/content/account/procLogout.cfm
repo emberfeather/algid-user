@@ -7,4 +7,4 @@
 <!--- Redirect to the main page --->
 <cfset theURL.cleanRedirect() />
 
-<cflocation url="#theURL.getRedirect(false)#" addtoken="false" />
+<cfset theURL.redirectRedirect() />
