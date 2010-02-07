@@ -9,11 +9,6 @@
 		<cfset temp = arguments.theApplication.factories.transient.getModUserForUser(arguments.theApplication.managers.singleton.getI18N()) />
 		
 		<cfset arguments.theSession.managers.singleton.setUser(temp) />
-		
-		<!--- Add the user stat singleton --->
-		<cfset temp = arguments.theApplication.factories.transient.getModUserStatForUser(arguments.theApplication.managers.singleton.getI18N()) />
-		
-		<cfset arguments.theSession.managers.singleton.setUserStat(temp) />
 	</cffunction>
 	
 	<cffunction name="canReinitialize" access="public" returntype="boolean" output="false">
@@ -80,8 +75,9 @@
 			CREATE TABLE "#variables.datasource.prefix#user"."user"
 			(
 				"userID" uuid NOT NULL,
-				"createdOn" timestamp without time zone DEFAUlt now(),
+				"createdOn" timestamp without time zone DEFAULT now(),
 				"archivedOn" timestamp without time zone,
+				"username" character varying(30),
 				CONSTRAINT "user_PK" PRIMARY KEY ("userID")
 			)
 			WITH (OIDS=FALSE);
@@ -101,7 +97,7 @@
 			(
 				"schemeID" uuid NOT NULL,
 				scheme character varying(75),
-				"createdOn" timestamp without time zone DEFAUlt now(),
+				"createdOn" timestamp without time zone DEFAULT now(),
 				"updatedOn" timestamp without time zone,
 				"archivedOn" timestamp without time zone,
 				CONSTRAINT "scheme_PK" PRIMARY KEY ("schemeID"),
