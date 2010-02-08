@@ -59,7 +59,7 @@
 		<!--- User schema --->
 		<cfquery datasource="#variables.datasource.name#">
 			CREATE SCHEMA "#variables.datasource.prefix#user"
-				AUTHorIZATION #variables.datasource.owner#;
+				AUTHORIZATION #variables.datasource.owner#;
 		</cfquery>
 		
 		<cfquery datasource="#variables.datasource.name#">
@@ -122,10 +122,10 @@
 				"tagID" uuid NOT NULL,
 				permission character varying(75) not NULL,
 				CONSTRAINT "bScheme2Tag2Permission_PK" PRIMARY KEY ("schemeID", permission, "tagID"),
-				CONSTRAINT "bScheme2Tag2Permission_schemeID_FK" ForEIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2Permission_schemeID_FK" FOREIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2Permission_userID_FK" ForEIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2Permission_userID_FK" FOREIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
@@ -148,13 +148,13 @@
 				"userID" uuid NOT NULL,
 				"tagID" uuid NOT NULL,
 				CONSTRAINT "bScheme2Tag2User_PK" PRIMARY KEY ("schemeID", "userID", "tagID"),
-				CONSTRAINT "bScheme2Tag2User_schemeID_FK" ForEIGN KEY ("schemeID")
+				CONSTRAINT "bScheme2Tag2User_schemeID_FK" FOREIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2User_tagID_FK" ForEIGN KEY ("tagID")
+				CONSTRAINT "bScheme2Tag2User_tagID_FK" FOREIGN KEY ("tagID")
 					REFERENCES #variables.datasource.prefix#tagger.tag ("tagID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE,
-				CONSTRAINT "bScheme2Tag2User_userID_FK" ForEIGN KEY ("userID")
+				CONSTRAINT "bScheme2Tag2User_userID_FK" FOREIGN KEY ("userID")
 					REFERENCES "#variables.datasource.prefix#user"."user" ("userID") MATCH SIMPLE
 					ON UPDATE CASCADE ON DELETE CASCADE
 			)
