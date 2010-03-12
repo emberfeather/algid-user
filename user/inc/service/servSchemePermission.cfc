@@ -1,37 +1,4 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="createScheme2Tag2Permission" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
-		<cfargument name="scheme" type="component" required="true" />
-		<cfargument name="tag" type="component" required="true" />
-		<cfargument name="permission" type="component" required="true" />
-		
-		<cfset var eventLog = '' />
-		<cfset var results = '' />
-		
-		<!--- Get the event log from the transport --->
-		<cfset eventLog = variables.transport.theApplication.managers.singleton.getEventLog() />
-		
-		<!--- TODO Check Permissions --->
-		
-		<cftransaction>
-			<cfquery datasource="#variables.datasource.name#" result="results">
-				INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
-				(
-					"schemeID",
-					"tagID",
-					"permission"
-				) VALUES (
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" null="#arguments.scheme.getSchemeID() eq ''#" />::uuid,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag.getTagID()#" null="#arguments.tag.getTagID() eq ''#" />::uuid,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.permission.getPermission()#" />
-				)
-			</cfquery>
-		</cftransaction>
-		
-		<!--- Log the create event --->
-		<cfset eventLog.logEvent('user', 'createScheme2Tag2Permission', 'Granted the ''' & arguments.permission.getPermission() & ''' permission ''' & arguments.tag.getTag() & ''' tag for the ''' & arguments.scheme.getScheme() & ''' scheme.', arguments.currUser.getUserID()) />
-	</cffunction>
-	
 	<cffunction name="readPermissions" access="public" returntype="query" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
@@ -108,5 +75,49 @@
 		</cfquery>
 		
 		<cfreturn results />
+	</cffunction>
+		
+	<cffunction name="setScheme2Tag2Permission" access="public" returntype="void" output="false">
+		<cfargument name="currUser" type="component" required="true" />
+		<cfargument name="scheme" type="component" required="true" />
+		<cfargument name="tag" type="component" required="true" />
+		<cfargument name="permission" type="component" required="true" />
+		
+		<cfset var eventLog = '' />
+		<cfset var observer = '' />
+		<cfset var results = '' />
+		
+		<!--- Get the event observer --->
+		<cfset observer = getPluginObserver('user', 'schemePermission') />
+		
+		<!--- TODO Check Permissions --->
+		
+		<!--- Before Save Event --->
+		<cfset observer.beforeSave(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
+		
+		<!--- TODO Check if the scheme tag already exists --->
+		<cfif 1 eq 0>
+		<cfelse>
+			<cftransaction>
+				<cfquery datasource="#variables.datasource.name#" result="results">
+					INSERT INTO "#variables.datasource.prefix#user"."bScheme2Tag2Permission"
+					(
+						"schemeID",
+						"tagID",
+						"permission"
+					) VALUES (
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" null="#arguments.scheme.getSchemeID() eq ''#" />::uuid,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag.getTagID()#" null="#arguments.tag.getTagID() eq ''#" />::uuid,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.permission.getPermission()#" />
+					)
+				</cfquery>
+			</cftransaction>
+			
+			<!--- After Create Event --->
+			<cfset observer.afterCreate(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
+		</cfif>
+		
+		<!--- After Save Event --->
+		<cfset observer.afterSave(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
 	</cffunction>
 </cfcomponent>

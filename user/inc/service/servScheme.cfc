@@ -1,40 +1,4 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="createScheme" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
-		<cfargument name="scheme" type="component" required="true" />
-		
-		<cfset var eventLog = '' />
-		<cfset var results = '' />
-		
-		<!--- Get the event log from the transport --->
-		<cfset eventLog = variables.transport.theApplication.managers.singleton.getEventLog() />
-		
-		<!--- TODO Check permissions --->
-		
-		<!--- Create the new ID --->
-		<cfset arguments.scheme.setSchemeID( createUUID() ) />
-		
-		<cftransaction>
-			<cfquery datasource="#variables.datasource.name#" result="results">
-				INSERT INTO "#variables.datasource.prefix#user"."scheme"
-				(
-					"schemeID",
-					"scheme", 
-					"updatedOn"
-				) VALUES (
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" />::uuid,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getScheme()#" />,
-					now()
-				)
-			</cfquery>
-		</cftransaction>
-		
-		<!--- Log the create event --->
-		<cfset eventLog.logEvent('user', 'createScheme', 'Created the ''' & arguments.scheme.getScheme() & ''' scheme.', arguments.currUser.getUserID(), arguments.scheme.getSchemeID()) />
-		
-		<cfset arguments.scheme.setSchemeID( results.schemeID ) />
-	</cffunction>
-	
 	<cffunction name="readScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		
@@ -80,5 +44,53 @@
 		</cfquery>
 		
 		<cfreturn results />
+	</cffunction>
+	
+	<cffunction name="setScheme" access="public" returntype="void" output="false">
+		<cfargument name="currUser" type="component" required="true" />
+		<cfargument name="scheme" type="component" required="true" />
+		
+		<cfset var eventLog = '' />
+		<cfset var observer = '' />
+		<cfset var results = '' />
+		
+		<!--- Get the event observer --->
+		<cfset observer = getPluginObserver('user', 'scheme') />
+		
+		<!--- TODO Check permissions --->
+		
+		<!--- Before Save Event --->
+		<cfset observer.beforeSave(variables.transport, arguments.currUser, arguments.scheme) />
+		
+		<cfif arguments.scheme.getSchemeID() eq ''>
+			<!--- Create the new ID --->
+			<cfset arguments.scheme.setSchemeID( createUUID() ) />
+			
+			<cftransaction>
+				<cfquery datasource="#variables.datasource.name#" result="results">
+					INSERT INTO "#variables.datasource.prefix#user"."scheme"
+					(
+						"schemeID",
+						"scheme", 
+						"updatedOn"
+					) VALUES (
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getSchemeID()#" />::uuid,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.scheme.getScheme()#" />,
+						now()
+					)
+				</cfquery>
+			</cftransaction>
+			
+			<!--- After Create Event --->
+			<cfset observer.afterCreate(variables.transport, arguments.currUser, arguments.scheme) />
+		<cfelse>
+			<!--- After Update Event --->
+			<cfset observer.afterUpdate(variables.transport, arguments.currUser, arguments.scheme) />
+		</cfif>
+		
+		<!--- After Save Event --->
+		<cfset observer.afterSave(variables.transport, arguments.currUser, arguments.scheme) />
+		
+		<cfset arguments.scheme.setSchemeID( results.schemeID ) />
 	</cffunction>
 </cfcomponent>
