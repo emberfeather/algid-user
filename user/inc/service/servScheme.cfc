@@ -1,5 +1,5 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="readScheme" access="public" returntype="component" output="false">
+	<cffunction name="getScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		
 		<cfset var i18n = '' />
@@ -26,7 +26,7 @@
 		<cfreturn scheme />
 	</cffunction>
 	
-	<cffunction name="readSchemes" access="public" returntype="query" output="false">
+	<cffunction name="getSchemes" access="public" returntype="query" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var results = '' />

@@ -122,6 +122,8 @@
 				"schemeID" uuid NOT NULL,
 				"role" character varying(100) NOT NULL,
 				description text,
+				"createdOn" timestamp without time zone not NULL DEFAULT now(),
+				"archivedOn" timestamp without time zone,
 				CONSTRAINT role_pkey PRIMARY KEY ("roleID"),
 				CONSTRAINT "role_schemeID_fkey" FOREIGN KEY ("schemeID")
 					REFERENCES "#variables.datasource.prefix#user".scheme ("schemeID") MATCH SIMPLE

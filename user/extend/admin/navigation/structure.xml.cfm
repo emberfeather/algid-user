@@ -7,33 +7,29 @@
 	</account>
 	
 	<admin position="main">
-		<schemes position="main">
-			<add position="action"/>
-			<delete position="action"/>
-			<edit position="action"/>
-			<list position="action"/>
-			
-			<permissions position="main">
-				<edit position="action"/>
-				<list position="action"/>
-				<roles position="main"/>
-			</permissions>
-			
-			<roles position="main">
-				<add position="action"/>
-				<delete position="action"/>
-				<edit position="action"/>
-				<list position="action"/>
-				<permissions position="main"/>
-				<users position="main"/>
-			</roles>
-		</schemes>
-		
-		<users position="main">
+		<scheme position="main">
 			<add position="action"/>
 			<archive position="action"/>
 			<edit position="action"/>
 			<list position="action"/>
-		</users>
+			
+			<permission position="main">
+				<list position="action"/>
+			</permission>
+			
+			<role position="main">
+				<add position="action"/>
+				<archive position="action"/>
+				<edit position="action"/>
+				<list position="action"/>
+			</role>
+		</scheme>
+		
+		<user position="main">
+			<add position="action"/>
+			<archive position="action"/>
+			<edit position="action"/>
+			<list position="action"/>
+		</user>
 	</admin>
 </navigation>
