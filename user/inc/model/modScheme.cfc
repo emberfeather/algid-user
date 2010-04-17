@@ -7,16 +7,12 @@
 		
 		<!--- Scheme ID --->
 		<cfset addAttribute(
-				attribute = 'schemeID',
-				validation = {
-				}
+				attribute = 'schemeID'
 			) />
 		
 		<!--- Created On --->
 		<cfset addAttribute(
-				attribute = 'createdOn',
-				validation = {
-				}
+				attribute = 'createdOn'
 			) />
 		
 		<!--- Scheme --->
@@ -30,9 +26,7 @@
 		
 		<!--- Updated On --->
 		<cfset addAttribute(
-				attribute = 'updatedOn',
-				validation = {
-				}
+				attribute = 'updatedOn'
 			) />
 		
 		<!--- Set the bundle information for translation --->

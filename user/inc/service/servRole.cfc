@@ -31,7 +31,6 @@
 	</cffunction>
 	
 	<cffunction name="getRole" access="public" returntype="component" output="false">
-		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="roleID" type="string" required="true" />
 		
 		<cfset var role = '' />
@@ -81,6 +80,10 @@
 					"role" LIKE <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.filter.search#%" />
 					OR "description" LIKE <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.filter.search#%" />
 				)
+			</cfif>
+			
+			<cfif structKeyExists(arguments.filter, 'schemeID') and arguments.filter.schemeID neq ''>
+				AND "schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filter.schemeID#" />::uuid
 			</cfif>
 			
 			<cfif structKeyExists(arguments.filter, 'isArchived')>
@@ -171,7 +174,8 @@
 								"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 								"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 								"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-								"archivedOn" = NULL
+								"archivedOn" = NULL, 
+								"updatedOn" = now()
 							WHERE
 								"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 						</cfquery>
@@ -195,12 +199,14 @@
 							"roleID",
 							"schemeID",
 							"role",
-							"description"
+							"description", 
+							"updatedOn"
 						) VALUES (
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
-							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />
+							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
+							now()
 						)
 					</cfquery>
 				</cftransaction>
@@ -219,7 +225,8 @@
 						"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 						"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 						"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-						"archivedOn" = NULL
+						"archivedOn" = NULL, 
+						"updatedOn" = now()
 					WHERE
 						"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 				</cfquery>

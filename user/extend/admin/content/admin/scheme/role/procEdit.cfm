@@ -17,7 +17,7 @@
 </cfif>
 
 <!--- Retrieve the object --->
-<cfset role = servRole.getRole( session.managers.singleton.getUser(), theURL.search('role') ) />
+<cfset role = servRole.getRole( theURL.search('role') ) />
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Process the form submission --->

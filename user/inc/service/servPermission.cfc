@@ -1,5 +1,5 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="readPermissions" access="public" returntype="query" output="false">
+	<cffunction name="getPermissions" access="public" returntype="query" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var results = '' />
@@ -10,7 +10,7 @@
 		<cfreturn results />
 	</cffunction>
 	
-	<cffunction name="readTagPermissions" access="public" returntype="query" output="false">
+	<cffunction name="getTagPermissions" access="public" returntype="query" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var results = '' />
@@ -38,7 +38,7 @@
 		<cfreturn results />
 	</cffunction>
 	
-	<cffunction name="readUserPermissions" access="public" returntype="query" output="false">
+	<cffunction name="getUserPermissions" access="public" returntype="query" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var results = '' />

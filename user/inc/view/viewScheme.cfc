@@ -1,4 +1,29 @@
 <cfcomponent extends="algid.inc.resource.base.view" output="false">
+	<cffunction name="edit" access="public" returntype="string" output="false">
+		<cfargument name="scheme" type="component" required="true" />
+		<cfargument name="request" type="struct" default="#{}#" />
+		
+		<cfset var i18n = '' />
+		<cfset var theForm = '' />
+		<cfset var theURL = '' />
+		
+		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
+		<cfset theURL = variables.transport.theRequest.managers.singleton.getUrl() />
+		<cfset theForm = variables.transport.theApplication.factories.transient.getFormStandard('scheme', i18n) />
+		
+		<!--- Add the resource bundle for the view --->
+		<cfset theForm.addBundle('plugins/user/i18n/inc/view', 'viewScheme') />
+		
+		<!--- Scheme --->
+		<cfset theForm.addElement('text', {
+				name = "scheme",
+				label = "scheme",
+				value = ( structKeyExists(arguments.request, 'scheme') ? arguments.request.scheme : arguments.scheme.getScheme() )
+			}) />
+		
+		<cfreturn theForm.toHTML(theURL.get()) />
+	</cffunction>
+	
 	<cffunction name="filterActive" access="public" returntype="string" output="false">
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
@@ -15,7 +40,7 @@
 	</cffunction>
 	
 	<cffunction name="filter" access="public" returntype="string" output="false">
-		<cfargument name="filter" type="struct" default="#{}#" />
+		<cfargument name="values" type="struct" default="#{}#" />
 		
 		<cfset var filter = '' />
 		
@@ -27,7 +52,7 @@
 		<!--- Search --->
 		<cfset filter.addFilter('search') />
 		
-		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL()) />
+		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
 	</cffunction>
 	
 	<cffunction name="datagrid" access="public" returntype="string" output="false">
@@ -47,6 +72,22 @@
 		<cfset datagrid.addColumn({
 				key = 'scheme',
 				label = 'Scheme'
+			}) />
+		
+		<cfset datagrid.addColumn({
+				class = 'phantom align-right',
+				value = [ 'delete', 'edit' ],
+				link = [
+					{
+						'scheme' = 'schemeID',
+						'_base' = '/admin/scheme/archive'
+					},
+					{
+						'scheme' = 'schemeID',
+						'_base' = '/admin/scheme/edit'
+					}
+				],
+				linkClass = [ 'delete', '' ]
 			}) />
 		
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />

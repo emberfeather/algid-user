@@ -1,4 +1,4 @@
-<cfset schemes = servScheme.readSchemes( filter ) />
+<cfset schemes = servScheme.getSchemes( filter ) />
 
 <cfset paginate = variables.transport.theApplication.factories.transient.getPaginate(schemes.recordcount, session.numPerPage, theURL.searchID('onPage')) />
 

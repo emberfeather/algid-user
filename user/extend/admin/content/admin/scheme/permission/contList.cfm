@@ -1,4 +1,4 @@
-<cfset permissions = servSchemePermission.readPermissions( filter ) />
+<cfset permissions = servSchemePermission.getPermissions( filter ) />
 
 <cfset paginate = variables.transport.theApplication.factories.transient.getPaginate(permissions.recordcount, session.numPerPage, theURL.searchID('onPage')) />
 

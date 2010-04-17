@@ -73,7 +73,8 @@
 	</cffunction>
 	
 	<cffunction name="filter" access="public" returntype="string" output="false">
-		<cfargument name="filter" type="struct" default="#{}#" />
+		<cfargument name="values" type="struct" default="#{}#" />
+		<cfargument name="schemes" type="query" required="true" />
 		
 		<cfset var filter = '' />
 		
@@ -85,7 +86,21 @@
 		<!--- Search --->
 		<cfset filter.addFilter('search') />
 		
-		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL()) />
+		<!--- Scheme --->
+		<cfif arguments.schemes.recordCount>
+			<cfset options = variables.transport.theApplication.factories.transient.getOptions() />
+			
+			<!--- TODO use i18n --->
+			<cfset options.addOption('All Schemes', '') />
+			
+			<cfloop query="arguments.schemes">
+				<cfset options.addOption(arguments.schemes.scheme, arguments.schemes.schemeID.toString()) />
+			</cfloop>
+			
+			<cfset filter.addFilter('schemeID', options) />
+		</cfif>
+		
+		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
 	</cffunction>
 	
 	<cffunction name="datagrid" access="public" returntype="string" output="false">
