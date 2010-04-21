@@ -5,6 +5,7 @@
 		<cfargument name="request" type="struct" default="#{}#" />
 		
 		<cfset var i18n = '' />
+		<cfset var element = '' />
 		<cfset var theForm = '' />
 		<cfset var theURL = '' />
 		
@@ -76,6 +77,7 @@
 		<cfargument name="values" type="struct" default="#{}#" />
 		<cfargument name="schemes" type="query" required="true" />
 		
+		<cfset var options = '' />
 		<cfset var filter = '' />
 		
 		<cfset filter = variables.transport.theApplication.factories.transient.getFilterVertical(variables.transport.theApplication.managers.singleton.getI18N()) />
