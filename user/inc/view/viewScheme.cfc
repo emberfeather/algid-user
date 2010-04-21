@@ -71,7 +71,11 @@
 		
 		<cfset datagrid.addColumn({
 				key = 'scheme',
-				label = 'Scheme'
+				label = 'Scheme',
+				link = {
+					'scheme' = 'schemeID',
+					'_base' = '/admin/scheme/detail'
+				}
 			}) />
 		
 		<cfset datagrid.addColumn({

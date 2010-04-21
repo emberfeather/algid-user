@@ -119,7 +119,11 @@
 		
 		<cfset datagrid.addColumn({
 				key = 'role',
-				label = 'role'
+				label = 'role',
+				link = {
+					'role' = 'roleID',
+					'_base' = '/admin/scheme/role/detail'
+				}
 			}) />
 		
 		<cfset datagrid.addColumn({
