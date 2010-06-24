@@ -77,6 +77,7 @@
 				"userID" uuid NOT NULL,
 				"createdOn" timestamp without time zone DEFAULT now(),
 				"archivedOn" timestamp without time zone,
+				"fullname" character varying(100),
 				"username" character varying(30),
 				CONSTRAINT "user_PK" PRIMARY KEY ("userID")
 			)

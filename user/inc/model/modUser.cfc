@@ -7,8 +7,12 @@
 		
 		<!--- User ID --->
 		<cfset addAttribute(
-				attribute = 'userID',
-				defaultValue = ''
+				attribute = 'userID'
+			) />
+		
+		<!--- Username --->
+		<cfset addAttribute(
+				attribute = 'fullname'
 			) />
 		
 		<!--- Is Deity? --->
@@ -19,8 +23,7 @@
 		
 		<!--- Username --->
 		<cfset addAttribute(
-				attribute = 'username',
-				defaultValue = ''
+				attribute = 'username'
 			) />
 		
 		<!--- Permissions --->
@@ -48,6 +51,10 @@
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfset arrayAppend(variables.instance['permissions'][arguments.scheme], permission) />
 		</cfloop>
+	</cffunction>
+	
+	<cffunction name="getDisplayName" access="public" returntype="string" output="false">
+		<cfreturn variables.instance['fullname'] />
 	</cffunction>
 	
 	<cffunction name="getPermissions" access="public" returntype="array" output="false">
