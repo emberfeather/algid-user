@@ -10,7 +10,7 @@
 				attribute = 'userID'
 			) />
 		
-		<!--- Username --->
+		<!--- Full Name --->
 		<cfset addAttribute(
 				attribute = 'fullname'
 			) />
@@ -19,6 +19,12 @@
 		<cfset addAttribute(
 				attribute = 'isDeity',
 				defaultValue = false
+			) />
+		
+		<!--- Language --->
+		<cfset addAttribute(
+				attribute = 'language',
+				defaultValue = 'en-US'
 			) />
 		
 		<!--- Username --->
