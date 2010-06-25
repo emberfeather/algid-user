@@ -79,7 +79,7 @@
 				"archivedOn" timestamp without time zone,
 				"fullname" character varying(100),
 				"username" character varying(30),
-				"language" character varying(5) NOT NULL DEFAULT 'en-US'::character varying,
+				"language" character varying(8) NOT NULL DEFAULT 'en-US'::character varying,
 				CONSTRAINT "user_PK" PRIMARY KEY ("userID")
 			)
 			WITH (OIDS=FALSE);
