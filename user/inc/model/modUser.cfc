@@ -12,7 +12,8 @@
 		
 		<!--- Full Name --->
 		<cfset addAttribute(
-				attribute = 'fullname'
+				attribute = 'fullname',
+				defaultValue = 'Guest'
 			) />
 		
 		<!--- Is Deity? --->
@@ -128,5 +129,9 @@
 		</cfloop>
 		
 		<cfreturn true />
+	</cffunction>
+	
+	<cffunction name="isLoggedIn" access="public" returntype="boolean" output="false">
+		<cfreturn this.getUserID() neq '' />
 	</cffunction>
 </cfcomponent>
