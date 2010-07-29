@@ -34,13 +34,10 @@
 		<cfargument name="roleID" type="string" required="true" />
 		
 		<cfset var role = '' />
-		<cfset var i18n = '' />
 		<cfset var objectSerial = '' />
 		<cfset var results = '' />
 		
-		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
-		
-		<cfset role = variables.transport.theApplication.factories.transient.getModRoleForUser( i18n, variables.transport.theSession.managers.singleton.getSession().getLocale() ) />
+		<cfset role = getModel('user', 'role') />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
 			SELECT "roleID", "schemeID", "role", "description", "createdOn", "archivedOn"
