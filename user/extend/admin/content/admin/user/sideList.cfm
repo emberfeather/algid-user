@@ -1,4 +1,4 @@
-<cfset viewUser = transport.theApplication.factories.transient.getViewUserForUser( transport ) />
+<cfset viewUser = views.get('user', 'user') />
 
 <cfset filter = {
 		'search' = theURL.search('search')

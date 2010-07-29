@@ -7,12 +7,7 @@
 		"modRoleForUser": "plugins.user.inc.model.modRole",
 		"modSchemeForUser": "plugins.user.inc.model.modScheme",
 		"modUserForUser": "plugins.user.inc.model.modUser",
-		"modUserStatForUser": "plugins.user.inc.model.modUserStat",
-		"viewSchemeForUser": "plugins.user.inc.view.viewScheme",
-		"viewPermissionForUser": "plugins.user.inc.view.viewPermission",
-		"viewRoleForUser": "plugins.user.inc.view.viewRole",
-		"viewUserForUser": "plugins.user.inc.view.viewUser",
-		"viewUserStatForUser": "plugins.user.inc.view.viewUserStat"
+		"modUserStatForUser": "plugins.user.inc.model.modUserStat"
 	},
 	"i18n": {
 		"locales": [
