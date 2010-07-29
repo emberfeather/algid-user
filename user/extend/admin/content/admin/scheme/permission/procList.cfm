@@ -1,4 +1,4 @@
-<cfset servSchemePermission = transport.theApplication.factories.transient.getServSchemePermissionForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
+<cfset servSchemePermission = services.get('user', 'schemePermission') />
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Update the URL and redirect --->

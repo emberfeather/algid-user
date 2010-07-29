@@ -1,4 +1,4 @@
-<cfset servUser = transport.theApplication.factories.transient.getServUserForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
+<cfset servUser = services.get('user', 'user') />
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Update the URL and redirect --->
