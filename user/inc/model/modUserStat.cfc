@@ -11,7 +11,7 @@
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUserStat') />
+		<cfset addBundle('plugins/user/i18n/inc/model', 'modUserStat') />
 		
 		<cfreturn this />
 	</cffunction>

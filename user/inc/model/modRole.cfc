@@ -30,7 +30,7 @@
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modRole') />
+		<cfset addBundle('plugins/user/i18n/inc/model', 'modRole') />
 		
 		<cfreturn this />
 	</cffunction>
