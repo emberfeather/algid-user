@@ -1,7 +1,6 @@
 <cfcomponent extends="algid.inc.resource.base.event" output="false">
 <cfscript>
-	/* required user */
-	public void function afterArchive( struct transport, component currUser, component role ) {
+	public void function afterArchive( required struct transport, required component currUser, required component role ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport
@@ -11,8 +10,7 @@
 		eventLog.logEvent('user', 'roleArchive', 'Archived the ''' & arguments.role.getRole() & ''' role.', arguments.currUser.getUserID(), arguments.role.getRoleID());
 	}
 	
-	/* required user */
-	public void function afterCreate( struct transport, component currUser, component role ) {
+	public void function afterCreate( required struct transport, required component currUser, required component role ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport
@@ -22,8 +20,7 @@
 		eventLog.logEvent('user', 'roleCreate', 'Created the ''' & arguments.role.getRole() & ''' role.', arguments.currUser.getUserID(), arguments.role.getRoleID());
 	}
 	
-	/* required user */
-	public void function afterUnarchive( struct transport, component currUser, component role ) {
+	public void function afterUnarchive( required struct transport, required component currUser, required component role ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport
@@ -33,8 +30,7 @@
 		eventLog.logEvent('user', 'roleUnarchive', 'Unarchived the ''' & arguments.role.getRole() & ''' role.', arguments.currUser.getUserID(), arguments.role.getRoleID());
 	}
 	
-	/* required user */
-	public void function afterUpdate( struct transport, component currUser, component role ) {
+	public void function afterUpdate( required struct transport, required component currUser, required component role ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport

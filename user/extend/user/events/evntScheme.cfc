@@ -1,7 +1,6 @@
 <cfcomponent extends="algid.inc.resource.base.event" output="false">
 <cfscript>
-	/* required content */
-	public void function afterCreate( struct transport, component currUser, component scheme ) {
+	public void function afterCreate( required struct transport, required component currUser, component scheme ) {
 		var eventLog = '';
 		
 		// Get the event log from the transport
