@@ -146,7 +146,8 @@
 						'_base' = '/admin/scheme/role/edit'
 					}
 				],
-				linkClass = [ 'delete', '' ]
+				linkClass = [ 'delete', '' ],
+				title = 'role'
 			}) />
 		
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />

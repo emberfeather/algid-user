@@ -35,7 +35,8 @@
 						'_base' = '/admin/user/edit'
 					}
 				],
-				linkClass = [ 'delete', '' ]
+				linkClass = [ 'delete', '' ],
+				title = 'fullname'
 			}) />
 		
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
