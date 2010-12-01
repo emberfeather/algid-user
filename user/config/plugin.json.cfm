@@ -10,6 +10,7 @@
 		]
 	},
 	"key": "user",
+	"plugin": "User",
 	"prerequisites": {
 		"algid": "0.1.1",
 		"tagger": "0.1.1"
