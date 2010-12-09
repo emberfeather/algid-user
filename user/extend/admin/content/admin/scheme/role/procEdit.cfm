@@ -21,7 +21,7 @@
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Process the form submission --->
-	<cfset objectSerial.deserialize(form, role) />
+	<cfset modelSerial.deserialize(form, role) />
 	
 	<cfset servRole.setRole( session.managers.singleton.getUser(), role ) />
 	

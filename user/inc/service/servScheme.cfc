@@ -2,7 +2,7 @@
 	<cffunction name="getScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		
-		<cfset var objectSerial = '' />
+		<cfset var modelSerial = '' />
 		<cfset var results = '' />
 		<cfset var scheme = '' />
 		
@@ -15,9 +15,9 @@
 		<cfset scheme = getModel('user', 'scheme') />
 		
 		<cfif results.recordCount>
-			<cfset objectSerial = variables.transport.theApplication.managers.singleton.getObjectSerial() />
+			<cfset modelSerial = variables.transport.theApplication.factories.transient.getModelSerial(variables.transport) />
 			
-			<cfset objectSerial.deserialize(results, scheme) />
+			<cfset modelSerial.deserialize(results, scheme) />
 		</cfif>
 		
 		<cfreturn scheme />

@@ -34,7 +34,7 @@
 		<cfargument name="roleID" type="string" required="true" />
 		
 		<cfset var role = '' />
-		<cfset var objectSerial = '' />
+		<cfset var modelSerial = '' />
 		<cfset var results = '' />
 		
 		<cfset role = getModel('user', 'role') />
@@ -46,9 +46,9 @@
 		</cfquery>
 		
 		<cfif results.recordCount>
-			<cfset objectSerial = variables.transport.theApplication.managers.singleton.getObjectSerial() />
+			<cfset modelSerial = variables.transport.theApplication.factories.transient.getModelSerial(variables.transport) />
 			
-			<cfset objectSerial.deserialize(results, role) />
+			<cfset modelSerial.deserialize(results, role) />
 		</cfif>
 		
 		<cfreturn role />

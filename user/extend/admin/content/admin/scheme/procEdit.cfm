@@ -5,7 +5,7 @@
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Process the form submission --->
-	<cfset objectSerial.deserialize(form, scheme) />
+	<cfset modelSerial.deserialize(form, scheme) />
 	
 	<cfset servScheme.setScheme( session.managers.singleton.getUser(), scheme ) />
 	
