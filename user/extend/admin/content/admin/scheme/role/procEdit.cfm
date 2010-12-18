@@ -1,5 +1,5 @@
-<cfset servRole = transport.theApplication.factories.transient.getServRoleForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
-<cfset servScheme = transport.theApplication.factories.transient.getServSchemeForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
+<cfset servRole = services.get('user', 'role') />
+<cfset servScheme = services.get('user', 'scheme') />
 
 <!--- Check for existing schemes --->
 <cfset schemes = servScheme.getSchemes() />
@@ -21,7 +21,7 @@
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Process the form submission --->
-	<cfset objectSerial.deserialize(form, role) />
+	<cfset modelSerial.deserialize(form, role) />
 	
 	<cfset servRole.setRole( session.managers.singleton.getUser(), role ) />
 	

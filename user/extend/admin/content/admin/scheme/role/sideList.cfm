@@ -1,4 +1,4 @@
-<cfset viewRole = transport.theApplication.factories.transient.getViewRoleForUser( transport ) />
+<cfset viewRole = views.get('user', 'role') />
 
 <!--- Get existing schemes --->
 <cfset schemes = servScheme.getSchemes() />

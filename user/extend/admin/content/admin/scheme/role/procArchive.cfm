@@ -1,4 +1,4 @@
-<cfset servRole = transport.theApplication.factories.transient.getServRoleForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
+<cfset servRole = services.get('user', 'role') />
 
 <!--- Retrieve the object --->
 <cfset role = servRole.getRole( session.managers.singleton.getUser(), theURL.search('role') ) />

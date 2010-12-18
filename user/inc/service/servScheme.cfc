@@ -2,12 +2,9 @@
 	<cffunction name="getScheme" access="public" returntype="component" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		
-		<cfset var i18n = '' />
-		<cfset var objectSerial = '' />
+		<cfset var modelSerial = '' />
 		<cfset var results = '' />
 		<cfset var scheme = '' />
-		
-		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
 			SELECT "schemeID", scheme, "createdOn", "updatedOn"
@@ -15,12 +12,12 @@
 			WHERE "schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.schemeID#" null="#arguments.schemeID eq ''#" />::uuid
 		</cfquery>
 		
-		<cfset scheme = variables.transport.theApplication.factories.transient.getModSchemeForUser(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
+		<cfset scheme = getModel('user', 'scheme') />
 		
 		<cfif results.recordCount>
-			<cfset objectSerial = variables.transport.theApplication.managers.singleton.getObjectSerial() />
+			<cfset modelSerial = variables.transport.theApplication.factories.transient.getModelSerial(variables.transport) />
 			
-			<cfset objectSerial.deserialize(results, scheme) />
+			<cfset modelSerial.deserialize(results, scheme) />
 		</cfif>
 		
 		<cfreturn scheme />

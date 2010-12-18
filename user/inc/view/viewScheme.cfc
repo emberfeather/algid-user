@@ -91,7 +91,8 @@
 						'_base' = '/admin/scheme/edit'
 					}
 				],
-				linkClass = [ 'delete', '' ]
+				linkClass = [ 'delete', '' ],
+				title = 'scheme'
 			}) />
 		
 		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />

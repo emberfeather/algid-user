@@ -1,11 +1,11 @@
-<cfset servScheme = transport.theApplication.factories.transient.getServSchemeForUser(transport.theApplication.managers.singleton.getApplication().getDSUpdate(), transport) />
+<cfset servScheme = services.get('user', 'scheme') />
 
 <!--- Retrieve the object --->
 <cfset scheme = servScheme.getScheme( theURL.search('scheme') ) />
 
 <cfif cgi.request_method eq 'post'>
 	<!--- Process the form submission --->
-	<cfset objectSerial.deserialize(form, scheme) />
+	<cfset modelSerial.deserialize(form, scheme) />
 	
 	<cfset servScheme.setScheme( session.managers.singleton.getUser(), scheme ) />
 	

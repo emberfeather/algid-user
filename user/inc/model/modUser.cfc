@@ -7,8 +7,13 @@
 		
 		<!--- User ID --->
 		<cfset addAttribute(
-				attribute = 'userID',
-				defaultValue = ''
+				attribute = 'userID'
+			) />
+		
+		<!--- Full Name --->
+		<cfset addAttribute(
+				attribute = 'fullname',
+				defaultValue = 'Guest'
 			) />
 		
 		<!--- Is Deity? --->
@@ -17,10 +22,15 @@
 				defaultValue = false
 			) />
 		
+		<!--- Language --->
+		<cfset addAttribute(
+				attribute = 'language',
+				defaultValue = 'en-US'
+			) />
+		
 		<!--- Username --->
 		<cfset addAttribute(
-				attribute = 'username',
-				defaultValue = ''
+				attribute = 'username'
 			) />
 		
 		<!--- Permissions --->
@@ -30,7 +40,7 @@
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset setI18NBundle('plugins/user/i18n/inc/model', 'modUser') />
+		<cfset addBundle('plugins/user/i18n/inc/model', 'modUser') />
 		
 		<cfreturn this />
 	</cffunction>
@@ -48,6 +58,10 @@
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfset arrayAppend(variables.instance['permissions'][arguments.scheme], permission) />
 		</cfloop>
+	</cffunction>
+	
+	<cffunction name="getDisplayName" access="public" returntype="string" output="false">
+		<cfreturn variables.instance['fullname'] />
 	</cffunction>
 	
 	<cffunction name="getPermissions" access="public" returntype="array" output="false">
@@ -115,5 +129,9 @@
 		</cfloop>
 		
 		<cfreturn true />
+	</cffunction>
+	
+	<cffunction name="isLoggedIn" access="public" returntype="boolean" output="false">
+		<cfreturn this.getUserID() neq '' />
 	</cffunction>
 </cfcomponent>
