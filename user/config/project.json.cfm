@@ -12,7 +12,7 @@
 	"key": "user",
 	"plugin": "User",
 	"prerequisites": {
-		"algid": "0.1.1",
+		"algid": "0.1.3",
 		"tagger": "0.1.1"
 	},
 	"requestSingletons": {
