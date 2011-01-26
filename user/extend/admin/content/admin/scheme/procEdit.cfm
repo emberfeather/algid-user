@@ -9,9 +9,6 @@
 	
 	<cfset servScheme.setScheme( session.managers.singleton.getUser(), scheme ) />
 	
-	<!--- Add a success message --->
-	<cfset session.managers.singleton.getSuccess().addMessages('The scheme ''' & scheme.getScheme() & ''' was successfully saved.') />
-	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/list') />
 	<cfset theURL.removeRedirect('scheme') />
