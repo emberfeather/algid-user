@@ -6,7 +6,7 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Password --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'password',
 				defaultValue = 'password.123',
 				validation = {
@@ -15,17 +15,17 @@
 			) />
 		
 		<!--- Hash --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'hash'
 			) />
 		
 		<!--- Salt --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'salt'
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modPassword') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modPassword') />
 		
 		<cfreturn this />
 	</cffunction>

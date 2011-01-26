@@ -6,12 +6,12 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- User ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'userID'
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modUserStat') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modUserStat') />
 		
 		<cfreturn this />
 	</cffunction>

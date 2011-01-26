@@ -6,17 +6,17 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Scheme ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'schemeID'
 			) />
 		
 		<!--- Created On --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'createdOn'
 			) />
 		
 		<!--- Scheme --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'scheme',
 				validation = {
 					minLength = 5,
@@ -25,12 +25,12 @@
 			) />
 		
 		<!--- Updated On --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'updatedOn'
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modScheme') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modScheme') />
 		
 		<cfreturn this />
 	</cffunction>

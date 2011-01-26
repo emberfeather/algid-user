@@ -6,17 +6,17 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Role ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'roleID'
 			) />
 		
 		<!--- Description --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'description'
 			) />
 		
 		<!--- Role --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'role',
 				validation = {
 					minLength = 5,
@@ -25,12 +25,12 @@
 			) />
 		
 		<!--- Scheme ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'schemeID'
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modRole') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modRole') />
 		
 		<cfreturn this />
 	</cffunction>
