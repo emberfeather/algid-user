@@ -28,7 +28,7 @@
 			
 			<!--- Create the options for the select --->
 			<cfloop query="arguments.schemes">
-				<cfset element.options.addOption(arguments.schemes.scheme, arguments.schemes.schemeID) />
+				<cfset element.options.addOption(arguments.schemes.scheme, arguments.schemes.schemeID.toString()) />
 			</cfloop>
 			
 			<cfset theForm.addElement('select', element) />

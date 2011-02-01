@@ -25,9 +25,6 @@
 	
 	<cfset servRole.setRole( session.managers.singleton.getUser(), role ) />
 	
-	<!--- Add a success message --->
-	<cfset session.managers.singleton.getSuccess().addMessages('The role ''' & role.getRole() & ''' was successfully saved.') />
-	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/role/list') />
 	<cfset theURL.removeRedirect('role') />

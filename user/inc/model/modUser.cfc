@@ -6,41 +6,41 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- User ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'userID'
 			) />
 		
 		<!--- Full Name --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'fullname',
 				defaultValue = 'Guest'
 			) />
 		
 		<!--- Is Deity? --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'isDeity',
 				defaultValue = false
 			) />
 		
 		<!--- Language --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'language',
 				defaultValue = 'en-US'
 			) />
 		
 		<!--- Username --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'username'
 			) />
 		
 		<!--- Permissions --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'permissions',
 				defaultValue = {}
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modUser') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modUser') />
 		
 		<cfreturn this />
 	</cffunction>

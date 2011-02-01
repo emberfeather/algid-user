@@ -6,28 +6,28 @@
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
 		<!--- Permission ID --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'permissionID',
 				validation = {
 				}
 			) />
 		
 		<!--- Description --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'description',
 				validation = {
 				}
 			) />
 		
 		<!--- Key --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'key',
 				validation = {
 				}
 			) />
 		
 		<!--- Permission --->
-		<cfset addAttribute(
+		<cfset add__attribute(
 				attribute = 'permission',
 				validation = {
 					minLength = 5,
@@ -36,7 +36,7 @@
 			) />
 		
 		<!--- Set the bundle information for translation --->
-		<cfset addBundle('plugins/user/i18n/inc/model', 'modPermission') />
+		<cfset add__bundle('plugins/user/i18n/inc/model', 'modPermission') />
 		
 		<cfreturn this />
 	</cffunction>
