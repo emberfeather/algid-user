@@ -44,7 +44,6 @@
 	</cffunction>
 	
 	<cffunction name="setScheme" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="scheme" type="component" required="true" />
 		
 		<cfset var eventLog = '' />
@@ -57,7 +56,7 @@
 		<!--- TODO Check permissions --->
 		
 		<!--- Before Save Event --->
-		<cfset observer.beforeSave(variables.transport, arguments.currUser, arguments.scheme) />
+		<cfset observer.beforeSave(variables.transport, arguments.scheme) />
 		
 		<cfif arguments.scheme.getSchemeID() eq ''>
 			<!--- Check for archived scheme --->
@@ -78,7 +77,7 @@
 					<cfset arguments.scheme.setSchemeID( results.schemeID ) />
 					
 					<!--- Before Unarchive Event --->
-					<cfset observer.beforeUnarchive(variables.transport, arguments.currUser, arguments.scheme) />
+					<cfset observer.beforeUnarchive(variables.transport, arguments.scheme) />
 					
 					<!--- Unarchive the scheme --->
 					<cftransaction>
@@ -95,7 +94,7 @@
 					</cftransaction>
 					
 					<!--- After Unarchive Event --->
-					<cfset observer.afterUnarchive(variables.transport, arguments.currUser, arguments.scheme) />
+					<cfset observer.afterUnarchive(variables.transport, arguments.scheme) />
 				</cfif>
 			<cfelse>
 				<!--- Insert as a new scheme --->
@@ -103,7 +102,7 @@
 				<cfset arguments.scheme.setSchemeID( createUUID() ) />
 				
 				<!--- Before Create Event --->
-				<cfset observer.beforeCreate(variables.transport, arguments.currUser, arguments.scheme) />
+				<cfset observer.beforeCreate(variables.transport, arguments.scheme) />
 				
 				<cftransaction>
 					<cfquery datasource="#variables.datasource.name#" result="results">
@@ -121,11 +120,11 @@
 				</cftransaction>
 				
 				<!--- After Create Event --->
-				<cfset observer.afterCreate(variables.transport, arguments.currUser, arguments.scheme) />
+				<cfset observer.afterCreate(variables.transport, arguments.scheme) />
 			</cfif>
 		<cfelse>
 			<!--- Before Update Event --->
-			<cfset observer.beforeUpdate(variables.transport, arguments.currUser, arguments.scheme) />
+			<cfset observer.beforeUpdate(variables.transport, arguments.scheme) />
 			
 			<cftransaction>
 				<cfquery datasource="#variables.datasource.name#" result="results">
@@ -140,10 +139,10 @@
 			</cftransaction>
 			
 			<!--- After Update Event --->
-			<cfset observer.afterUpdate(variables.transport, arguments.currUser, arguments.scheme) />
+			<cfset observer.afterUpdate(variables.transport, arguments.scheme) />
 		</cfif>
 		
 		<!--- After Save Event --->
-		<cfset observer.afterSave(variables.transport, arguments.currUser, arguments.scheme) />
+		<cfset observer.afterSave(variables.transport, arguments.scheme) />
 	</cffunction>
 </cfcomponent>

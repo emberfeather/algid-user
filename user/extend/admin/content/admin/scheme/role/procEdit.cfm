@@ -23,7 +23,7 @@
 	<!--- Process the form submission --->
 	<cfset modelSerial.deserialize(form, role) />
 	
-	<cfset servRole.setRole( session.managers.singleton.getUser(), role ) />
+	<cfset servRole.setRole( role ) />
 	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/role/list') />

@@ -19,10 +19,10 @@
 		<cfset var hasPermission = false />
 		
 		<!--- Check if there is a user set --->
-		<cfset hasPermission = session.managers.singleton.hasUser() />
+		<cfset hasPermission = arguments.theSession.managers.singleton.hasUser() />
 		
 		<!--- Check if the user is an admin --->
-		<cfset hasPermission = hasPermission and session.managers.singleton.getUser().hasPermission('reinit', '') />
+		<cfset hasPermission = hasPermission and arguments.theSession.managers.singleton.getUser().hasPermission('reinit', '') />
 		
 		<cfreturn hasPermission />
 	</cffunction>

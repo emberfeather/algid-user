@@ -7,7 +7,7 @@
 	<!--- Process the form submission --->
 	<cfset modelSerial.deserialize(form, scheme) />
 	
-	<cfset servScheme.setScheme( session.managers.singleton.getUser(), scheme ) />
+	<cfset servScheme.setScheme( scheme ) />
 	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/list') />

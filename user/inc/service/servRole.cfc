@@ -1,6 +1,5 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
 	<cffunction name="archiveRole" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="role" type="component" required="true" />
 		
 		<cfset var eventLog = '' />
@@ -13,7 +12,7 @@
 		<!--- TODO Check user permissions --->
 		
 		<!--- Before Archive Event --->
-		<cfset observer.beforeArchive(variables.transport, arguments.currUser, arguments.role) />
+		<cfset observer.beforeArchive(variables.transport, arguments.role) />
 		
 		<!--- Archive the role --->
 		<cftransaction>
@@ -27,7 +26,7 @@
 		</cftransaction>
 		
 		<!--- After Archive Event --->
-		<cfset observer.afterArchive(variables.transport, arguments.currUser, arguments.role) />
+		<cfset observer.afterArchive(variables.transport, arguments.role) />
 	</cffunction>
 	
 	<cffunction name="getRole" access="public" returntype="component" output="false">
@@ -126,7 +125,6 @@
 	</cffunction>
 	
 	<cffunction name="setRole" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="role" type="component" required="true" />
 		
 		<cfset var eventLog = '' />
@@ -139,7 +137,7 @@
 		<!--- TODO Check user permissions --->
 		
 		<!--- Before Save Event --->
-		<cfset observer.beforeSave(variables.transport, arguments.currUser, arguments.role) />
+		<cfset observer.beforeSave(variables.transport, arguments.role) />
 		
 		<cfif arguments.role.getRoleID() eq ''>
 			<!--- Check for archived role --->
@@ -161,7 +159,7 @@
 					<cfset arguments.role.setRoleID( results.roleID ) />
 					
 					<!--- Before Unarchive Event --->
-					<cfset observer.beforeUnarchive(variables.transport, arguments.currUser, arguments.role) />
+					<cfset observer.beforeUnarchive(variables.transport, arguments.role) />
 					
 					<!--- Unarchive the role --->
 					<cftransaction>
@@ -179,7 +177,7 @@
 					</cftransaction>
 					
 					<!--- After Unarchive Event --->
-					<cfset observer.afterUnarchive(variables.transport, arguments.currUser, arguments.role) />
+					<cfset observer.afterUnarchive(variables.transport, arguments.role) />
 				</cfif>
 			<cfelse>
 				<!--- Insert as a new role --->
@@ -187,7 +185,7 @@
 				<cfset arguments.role.setRoleID( createUUID() ) />
 				
 				<!--- Before Create Event --->
-				<cfset observer.beforeCreate(variables.transport, arguments.currUser, arguments.role) />
+				<cfset observer.beforeCreate(variables.transport, arguments.role) />
 				
 				<cftransaction>
 					<cfquery datasource="#variables.datasource.name#" result="results">
@@ -209,11 +207,11 @@
 				</cftransaction>
 				
 				<!--- After Create Event --->
-				<cfset observer.afterCreate(variables.transport, arguments.currUser, arguments.role) />
+				<cfset observer.afterCreate(variables.transport, arguments.role) />
 			</cfif>
 		<cfelse>
 			<!--- Before Update Event --->
-			<cfset observer.beforeUpdate(variables.transport, arguments.currUser, arguments.role) />
+			<cfset observer.beforeUpdate(variables.transport, arguments.role) />
 			
 			<cftransaction>
 				<cfquery datasource="#variables.datasource.name#" result="results">
@@ -230,10 +228,10 @@
 			</cftransaction>
 			
 			<!--- After Update Event --->
-			<cfset observer.afterUpdate(variables.transport, arguments.currUser, arguments.role) />
+			<cfset observer.afterUpdate(variables.transport, arguments.role) />
 		</cfif>
 		
 		<!--- After Save Event --->
-		<cfset observer.afterSave(variables.transport, arguments.currUser, arguments.role) />
+		<cfset observer.afterSave(variables.transport, arguments.role) />
 	</cffunction>
 </cfcomponent>
