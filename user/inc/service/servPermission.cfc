@@ -89,8 +89,6 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'schemePermission') />
 		
-		<!--- TODO Check Permissions --->
-		
 		<!--- Before Save Event --->
 		<cfset observer.beforeSave(variables.transport, arguments.scheme, arguments.tag, arguments.permission) />
 		

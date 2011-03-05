@@ -53,7 +53,7 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'scheme') />
 		
-		<!--- TODO Check permissions --->
+		<cfset validate__model(arguments.scheme) />
 		
 		<!--- Before Save Event --->
 		<cfset observer.beforeSave(variables.transport, arguments.scheme) />
