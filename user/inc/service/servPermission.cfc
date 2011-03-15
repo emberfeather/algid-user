@@ -78,7 +78,6 @@
 	</cffunction>
 		
 	<cffunction name="setScheme2Tag2Permission" access="public" returntype="void" output="false">
-		<cfargument name="currUser" type="component" required="true" />
 		<cfargument name="scheme" type="component" required="true" />
 		<cfargument name="tag" type="component" required="true" />
 		<cfargument name="permission" type="component" required="true" />
@@ -90,10 +89,8 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'schemePermission') />
 		
-		<!--- TODO Check Permissions --->
-		
 		<!--- Before Save Event --->
-		<cfset observer.beforeSave(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
+		<cfset observer.beforeSave(variables.transport, arguments.scheme, arguments.tag, arguments.permission) />
 		
 		<!--- TODO Check if the scheme tag already exists --->
 		<cfif 1 eq 0>
@@ -114,10 +111,10 @@
 			</cftransaction>
 			
 			<!--- After Create Event --->
-			<cfset observer.afterCreate(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
+			<cfset observer.afterCreate(variables.transport, arguments.scheme, arguments.tag, arguments.permission) />
 		</cfif>
 		
 		<!--- After Save Event --->
-		<cfset observer.afterSave(variables.transport, arguments.currUser, arguments.scheme, arguments.tag, arguments.permission) />
+		<cfset observer.afterSave(variables.transport, arguments.scheme, arguments.tag, arguments.permission) />
 	</cffunction>
 </cfcomponent>

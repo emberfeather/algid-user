@@ -1,138 +1,80 @@
-<cfcomponent extends="mxunit.framework.TestCase" output="false">
-	<cfscript>
-		/**
-		 * 
-		 */
-		public void function setup() {
-			variables.i18n = createObject('component', 'cf-compendium.inc.resource.i18n.i18n').init(expandPath('/'));
-		}
+component extends="algid.inc.resource.base.modelTest" {
+	public void function setup() {
+		super.setup();
 		
-		/**
-		 * 
-		 */
-		public void function testGetPermissions() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'take');
-			user.addPermissions('scheme', 'give');
-			
-			assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme')), 'text'));
-		}
+		variables.user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
+	}
 		
-		/**
-		 * 
-		 */
-		public void function testGetPermissionsWithMultiScheme() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'take');
-			user.addPermissions('plan', 'give');
-			
-			assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme,plan')), 'text'));
-		}
+	public void function testGetPermissions() {
+		variables.user.addPermissions('scheme', 'take');
+		variables.user.addPermissions('scheme', 'give');
 		
-		/**
-		 * 
-		 */
-		public void function testGetPermissionsWithMultiSchemeDuplicates() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'take');
-			user.addPermissions('plan', 'give');
-			user.addPermissions('plan', 'take');
-			
-			assertEquals('give,take', listSort(arrayToList(user.getPermissions('scheme,plan')), 'text'));
-		}
+		assertEquals('give,take', listSort(arrayToList(variables.user.getPermissions('scheme')), 'text'));
+	}
+	
+	public void function testGetPermissionsWithMultiScheme() {
+		variables.user.addPermissions('scheme', 'take');
+		variables.user.addPermissions('plan', 'give');
 		
-		/**
-		 * 
-		 */
-		public void function testGetPermissionsWithMultiSchemeWildcard() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'take');
-			user.addPermissions('plan', 'give');
-			user.addPermissions('devise', 'plunder');
-			
-			assertEquals('give,plunder,take', listSort(arrayToList(user.getPermissions('*')), 'text'));
-		}
+		assertEquals('give,take', listSort(arrayToList(variables.user.getPermissions('scheme,plan')), 'text'));
+	}
+	
+	public void function testGetPermissionsWithMultiSchemeDuplicates() {
+		variables.user.addPermissions('scheme', 'take');
+		variables.user.addPermissions('plan', 'give');
+		variables.user.addPermissions('plan', 'take');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermission() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'give');
-			
-			assertTrue(user.hasPermission('give', 'scheme'), 'The permission should exist for the scheme.');
-		}
+		assertEquals('give,take', listSort(arrayToList(variables.user.getPermissions('scheme,plan')), 'text'));
+	}
+	
+	public void function testGetPermissionsWithMultiSchemeWildcard() {
+		variables.user.addPermissions('scheme', 'take');
+		variables.user.addPermissions('plan', 'give');
+		variables.user.addPermissions('devise', 'plunder');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionSansPermission() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			assertFalse(user.hasPermission('give', 'scheme'), 'The permission should not exist for the scheme');
-		}
+		assertEquals('give,plunder,take', listSort(arrayToList(variables.user.getPermissions('*')), 'text'));
+	}
+	
+	public void function testHasPermission() {
+		variables.user.addPermissions('scheme', 'give');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionWithMultiScheme() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'take');
-			user.addPermissions('plan', 'give');
-			
-			assertTrue(user.hasPermission('give', 'scheme,plan'), 'The permission should exist in one of the scheme.');
-		}
+		assertTrue(variables.user.hasPermission('give', 'scheme'), 'The permission should exist for the scheme.');
+	}
+	
+	public void function testHasPermissionSansPermission() {
+		assertFalse(variables.user.hasPermission('give', 'scheme'), 'The permission should not exist for the scheme');
+	}
+	
+	public void function testHasPermissionWithMultiScheme() {
+		variables.user.addPermissions('scheme', 'take');
+		variables.user.addPermissions('plan', 'give');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionsWithOneScheme() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'give,grant');
-			
-			assertTrue(user.hasPermissions('give,grant', 'scheme'), 'The permissions should exist for the scheme.');
-		}
+		assertTrue(variables.user.hasPermission('give', 'scheme,plan'), 'The permission should exist in one of the scheme.');
+	}
+	
+	public void function testHasPermissionsWithOneScheme() {
+		variables.user.addPermissions('scheme', 'give,grant');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionsWithOneSchemeFailMissingPermission() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'give');
-			
-			assertFalse(user.hasPermissions('give,steal', 'scheme'), 'The permissions do not exist in their entirety.');
-		}
+		assertTrue(variables.user.hasPermissions('give,grant', 'scheme'), 'The permissions should exist for the scheme.');
+	}
+	
+	public void function testHasPermissionsWithOneSchemeFailMissingPermission() {
+		variables.user.addPermissions('scheme', 'give');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionsWithMultiSchemeParts() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'give');
-			user.addPermissions('plan', 'grant');
-			
-			assertTrue(user.hasPermissions('give,grant', 'scheme,plan'), 'The permissions should exist for the scheme.');
-		}
+		assertFalse(variables.user.hasPermissions('give,steal', 'scheme'), 'The permissions do not exist in their entirety.');
+	}
+	
+	public void function testHasPermissionsWithMultiSchemeParts() {
+		variables.user.addPermissions('scheme', 'give');
+		variables.user.addPermissions('plan', 'grant');
 		
-		/**
-		 * 
-		 */
-		public void function testHasPermissionsWithMultiSchemeFailMissingPermission() {
-			var user = createObject('component', 'plugins.user.inc.model.modUser').init(variables.i18n);
-			
-			user.addPermissions('scheme', 'give');
-			user.addPermissions('plan', 'steal');
-			
-			assertFalse(user.hasPermissions('give,steal', 'scheme'), 'The permissions do not exist in their entirety.');
-		}
-	</cfscript>
-</cfcomponent>
+		assertTrue(variables.user.hasPermissions('give,grant', 'scheme,plan'), 'The permissions should exist for the scheme.');
+	}
+	
+	public void function testHasPermissionsWithMultiSchemeFailMissingPermission() {
+		variables.user.addPermissions('scheme', 'give');
+		variables.user.addPermissions('plan', 'steal');
+		
+		assertFalse(variables.user.hasPermissions('give,steal', 'scheme'), 'The permissions do not exist in their entirety.');
+	}
+}

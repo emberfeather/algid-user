@@ -1,9 +1,9 @@
 <cfset servRole = services.get('user', 'role') />
 
 <!--- Retrieve the object --->
-<cfset role = servRole.getRole( session.managers.singleton.getUser(), theURL.search('role') ) />
+<cfset role = servRole.getRole( theURL.search('role') ) />
 
-<cfset servRole.archiveRole( session.managers.singleton.getUser(), role ) />
+<cfset servRole.archiveRole( role ) />
 
 <!--- Redirect --->
 <cfset theURL.setRedirect('_base', '/admin/scheme/role/list') />
