@@ -11,7 +11,7 @@
 		
 		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
 		<cfset theURL = variables.transport.theRequest.managers.singleton.getUrl() />
-		<cfset theForm = variables.transport.theApplication.factories.transient.getFormStandard('role', i18n) />
+		<cfset theForm = variables.transport.theApplication.factories.transient.getForm('role', i18n) />
 		
 		<!--- Add the resource bundle for the view --->
 		<cfset theForm.addBundle('plugins/user/i18n/inc/view', 'viewRole') />
