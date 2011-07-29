@@ -60,7 +60,6 @@
 		
 		<cfset local.options = variables.transport.theApplication.factories.transient.getOptions() />
 		
-		<cfset local.options.addOption(theForm.getLabel('inherit'), 'inherit') />
 		<cfset local.options.addOption(theForm.getLabel('allow'), 'allow') />
 		<cfset local.options.addOption(theForm.getLabel('deny'), 'deny') />
 		
@@ -80,7 +79,7 @@
 			}) />
 		</cfloop>
 		
-		<cfreturn theForm.toHTML(theURL.get(), { class: 'condensed highlight' }) />
+		<cfreturn theForm.toHTML(theURL.get(), { class: 'condensed' }) />
 	</cffunction>
 	
 	<cffunction name="getAccess" access="private" returntype="string" output="false">

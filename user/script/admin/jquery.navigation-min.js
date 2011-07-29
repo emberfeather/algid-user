@@ -1,1 +1,2 @@
-(function(a){function b(){var b=a(this);a(".level",b.parents(".element")).removeClass("deny").removeClass("allow").removeClass("inherit").addClass(this.value)}a(function(){a("input[type=radio]").live("change",b)})})(jQuery);
+(function(a){function d(a,c){a.removeClass("deny").removeClass("allow").removeClass("inherit").addClass(c)}function e(){d(a(".level",a(this).parents(".element")),this.value)}function f(){var b=a(this),c=a('input[type="radio"]',b.parents(".element"));b.hasClass("allow")?(d(b,"deny"),c.filter('[value="deny"]').prop("checked","checked").focus()):(d(b,"allow"),c.filter('[value="allow"]').prop("checked","checked").focus())}a(function(){a('input[type="radio"]').live("change",e);a(".level").live("dblclick",
+f)})})(jQuery);
