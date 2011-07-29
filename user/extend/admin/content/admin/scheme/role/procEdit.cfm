@@ -24,6 +24,7 @@
 	<cfset modelSerial.deserialize(form, role) />
 	
 	<cfset servRole.setRole( role ) />
+	<cfset servRole.setRoleUsers( role, listToArray(form.users) ) />
 	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/role/list') />

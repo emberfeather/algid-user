@@ -263,4 +263,62 @@
 		
 		<cfset observer.afterSave(variables.transport, arguments.role) />
 	</cffunction>
+	
+	<cffunction name="setRoleUsers" access="public" returntype="void" output="false">
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="users" type="array" required="true" />
+		
+		<cfset local.observer = getPluginObserver('user', 'role') />
+		
+		<cfset local.observer.beforeUsersSave(variables.transport, arguments.role) />
+		
+		<cfquery datasource="#variables.datasource.name#" name="local.results">
+			SELECT "userID"
+			FROM "#variables.datasource.prefix#user"."bRole2User"
+			WHERE "roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
+		</cfquery>
+		
+		<cftransaction>
+			<!--- Remove Old Users --->
+			<cfquery datasource="#variables.datasource.name#">
+				DELETE
+				FROM "#variables.datasource.prefix#user"."bRole2User"
+				WHERE "roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
+					<cfif arrayLen(arguments.users)>
+						AND "userID" NOT IN (
+							<cfloop from="1" to="#arrayLen(arguments.users)#" index="local.i">
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.users[local.i]#" />::uuid<cfif local.i lt arrayLen(arguments.users)>,</cfif>
+							</cfloop>
+						)
+					</cfif>
+			</cfquery>
+			
+			<!--- Find new users --->
+			<cfloop query="local.results">
+				<cfset local.loc = arrayFind(arguments.users, local.results.userID.toString()) />
+				
+				<cfif local.loc>
+					<cfset arrayDeleteAt(arguments.users, local.loc) />
+				</cfif>
+			</cfloop>
+			
+			<cfif arrayLen(arguments.users)>
+				<cfquery datasource="#variables.datasource.name#" result="results">
+					INSERT INTO "#variables.datasource.prefix#user"."bRole2User"
+					(
+						"roleID",
+						"userID"
+					) VALUES
+					<cfloop from="1" to="#arrayLen(arguments.users)#" index="local.i">
+						(
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid,
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.users[local.i]#" />::uuid
+						)<cfif local.i lt arrayLen(arguments.users)>,</cfif>
+					</cfloop>
+				</cfquery>
+			</cfif>
+		</cftransaction>
+		
+		<cfset local.observer.afterUsersSave(variables.transport, arguments.role) />
+	</cffunction>
 </cfcomponent>
