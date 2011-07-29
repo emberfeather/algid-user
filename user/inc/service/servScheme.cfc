@@ -53,6 +53,7 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'scheme') />
 		
+		<cfset scrub__model(arguments.scheme) />
 		<cfset validate__model(arguments.scheme) />
 		
 		<!--- Before Save Event --->

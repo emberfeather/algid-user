@@ -9,8 +9,6 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'role') />
 		
-		<!--- TODO Check user permissions --->
-		
 		<!--- Before Archive Event --->
 		<cfset observer.beforeArchive(variables.transport, arguments.role) />
 		
@@ -134,6 +132,7 @@
 		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'role') />
 		
+		<cfset scrub__model(arguments.role) />
 		<cfset validate__model(arguments.role) />
 		
 		<!--- Before Save Event --->
