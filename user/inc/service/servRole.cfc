@@ -105,7 +105,6 @@
 		
 		<cfset arguments.filter = extend({
 			isArchived = false,
-			inRole = true,
 			orderBy = 'fullname',
 			orderSort = 'asc'
 		}, arguments.filter) />
@@ -115,16 +114,18 @@
 			FROM "#variables.datasource.prefix#user"."user" u
 			WHERE 1=1
 			
-			<cfif arguments.filter.inRole>
-				AND EXISTS
-			<cfelse>
-				AND NOT EXISTS
-			</cfif> (
-				SELECT r."roleID"
-				FROM "#variables.datasource.prefix#user"."bRole2User" r
-				WHERE r."userID" = u."userID"
-					AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#">::uuid
-			)
+			<cfif structKeyExists(arguments.filter, 'inRole')>
+				<cfif arguments.filter.inRole>
+					AND EXISTS
+				<cfelse>
+					AND NOT EXISTS
+				</cfif> (
+					SELECT r."roleID"
+					FROM "#variables.datasource.prefix#user"."bRole2User" r
+					WHERE r."userID" = u."userID"
+						AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#">::uuid
+				)
+			</cfif>
 			
 			ORDER BY
 			<cfswitch expression="#arguments.filter.orderBy#">
