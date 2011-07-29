@@ -13,7 +13,7 @@
 			<edit position="action"/>
 			<list position="action"/>
 			
-			<navigation position="main" ids="schemeID">
+			<navigation position="main">
 				<edit position="action"/>
 				<list position="action"/>
 			</navigation>
