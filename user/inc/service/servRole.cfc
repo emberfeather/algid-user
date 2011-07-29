@@ -161,8 +161,7 @@
 								"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 								"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 								"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-								"archivedOn" = NULL, 
-								"updatedOn" = now()
+								"archivedOn" = NULL
 							WHERE
 								"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 						</cfquery>
@@ -184,14 +183,12 @@
 							"roleID",
 							"schemeID",
 							"role",
-							"description", 
-							"updatedOn"
+							"description"
 						) VALUES (
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
-							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-							now()
+							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />
 						)
 					</cfquery>
 				</cftransaction>
@@ -208,8 +205,7 @@
 						"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 						"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 						"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-						"archivedOn" = NULL, 
-						"updatedOn" = now()
+						"archivedOn" = NULL
 					WHERE
 						"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 				</cfquery>
