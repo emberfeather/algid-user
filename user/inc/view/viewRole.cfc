@@ -72,20 +72,6 @@
 			}
 		}) />
 		
-		<cfset datagrid.addColumn({
-			class = 'phantom align-right',
-			value = [ 'delete' ],
-			link = [
-				{
-					'role' = 'roleID',
-					'user' = 'userID',
-					'_base' = '/admin/scheme/role/archive'
-				}
-			],
-			linkClass = [ 'delete' ],
-			title = 'fullname'
-		}) />
-		
 		<cfsavecontent variable="local.html">
 			<cfoutput>
 				<h3>Users</h3>
