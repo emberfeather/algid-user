@@ -10,7 +10,6 @@
 		<scheme position="main">
 			<add position="action"/>
 			<archive position="action"/>
-			<detail position="action"/>
 			<edit position="action"/>
 			<list position="action"/>
 			
@@ -21,11 +20,8 @@
 			<role position="main" ids="schemeID">
 				<add position="action"/>
 				<archive position="action"/>
-				<detail position="action"/>
 				<edit position="action"/>
 				<list position="action"/>
-				<permission position="action" ids="schemeID,roleID"/>
-				<user position="action" ids="schemeID,roleID"/>
 			</role>
 		</scheme>
 		

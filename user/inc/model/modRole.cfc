@@ -7,27 +7,27 @@
 		
 		<!--- Role ID --->
 		<cfset add__attribute(
-				attribute = 'roleID'
-			) />
+			attribute = 'roleID'
+		) />
 		
 		<!--- Description --->
 		<cfset add__attribute(
-				attribute = 'description'
-			) />
+			attribute = 'description'
+		) />
 		
 		<!--- Role --->
 		<cfset add__attribute(
-				attribute = 'role',
-				validation = {
-					minLength = 5,
-					maxLength = 100
-				}
-			) />
+			attribute = 'role',
+			validation = {
+				notEmpty = true,
+				maxLength = 100
+			}
+		) />
 		
 		<!--- Scheme ID --->
 		<cfset add__attribute(
-				attribute = 'schemeID'
-			) />
+			attribute = 'schemeID'
+		) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset add__bundle('plugins/user/i18n/inc/model', 'modRole') />
