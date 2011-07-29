@@ -19,7 +19,7 @@
 		<cfset add__attribute(
 				attribute = 'role',
 				validation = {
-					minLength = 5,
+					notEmpty = true,
 					maxLength = 100
 				}
 			) />
