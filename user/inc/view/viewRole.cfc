@@ -2,7 +2,6 @@
 	<cffunction name="edit" access="public" returntype="string" output="false">
 		<cfargument name="role" type="component" required="true" />
 		<cfargument name="schemes" type="query" required="true" />
-		<cfargument name="request" type="struct" default="#{}#" />
 		
 		<cfset var i18n = '' />
 		<cfset var element = '' />
@@ -20,11 +19,11 @@
 		<cfif arguments.schemes.recordCount GT 1>
 			<!--- Select --->
 			<cfset element = {
-					name = "schemeID",
-					label = "scheme",
-					options = variables.transport.theApplication.factories.transient.getOptions(),
-					value = ( structKeyExists(arguments.request, 'schemeID') ? arguments.request.schemeID : arguments.role.getSchemeID() )
-				} />
+				name = "schemeID",
+				label = "scheme",
+				options = variables.transport.theApplication.factories.transient.getOptions(),
+				value = arguments.role.getSchemeID()
+			} />
 			
 			<!--- Create the options for the select --->
 			<cfloop query="arguments.schemes">
@@ -35,26 +34,26 @@
 		<cfelse>
 			<!--- Hidden --->
 			<cfset theForm.addElement('hidden', {
-					name = "schemeID",
-					label = "scheme",
-					value = arguments.schemes.schemeID
-				}) />
+				name = "schemeID",
+				label = "scheme",
+				value = arguments.schemes.schemeID
+			}) />
 		</cfif>
 		
 		<!--- Role --->
 		<cfset theForm.addElement('text', {
-				name = "role",
-				label = "role",
-				required = true,
-				value = ( structKeyExists(arguments.request, 'role') ? arguments.request.role : arguments.role.getRole() )
-			}) />
+			name = "role",
+			label = "role",
+			required = true,
+			value = arguments.role.getRole()
+		}) />
 		
 		<!--- Description --->
 		<cfset theForm.addElement('textarea', {
-				name = "description",
-				label = "description",
-				value = ( structKeyExists(arguments.request, 'description') ? arguments.request.description : arguments.role.getDescription() )
-			}) />
+			name = "description",
+			label = "description",
+			value = arguments.role.getDescription()
+		}) />
 		
 		<cfreturn theForm.toHTML(theURL.get()) />
 	</cffunction>
