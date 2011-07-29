@@ -1,5 +1,5 @@
 <cfset viewScheme = views.get('user', 'scheme') />
 
 <cfoutput>
-	#viewScheme.edit(scheme, form)#
+	#viewScheme.edit(scheme)#
 </cfoutput>

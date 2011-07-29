@@ -45,6 +45,7 @@
 		<cfset theForm.addElement('text', {
 				name = "role",
 				label = "role",
+				required = true,
 				value = ( structKeyExists(arguments.request, 'role') ? arguments.request.role : arguments.role.getRole() )
 			}) />
 		
