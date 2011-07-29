@@ -123,7 +123,7 @@
 					SELECT r."roleID"
 					FROM "#variables.datasource.prefix#user"."bRole2User" r
 					WHERE r."userID" = u."userID"
-						AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#">::uuid
+						AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" null="#arguments.role.getRoleID() eq ''#">::uuid
 				)
 			</cfif>
 			

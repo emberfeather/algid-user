@@ -1,7 +1,107 @@
 <cfcomponent extends="algid.inc.resource.base.view" output="false">
+	<cffunction name="datagrid" access="public" returntype="string" output="false">
+		<cfargument name="data" type="any" required="true" />
+		<cfargument name="options" type="struct" default="#{}#" />
+		
+		<cfset var datagrid = '' />
+		<cfset var i18n = '' />
+		
+		<cfset arguments.options.theURL = variables.transport.theRequest.managers.singleton.getURL() />
+		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
+		<cfset datagrid = variables.transport.theApplication.factories.transient.getDatagrid(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
+		
+		<!--- Add the resource bundle for the view --->
+		<cfset datagrid.addBundle('plugins/user/i18n/inc/view', 'viewRole') />
+		
+		<cfset datagrid.addColumn({
+			key = 'role',
+			label = 'role',
+			link = {
+				'role' = 'roleID',
+				'_base' = '/admin/scheme/role'
+			}
+		}) />
+		
+		<cfset datagrid.addColumn({
+			key = 'description',
+			label = 'description'
+		}) />
+		
+		<cfset datagrid.addColumn({
+			class = 'phantom align-right',
+			value = [ 'delete', 'edit' ],
+			link = [
+				{
+					'role' = 'roleID',
+					'_base' = '/admin/scheme/role/archive'
+				},
+				{
+					'role' = 'roleID',
+					'_base' = '/admin/scheme/role/edit'
+				}
+			],
+			linkClass = [ 'delete', '' ],
+			title = 'role'
+		}) />
+		
+		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
+	</cffunction>
+	
+	<cffunction name="detail" access="public" returntype="string" output="false">
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="roleUsers" type="query" required="true" />
+		<cfargument name="options" type="struct" default="#{}#" />
+		
+		<cfset var datagrid = '' />
+		<cfset var i18n = '' />
+		
+		<cfset arguments.options.theURL = variables.transport.theRequest.managers.singleton.getURL() />
+		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
+		<cfset datagrid = variables.transport.theApplication.factories.transient.getDatagrid(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
+		
+		<!--- Add the resource bundle for the view --->
+		<cfset datagrid.addBundle('plugins/user/i18n/inc/model', 'modUser') />
+		<cfset datagrid.addBundle('plugins/user/i18n/inc/view', 'viewRole') />
+		
+		<cfset datagrid.addColumn({
+			key = 'fullname',
+			label = 'fullname',
+			link = {
+				'user' = 'userID',
+				'_base' = '/admin/user'
+			}
+		}) />
+		
+		<cfset datagrid.addColumn({
+			class = 'phantom align-right',
+			value = [ 'delete' ],
+			link = [
+				{
+					'role' = 'roleID',
+					'user' = 'userID',
+					'_base' = '/admin/scheme/role/archive'
+				}
+			],
+			linkClass = [ 'delete' ],
+			title = 'fullname'
+		}) />
+		
+		<cfsavecontent variable="local.html">
+			<cfoutput>
+				<h3>Users</h3>
+				
+				#datagrid.toHTML( arguments.roleUsers, arguments.options )#
+			</cfoutput>
+		</cfsavecontent>
+		
+		<cfreturn local.html />
+	</cffunction>
+	
 	<cffunction name="edit" access="public" returntype="string" output="false">
 		<cfargument name="role" type="component" required="true" />
 		<cfargument name="schemes" type="query" required="true" />
+		<cfargument name="roleUsers" type="query" required="true" />
+		<cfargument name="allUsers" type="query" required="true" />
 		
 		<cfset var i18n = '' />
 		<cfset var element = '' />
@@ -55,27 +155,7 @@
 			value = arguments.role.getDescription()
 		}) />
 		
-		<cfreturn theForm.toHTML(theURL.get()) />
-	</cffunction>
-	
-	<cffunction name="editUsers" access="public" returntype="string" output="false">
-		<cfargument name="role" type="component" required="true" />
-		<cfargument name="roleUsers" type="query" required="true" />
-		<cfargument name="users" type="query" required="true" />
-		
-		<cfset var i18n = '' />
-		<cfset var element = '' />
-		<cfset var theForm = '' />
-		<cfset var theURL = '' />
-		
-		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
-		<cfset theURL = variables.transport.theRequest.managers.singleton.getUrl() />
-		<cfset theForm = variables.transport.theApplication.factories.transient.getForm('role', i18n) />
-		
-		<!--- Add the resource bundle for the view --->
-		<cfset theForm.addBundle('plugins/user/i18n/inc/view', 'viewRole') />
-		
-		<!--- Description --->
+		<!--- Users --->
 		<cfset element = {
 			elementClass = 'full',
 			name = "users",
@@ -88,8 +168,8 @@
 			<cfset arrayAppend(element.value, arguments.roleUsers.userID.toString()) />
 		</cfloop>
 		
-		<cfloop query="arguments.users">
-			<cfset element.options.addOption(arguments.users.fullName, arguments.users.userID.toString()) />
+		<cfloop query="arguments.allUsers">
+			<cfset element.options.addOption(arguments.allUsers.fullName, arguments.allUsers.userID.toString()) />
 		</cfloop>
 		
 		<cfset theForm.addElement('checkbox', element) />
@@ -142,53 +222,5 @@
 		</cfif>
 		
 		<cfreturn filter.toHTML(variables.transport.theRequest.managers.singleton.getURL(), arguments.values) />
-	</cffunction>
-	
-	<cffunction name="datagrid" access="public" returntype="string" output="false">
-		<cfargument name="data" type="any" required="true" />
-		<cfargument name="options" type="struct" default="#{}#" />
-		
-		<cfset var datagrid = '' />
-		<cfset var i18n = '' />
-		
-		<cfset arguments.options.theURL = variables.transport.theRequest.managers.singleton.getURL() />
-		<cfset i18n = variables.transport.theApplication.managers.singleton.getI18N() />
-		<cfset datagrid = variables.transport.theApplication.factories.transient.getDatagrid(i18n, variables.transport.theSession.managers.singleton.getSession().getLocale()) />
-		
-		<!--- Add the resource bundle for the view --->
-		<cfset datagrid.addBundle('plugins/user/i18n/inc/view', 'viewRole') />
-		
-		<cfset datagrid.addColumn({
-			key = 'role',
-			label = 'role',
-			link = {
-				'role' = 'roleID',
-				'_base' = '/admin/scheme/role'
-			}
-		}) />
-		
-		<cfset datagrid.addColumn({
-			key = 'description',
-			label = 'description'
-		}) />
-		
-		<cfset datagrid.addColumn({
-			class = 'phantom align-right',
-			value = [ 'delete', 'edit' ],
-			link = [
-				{
-					'role' = 'roleID',
-					'_base' = '/admin/scheme/role/archive'
-				},
-				{
-					'role' = 'roleID',
-					'_base' = '/admin/scheme/role/edit'
-				}
-			],
-			linkClass = [ 'delete', '' ],
-			title = 'role'
-		}) />
-		
-		<cfreturn datagrid.toHTML( arguments.data, arguments.options ) />
 	</cffunction>
 </cfcomponent>

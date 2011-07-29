@@ -31,3 +31,7 @@
 	
 	<cfset theURL.redirectRedirect() />
 </cfif>
+
+<!--- Add to the current levels --->
+<cfset theUrl.setRole('_base', '/admin/scheme/role') />
+<cfset template.addLevel(role.getRole(), role.getRole(), theUrl.getRole(), -1, true) />
