@@ -1,13 +1,17 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="getNavigation" access="public" returntype="component" output="false">
-		<cfargument name="roleID" type="string" required="true" />
+	<cffunction name="getNavigation" access="public" returntype="query" output="false">
+		<cfargument name="locale" type="string" default="en_US" />
 		
+		<cfset local.adminNavigation = variables.transport.theApplication.managers.singleton.getAdminNavigation() />
 		
-	</cffunction>
-	
-	<cffunction name="getNavigations" access="public" returntype="query" output="false">
-		<cfargument name="filter" type="struct" default="#{}#" />
+		<cfset local.navigation = local.adminNavigation.getNavigation() />
 		
+		<cfquery name="local.results" dbtype="query">
+			SELECT *
+			FROM local.navigation
+			WHERE [locale] = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.locale#" />
+			ORDER BY path asc
+		</cfquery>
 		
 		<cfreturn local.results />
 	</cffunction>

@@ -1,0 +1,15 @@
+.part {
+	color: #999999;
+}
+
+.allow .part.strong {
+	color: #000099;
+}
+
+.deny .part.strong {
+	color: #990000;
+}
+
+.level {
+	padding-left: .5em;
+}

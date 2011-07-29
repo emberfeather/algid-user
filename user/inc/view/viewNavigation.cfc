@@ -37,7 +37,6 @@
 			link = [
 				{
 					'role' = 'roleID',
-					'scheme' = 'schemeID',
 					'_base' = '/admin/scheme/navigation/edit'
 				}
 			],
@@ -49,16 +48,90 @@
 	</cffunction>
 	
 	<cffunction name="edit" access="public" returntype="string" output="false">
-		<cfargument name="navigation" type="struct" required="true" />
-		<cfargument name="roleNavigation" type="struct" required="true" />
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="navigation" type="query" required="true" />
 		
-		<cfsavecontent variable="local.html">
-			<cfoutput>
-				
-			</cfoutput>
-		</cfsavecontent>
+		<cfset local.i18n = variables.transport.theApplication.managers.singleton.getI18N() />
+		<cfset local.theURL = variables.transport.theRequest.managers.singleton.getUrl() />
+		<cfset local.theForm = variables.transport.theApplication.factories.transient.getForm('navigation', i18n) />
 		
-		<cfreturn local.html />
+		<cfset theForm.addBundle('plugins/user/i18n/inc/view', 'viewNavigation') />
+		<cfset theForm.addFormElement(variables.transport.theApplication.factories.transient.getFormElementForUser()) />
+		
+		<cfset local.options = variables.transport.theApplication.factories.transient.getOptions() />
+		
+		<cfset local.options.addOption(theForm.getLabel('inherit'), 'inherit') />
+		<cfset local.options.addOption(theForm.getLabel('allow'), 'allow') />
+		<cfset local.options.addOption(theForm.getLabel('deny'), 'deny') />
+		
+		<cfset local.roleID = arguments.role.getRoleID() />
+		<cfset local.parentPath = '' />
+		
+		<cfloop query="arguments.navigation">
+			<cfset local.inputName = replace(right(arguments.navigation.path, len(arguments.navigation.path) -1), '/', '.', 'all') />
+			
+			<cfset local.theForm.addElement('navigation', {
+				name = replace(right(arguments.navigation.path, len(arguments.navigation.path) -1), '/', '.', 'all'),
+				label = "",
+				level = arguments.navigation.level,
+				path = arguments.navigation.path,
+				value = getAccess(local.roleID, arguments.navigation.secureOrder, arguments.navigation.allow, arguments.navigation.deny),
+				options = local.options
+			}) />
+		</cfloop>
+		
+		<cfreturn theForm.toHTML(theURL.get(), { class: 'condensed highlight' }) />
+	</cffunction>
+	
+	<cffunction name="getAccess" access="private" returntype="string" output="false">
+		<cfargument name="role" type="string" required="true" />
+		<cfargument name="secureOrder" type="string" required="true" />
+		<cfargument name="allow" type="string" required="true" />
+		<cfargument name="deny" type="string" required="true" />
+		
+		<cfif arguments.secureOrder eq 'allow,deny'>
+			<!--- Everyone is allowed --->
+			<cfif arguments.allow eq '*'>
+				<cfreturn 'allow' />
+			</cfif>
+			
+			<!--- Has explicit permission --->
+			<cfif listFind(arguments.allow, arguments.role)>
+				<cfreturn 'allow' />
+			</cfif>
+			
+			<!--- Everyone is blocked --->
+			<cfif arguments.deny eq '*'>
+				<cfreturn 'deny' />
+			</cfif>
+			
+			<!--- Is not explicitly blocked --->
+			<cfif listFind(arguments.deny, arguments.role)>
+				<cfreturn 'deny' />
+			</cfif>
+		<cfelse>
+			<!--- Everyone is blocked --->
+			<cfif arguments.deny eq '*'>
+				<cfreturn 'deny' />
+			</cfif>
+			
+			<!--- Is not explicitly blocked --->
+			<cfif listFind(arguments.deny, arguments.role)>
+				<cfreturn 'deny' />
+			</cfif>
+			
+			<!--- Everyone is allowed --->
+			<cfif arguments.allow eq '*'>
+				<cfreturn 'allow' />
+			</cfif>
+			
+			<!--- Has explicit permission --->
+			<cfif listFind(arguments.allow, arguments.role)>
+				<cfreturn 'allow' />
+			</cfif>
+		</cfif>
+		
+		<cfreturn 'inherit' />
 	</cffunction>
 	
 	<cffunction name="filterActive" access="public" returntype="string" output="false">

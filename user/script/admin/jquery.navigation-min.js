@@ -1,0 +1,1 @@
+(function(a){function b(){var b=a(this);a(".level",b.parents(".element")).removeClass("deny").removeClass("allow").removeClass("inherit").addClass(this.value)}a(function(){a("input[type=radio]").live("change",b)})})(jQuery);
