@@ -6,10 +6,8 @@
 		<cfset var observer = '' />
 		<cfset var results = '' />
 		
-		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'role') />
 		
-		<!--- Before Archive Event --->
 		<cfset observer.beforeArchive(variables.transport, arguments.role) />
 		
 		<!--- Archive the role --->
@@ -23,7 +21,6 @@
 			</cfquery>
 		</cftransaction>
 		
-		<!--- After Archive Event --->
 		<cfset observer.afterArchive(variables.transport, arguments.role) />
 	</cffunction>
 	
@@ -55,13 +52,12 @@
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var defaults = {
-				isArchived = false,
-				orderBy = 'role',
-				orderSort = 'asc'
-			} />
+			isArchived = false,
+			orderBy = 'role',
+			orderSort = 'asc'
+		} />
 		<cfset var results = '' />
 		
-		<!--- Expand the with defaults --->
 		<cfset arguments.filter = extend(defaults, arguments.filter) />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
@@ -129,13 +125,11 @@
 		<cfset var observer = '' />
 		<cfset var results = '' />
 		
-		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'role') />
 		
 		<cfset scrub__model(arguments.role) />
 		<cfset validate__model(arguments.role) />
 		
-		<!--- Before Save Event --->
 		<cfset observer.beforeSave(variables.transport, arguments.role) />
 		
 		<cfif arguments.role.getRoleID() eq ''>
@@ -157,7 +151,6 @@
 					<!--- Pull in the real roleID --->
 					<cfset arguments.role.setRoleID( results.roleID ) />
 					
-					<!--- Before Unarchive Event --->
 					<cfset observer.beforeUnarchive(variables.transport, arguments.role) />
 					
 					<!--- Unarchive the role --->
@@ -175,7 +168,6 @@
 						</cfquery>
 					</cftransaction>
 					
-					<!--- After Unarchive Event --->
 					<cfset observer.afterUnarchive(variables.transport, arguments.role) />
 				</cfif>
 			<cfelse>
@@ -183,7 +175,6 @@
 				<!--- Create the new ID --->
 				<cfset arguments.role.setRoleID( createUUID() ) />
 				
-				<!--- Before Create Event --->
 				<cfset observer.beforeCreate(variables.transport, arguments.role) />
 				
 				<cftransaction>
@@ -205,11 +196,9 @@
 					</cfquery>
 				</cftransaction>
 				
-				<!--- After Create Event --->
 				<cfset observer.afterCreate(variables.transport, arguments.role) />
 			</cfif>
 		<cfelse>
-			<!--- Before Update Event --->
 			<cfset observer.beforeUpdate(variables.transport, arguments.role) />
 			
 			<cftransaction>
@@ -226,11 +215,9 @@
 				</cfquery>
 			</cftransaction>
 			
-			<!--- After Update Event --->
 			<cfset observer.afterUpdate(variables.transport, arguments.role) />
 		</cfif>
 		
-		<!--- After Save Event --->
 		<cfset observer.afterSave(variables.transport, arguments.role) />
 	</cffunction>
 </cfcomponent>
