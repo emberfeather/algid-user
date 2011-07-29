@@ -73,7 +73,9 @@
 				name = replace(right(arguments.navigation.path, len(arguments.navigation.path) -1), '/', '.', 'all'),
 				label = "",
 				level = arguments.navigation.level,
-				path = arguments.navigation.path,
+				data = {
+					path = arguments.navigation.path
+				},
 				value = getAccess(local.roleID, arguments.navigation.secureOrder, arguments.navigation.allow, arguments.navigation.deny),
 				options = local.options
 			}) />

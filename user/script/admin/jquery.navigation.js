@@ -1,32 +1,58 @@
 (function($) {
 	$(function(){
 		$('input[type="radio"]').live('change', updateRow);
-		
 		$('.level').live('dblclick', toggleRow);
 	});
 	
-	function changeClass(element, className) {
-		element
-			.removeClass('deny')
-			.removeClass('allow')
-			.removeClass('inherit')
-			.addClass(className);
+	function changeAccess(element, access) {
+		var parts;
+		var parent = '';
+		var subPaths = '';
+		var level = $('.level', element);
+		var inputs = $('input[type="radio"]', element);
+		var path = $('[data-path]', element);
+		
+		if(access === 'allow') {
+			level.removeClass('deny').addClass('allow');
+			
+			inputs.filter('[value="allow"]').prop('checked', 'checked').focus();
+			
+			// Deny,Allow - Make sure that all parent paths are allowed
+			parts = path.data('path').substr(1).split('/');
+			
+			for(var i = 0; i < parts.length - 1; i++) {
+				parent += '/' + parts[i];
+				subPaths += ',[data-path="' + parent + '"]';
+			}
+			
+			subPaths = $(subPaths);
+			
+			$('.level', subPaths).removeClass('deny').addClass('allow');
+			$('input[type="radio"]', subPaths).filter('[value="allow"]').prop('checked', 'checked');
+		} else {
+			level.removeClass('allow').addClass('deny');
+			
+			inputs.filter('[value="deny"]').prop('checked', 'checked').focus();
+			
+			// Deny,Allow - Deny the child paths
+			subPaths = $('[data-path^="' + path.data('path') + '/"]');
+			
+			$('.level', subPaths).removeClass('allow').addClass('deny');
+			$('input[type="radio"]', subPaths).filter('[value="deny"]').prop('checked', 'checked');
+		}
 	}
 	
 	function updateRow() {
-		changeClass($('.level', $(this).parents('.element')), this.value);
+		changeAccess($(this).parents('.element'), this.value);
 	}
 	
 	function toggleRow() {
 		var level = $(this);
-		var inputs = $('input[type="radio"]', level.parents('.element'));
 		
 		if(level.hasClass('allow')) {
-			changeClass(level, 'deny');
-			inputs.filter('[value="deny"]').prop('checked', 'checked').focus();
+			changeAccess(level.parents('.element'), 'deny');
 		} else {
-			changeClass(level, 'allow');
-			inputs.filter('[value="allow"]').prop('checked', 'checked').focus();
+			changeAccess(level.parents('.element'), 'allow');
 		}
 	}
 }(jQuery));
