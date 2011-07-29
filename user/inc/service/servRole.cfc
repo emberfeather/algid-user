@@ -99,6 +99,52 @@
 		<cfreturn results />
 	</cffunction>
 	
+	<cffunction name="getUsers" access="public" returntype="query" output="false">
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="filter" type="struct" default="#{}#" />
+		
+		<cfset arguments.filter = extend({
+			isArchived = false,
+			inRole = true,
+			orderBy = 'fullname',
+			orderSort = 'asc'
+		}, arguments.filter) />
+		
+		<cfquery name="local.results" datasource="#variables.datasource.name#">
+			SELECT u."userID", u."fullname"
+			FROM "#variables.datasource.prefix#user"."user" u
+			WHERE 1=1
+			
+			<cfif arguments.filter.inRole>
+				AND EXISTS
+			<cfelse>
+				AND NOT EXISTS
+			</cfif> (
+				SELECT r."roleID"
+				FROM "#variables.datasource.prefix#user"."bRole2User" r
+				WHERE r."userID" = u."userID"
+					AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#">::uuid
+			)
+			
+			ORDER BY
+			<cfswitch expression="#arguments.filter.orderBy#">
+				<cfdefaultcase>
+					u."fullname" #arguments.filter.orderSort#
+				</cfdefaultcase>
+			</cfswitch>
+			
+			<cfif structKeyExists(arguments.filter, 'limit')>
+				LIMIT <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.limit#" />
+			</cfif>
+			
+			<cfif structKeyExists(arguments.filter, 'offset')>
+				OFFSET <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.offset#" />
+			</cfif>
+		</cfquery>
+		
+		<cfreturn local.results />
+	</cffunction>
+	
 	<cffunction name="hasRole" access="public" returntype="boolean" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		<cfargument name="role" type="string" required="true" />
