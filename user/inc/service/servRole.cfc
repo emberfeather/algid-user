@@ -303,7 +303,7 @@
 			</cfloop>
 			
 			<cfif arrayLen(arguments.users)>
-				<cfquery datasource="#variables.datasource.name#" result="results">
+				<cfquery datasource="#variables.datasource.name#">
 					INSERT INTO "#variables.datasource.prefix#user"."bRole2User"
 					(
 						"roleID",
