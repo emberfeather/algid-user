@@ -196,7 +196,7 @@
 					<cfthrow type="validation" message="Role name already in use" detail="The '#arguments.role.getRole()#' role already exists." />
 				<cfelse>
 					<!--- Pull in the real roleID --->
-					<cfset arguments.role.setRoleID( results.roleID ) />
+					<cfset arguments.role.setRoleID( results.roleID.toString() ) />
 					
 					<cfset observer.beforeUnarchive(variables.transport, arguments.role) />
 					
