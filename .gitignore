@@ -4,3 +4,4 @@ build/settings/user.properties
 dist/
 user/config/settings.json.cfm
 user/config/version.json.cfm
+user/extend/admin/navigation/permission.xml.cfm

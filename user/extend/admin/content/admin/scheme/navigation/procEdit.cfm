@@ -6,19 +6,26 @@
 <cfset servNavigation = services.get('user', 'navigation') />
 <cfset servRole = services.get('user', 'role') />
 
-<!--- Retrieve the object --->
 <cfset role = servRole.getRole( theURL.search('role') ) />
+<cfset navigation = servNavigation.getNavigation() />
 
 <cfif cgi.request_method eq 'post'>
-	<!--- TODO Remove --->
-	<cfdump var="#form#" />
-	<cfabort />
+	<cfset fields = listSort(form.fieldnames, 'text') />
 	
-	<!--- Process the form submission --->
-	<cfset modelSerial.deserialize(form, role) />
+	<cfset changes = {} />
 	
-	<cfset servRole.setRole( role ) />
-	<cfset servRole.setRoleUsers( role, listToArray(form.users) ) />
+	<cfloop list="#fields#" index="i">
+		<cfset last = listLast(i, '/') />
+		<cfset partParent = len(i) gt len(last) ? left(i, len(i) - len(last) - 1) : '' />
+		
+		<cfif partParent eq '' || form[partParent] neq form[i]>
+			<cfset changes[i] = form[i] />
+		</cfif>
+	</cfloop>
+	
+	<cfset navigation.applyChanges(role.getRoleID(), changes) />
+	
+	<cfset servNavigation.setNavigation( navigation ) />
 	
 	<!--- Redirect --->
 	<cfset theURL.setRedirect('_base', '/admin/scheme/navigation/list') />

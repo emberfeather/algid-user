@@ -1,5 +1,5 @@
 <cfcomponent extends="algid.inc.resource.base.service" output="false">
-	<cffunction name="getNavigation" access="public" returntype="query" output="false">
+	<cffunction name="getCurrentNavigation" access="public" returntype="query" output="false">
 		<cfargument name="locale" type="string" default="en_US" />
 		
 		<cfset local.adminNavigation = variables.transport.theApplication.managers.singleton.getAdminNavigation() />
@@ -14,6 +14,18 @@
 		</cfquery>
 		
 		<cfreturn local.results />
+	</cffunction>
+	
+	<cffunction name="getNavigation" access="public" returntype="component" output="false">
+		<cfset local.navigation = getModel('user', 'navigation') />
+		
+		<cfset local.plugin = variables.transport.theApplication.managers.plugin.getUser() />
+		
+		<cfif fileExists(local.plugin.getStoragePath() & '/navigation/roles.xml.cfm')>
+			<cfset local.navigation.setNavigation(xmlParse(fileRead(local.plugin.getStoragePath() & '/navigation/roles.xml.cfm'))) />
+		</cfif>
+		
+		<cfreturn local.navigation />
 	</cffunction>
 	
 	<cffunction name="getRoles" access="public" returntype="query" output="false">
@@ -76,12 +88,12 @@
 		
 		<cfset observer = getPluginObserver('user', 'navigation') />
 		
-		<cfset scrub__model(arguments.role) />
-		<cfset validate__model(arguments.role) />
+		<cfset scrub__model(arguments.navigation) />
+		<cfset validate__model(arguments.navigation) />
 		
 		<cfset observer.beforeSave(variables.transport, arguments.navigation) />
 		
-		
+		<cfset fileWrite('/plugins/user/extend/admin/navigation/permission.xml.cfm', toString(arguments.navigation.getNavigation())) />
 		
 		<cfset observer.afterSave(variables.transport, arguments.navigation) />
 	</cffunction>

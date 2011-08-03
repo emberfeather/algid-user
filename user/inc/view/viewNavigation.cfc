@@ -70,7 +70,7 @@
 			<cfset local.inputName = replace(right(arguments.navigation.path, len(arguments.navigation.path) -1), '/', '.', 'all') />
 			
 			<cfset local.theForm.addElement('navigation', {
-				name = replace(right(arguments.navigation.path, len(arguments.navigation.path) -1), '/', '.', 'all'),
+				name = right(arguments.navigation.path, len(arguments.navigation.path) -1),
 				label = "",
 				level = arguments.navigation.level,
 				data = {
