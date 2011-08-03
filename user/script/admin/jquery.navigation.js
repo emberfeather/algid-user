@@ -2,6 +2,17 @@
 	$(function(){
 		$('input[type="radio"]').live('change', updateRow);
 		$('.level').live('dblclick', toggleRow);
+		
+		// Make sure that the sub paths for already denied areas are shown as denied
+		$('.level.deny').each(function() {
+			var path = $(this).parents('[data-path]');
+			
+			// Deny,Allow - Deny the child paths
+			var subPaths = $('[data-path^="' + path.data('path') + '/"]');
+			
+			$('.level', subPaths).removeClass('allow').addClass('deny');
+			$('input[type="radio"]', subPaths).filter('[value="deny"]').prop('checked', 'checked');
+		});
 	});
 	
 	function changeAccess(element, access) {
