@@ -13,7 +13,23 @@ component extends="algid.inc.resource.base.model" {
 		return this;
 	}
 	
-	private void function addRole(required any root, required string path, required string role, string attribute = 'allow') {
+	public void function applyChanges(required string role, required struct changes) {
+		local.root = this.getNavigation().xmlRoot;
+		
+		local.keys = listToArray(structKeyList(arguments.changes));
+		
+		for(local.i = 1; local.i <= arrayLen(local.keys); local.i++) {
+			__addRole(local.root, local.keys[local.i], arguments.role, arguments.changes[local.keys[local.i]]);
+		}
+	}
+	
+	public void function removeRole(required string role) {
+		local.root = this.getNavigation().xmlRoot;
+		
+		__removeRole(local.root, arguments.role);
+	}
+	
+	private void function __addRole(required any root, required string path, required string role, string attribute = 'allow') {
 		local.current = listFirst(arguments.path, '/');
 		local.rest = listRest(arguments.path, '/');
 		
@@ -33,7 +49,7 @@ component extends="algid.inc.resource.base.model" {
 		}
 		
 		if(local.rest != '') {
-			return addRole(local.node, local.rest, arguments.role, arguments.attribute);
+			return __addRole(local.node, local.rest, arguments.role, arguments.attribute);
 		}
 		
 		local.antiAttribute = arguments.attribute == 'allow' ? 'deny' : 'allow';
@@ -62,17 +78,33 @@ component extends="algid.inc.resource.base.model" {
 		
 		// Apply role to the children
 		for(local.i = 1; local.i <= arrayLen(local.node.xmlChildren); local.i++) {
-			addRole(local.node, local.node.xmlChildren[local.i].xmlName, arguments.role, arguments.attribute);
+			__addRole(local.node, local.node.xmlChildren[local.i].xmlName, arguments.role, arguments.attribute);
 		}
 	}
 	
-	public void function applyChanges(required string role, required struct changes) {
-		local.root = this.getNavigation().xmlRoot;
+	private void function __removeRole(required any root, required string role) {
+		local.attrs = ['allow', 'deny'];
 		
-		local.keys = listToArray(structKeyList(arguments.changes));
+		// Remove it from the attributes
+		for(local.i = 1; local.i <= arrayLen(local.attrs); local.i++) {
+			local.attribute = local.attrs[local.i];
+			
+			if(structKeyExists(arguments.root.xmlAttributes, local.attribute)) {
+				local.locate = listFindNoCase(arguments.root.xmlAttributes[local.attribute], arguments.role);
+				
+				if(local.locate) {
+					arguments.root.xmlAttributes[local.attribute] = listDeleteAt(arguments.root.xmlAttributes[local.attribute], locate);
+				}
+				
+				if(arguments.root.xmlAttributes[local.attribute] eq '') {
+					arguments.root.xmlAttributes[local.antiAttribute] = local.attribute == 'allow' ? '' : '*';
+				}
+			}
+		}
 		
-		for(local.i = 1; local.i <= arrayLen(local.keys); local.i++) {
-			addRole(local.root, local.keys[local.i], arguments.role, arguments.changes[local.keys[local.i]]);
+		// Apply to the children
+		for(local.i = 1; local.i <= arrayLen(arguments.root.xmlChildren); local.i++) {
+			__removeRole(arguments.root.xmlChildren[local.i], arguments.role);
 		}
 	}
 }
