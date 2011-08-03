@@ -13,6 +13,11 @@
 			<edit position="action"/>
 			<list position="action"/>
 			
+			<navigation position="main">
+				<edit position="action"/>
+				<list position="action"/>
+			</navigation>
+			
 			<permission position="main">
 				<list position="action"/>
 			</permission>

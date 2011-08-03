@@ -7,37 +7,43 @@
 		
 		<!--- User ID --->
 		<cfset add__attribute(
-				attribute = 'userID'
-			) />
+			attribute = 'userID'
+		) />
 		
 		<!--- Full Name --->
 		<cfset add__attribute(
-				attribute = 'fullname',
-				defaultValue = 'Guest'
-			) />
+			attribute = 'fullname',
+			defaultValue = 'Guest'
+		) />
 		
 		<!--- Is Deity? --->
 		<cfset add__attribute(
-				attribute = 'isDeity',
-				defaultValue = false
-			) />
+			attribute = 'isDeity',
+			defaultValue = false
+		) />
 		
 		<!--- Language --->
 		<cfset add__attribute(
-				attribute = 'language',
-				defaultValue = 'en-US'
-			) />
+			attribute = 'language',
+			defaultValue = 'en-US'
+		) />
 		
 		<!--- Username --->
 		<cfset add__attribute(
-				attribute = 'username'
-			) />
+			attribute = 'username'
+		) />
 		
 		<!--- Permissions --->
 		<cfset add__attribute(
-				attribute = 'permissions',
-				defaultValue = {}
-			) />
+			attribute = 'permissions',
+			defaultValue = {}
+		) />
+		
+		<!--- Roles --->
+		<cfset add__attribute(
+			attribute = 'roles',
+			defaultValue = []
+		) />
 		
 		<!--- Set the bundle information for translation --->
 		<cfset add__bundle('plugins/user/i18n/inc/model', 'modUser') />
@@ -58,6 +64,10 @@
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfset arrayAppend(variables.instance['permissions'][arguments.scheme], permission) />
 		</cfloop>
+	</cffunction>
+	
+	<cffunction name="addRoles" access="public" returntype="void" output="false">
+		<cfset super.addUniqueRoles(argumentCollection = arguments) />
 	</cffunction>
 	
 	<cffunction name="getDisplayName" access="public" returntype="string" output="false">
@@ -111,6 +121,21 @@
 		<cfreturn false />
 	</cffunction>
 	
+	<cffunction name="hasRole" access="public" returntype="boolean" output="false">
+		<cfargument name="role" type="string" required="true" />
+		
+		<!--- Check for master users --->
+		<cfif this.getIsDeity() eq true>
+			<cfreturn true />
+		</cfif>
+		
+		<cfif arrayFind(variables.instance['roles'], arguments.role)>
+			<cfreturn true />
+		</cfif>
+		
+		<cfreturn false />
+	</cffunction>
+	
 	<cffunction name="hasPermissions" access="public" returntype="boolean" output="false">
 		<cfargument name="permissions" type="string" required="true" />
 		<cfargument name="schemes" type="string" required="true" />
@@ -124,6 +149,25 @@
 		
 		<cfloop list="#arguments.permissions#" index="permission">
 			<cfif not hasPermission(permission, arguments.schemes)>
+				<cfreturn false />
+			</cfif>
+		</cfloop>
+		
+		<cfreturn true />
+	</cffunction>
+	
+	<cffunction name="hasRoles" access="public" returntype="boolean" output="false">
+		<cfargument name="roles" type="array" required="true" />
+		
+		<cfset var role = '' />
+		
+		<!--- Check for master users --->
+		<cfif this.getIsDeity() eq true>
+			<cfreturn true />
+		</cfif>
+		
+		<cfloop array="#arguments.roles#" index="role">
+			<cfif not hasRole(role)>
 				<cfreturn false />
 			</cfif>
 		</cfloop>
