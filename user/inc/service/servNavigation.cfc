@@ -82,19 +82,15 @@
 	<cffunction name="setNavigation" access="public" returntype="void" output="false">
 		<cfargument name="navigation" type="component" required="true" />
 		
-		<cfset var eventLog = '' />
-		<cfset var observer = '' />
-		<cfset var results = '' />
-		
-		<cfset observer = getPluginObserver('user', 'navigation') />
+		<cfset local.observer = getPluginObserver('user', 'navigation') />
 		
 		<cfset scrub__model(arguments.navigation) />
 		<cfset validate__model(arguments.navigation) />
 		
-		<cfset observer.beforeSave(variables.transport, arguments.navigation) />
+		<cfset local.observer.beforeSave(variables.transport, arguments.navigation) />
 		
 		<cfset fileWrite('/plugins/user/extend/admin/navigation/permission.xml.cfm', toString(arguments.navigation.getNavigation())) />
 		
-		<cfset observer.afterSave(variables.transport, arguments.navigation) />
+		<cfset local.observer.afterSave(variables.transport, arguments.navigation) />
 	</cffunction>
 </cfcomponent>
