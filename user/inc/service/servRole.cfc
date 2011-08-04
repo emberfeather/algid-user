@@ -2,17 +2,13 @@
 	<cffunction name="archiveRole" access="public" returntype="void" output="false">
 		<cfargument name="role" type="component" required="true" />
 		
-		<cfset var eventLog = '' />
-		<cfset var observer = '' />
-		<cfset var results = '' />
+		<cfset local.observer = getPluginObserver('user', 'role') />
 		
-		<cfset observer = getPluginObserver('user', 'role') />
-		
-		<cfset observer.beforeArchive(variables.transport, arguments.role) />
+		<cfset local.observer.beforeArchive(variables.transport, arguments.role) />
 		
 		<!--- Archive the role --->
 		<cftransaction>
-			<cfquery datasource="#variables.datasource.name#" result="results">
+			<cfquery datasource="#variables.datasource.name#">
 				UPDATE "#variables.datasource.prefix#user"."role"
 				SET
 					"archivedOn" = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#" />
@@ -21,7 +17,13 @@
 			</cfquery>
 		</cftransaction>
 		
-		<cfset observer.afterArchive(variables.transport, arguments.role) />
+		<!--- Remove the role from the navigation --->
+		<cfset local.servNavigation = getService('user', 'navigation') />
+		<cfset local.navigation = local.servNavigation.getNavigation() />
+		<cfset local.navigation.removeRole(arguments.role.getRoleID()) />
+		<cfset local.servNavigation.setNavigation(local.navigation) />
+		
+		<cfset local.observer.afterArchive(variables.transport, arguments.role) />
 	</cffunction>
 	
 	<cffunction name="getRole" access="public" returntype="component" output="false">

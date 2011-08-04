@@ -21,8 +21,8 @@
 		
 		<cfset local.plugin = variables.transport.theApplication.managers.plugin.getUser() />
 		
-		<cfif fileExists(local.plugin.getStoragePath() & '/navigation/roles.xml.cfm')>
-			<cfset local.navigation.setNavigation(xmlParse(fileRead(local.plugin.getStoragePath() & '/navigation/roles.xml.cfm'))) />
+		<cfif fileExists(local.plugin.getStoragePath() & '/extend/admin/navigation/roles.xml.cfm')>
+			<cfset local.navigation.setNavigation(xmlParse(fileRead(local.plugin.getStoragePath() & '/extend/admin/navigation/roles.xml.cfm'))) />
 		</cfif>
 		
 		<cfreturn local.navigation />
@@ -89,7 +89,9 @@
 		
 		<cfset local.observer.beforeSave(variables.transport, arguments.navigation) />
 		
-		<cfset fileWrite('/plugins/user/extend/admin/navigation/permission.xml.cfm', toString(arguments.navigation.getNavigation())) />
+		<cfset local.plugin = variables.transport.theApplication.managers.plugin.getUser() />
+		
+		<cfset fileWrite(local.plugin.getStoragePath() & '/extend/admin/navigation/roles.xml.cfm', toString(arguments.navigation.getNavigation())) />
 		
 		<cfset local.observer.afterSave(variables.transport, arguments.navigation) />
 	</cffunction>

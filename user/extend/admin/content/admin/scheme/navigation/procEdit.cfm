@@ -18,7 +18,7 @@
 		<cfset last = listLast(i, '/') />
 		<cfset partParent = len(i) gt len(last) ? left(i, len(i) - len(last) - 1) : '' />
 		
-		<cfif partParent eq '' || form[partParent] neq form[i]>
+		<cfif partParent eq '' || not structKeyExists(form, 'partParent') || form[partParent] neq form[i]>
 			<cfset changes[i] = form[i] />
 		</cfif>
 	</cfloop>
