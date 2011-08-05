@@ -2,21 +2,13 @@
 	<cffunction name="archiveRole" access="public" returntype="void" output="false">
 		<cfargument name="role" type="component" required="true" />
 		
-		<cfset var eventLog = '' />
-		<cfset var observer = '' />
-		<cfset var results = '' />
+		<cfset local.observer = getPluginObserver('user', 'role') />
 		
-		<!--- Get the event observer --->
-		<cfset observer = getPluginObserver('user', 'role') />
-		
-		<!--- TODO Check user permissions --->
-		
-		<!--- Before Archive Event --->
-		<cfset observer.beforeArchive(variables.transport, arguments.role) />
+		<cfset local.observer.beforeArchive(variables.transport, arguments.role) />
 		
 		<!--- Archive the role --->
 		<cftransaction>
-			<cfquery datasource="#variables.datasource.name#" result="results">
+			<cfquery datasource="#variables.datasource.name#">
 				UPDATE "#variables.datasource.prefix#user"."role"
 				SET
 					"archivedOn" = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#" />
@@ -25,8 +17,13 @@
 			</cfquery>
 		</cftransaction>
 		
-		<!--- After Archive Event --->
-		<cfset observer.afterArchive(variables.transport, arguments.role) />
+		<!--- Remove the role from the navigation --->
+		<cfset local.servNavigation = getService('user', 'navigation') />
+		<cfset local.navigation = local.servNavigation.getNavigation() />
+		<cfset local.navigation.removeRole(arguments.role.getRoleID()) />
+		<cfset local.servNavigation.setNavigation(local.navigation) />
+		
+		<cfset local.observer.afterArchive(variables.transport, arguments.role) />
 	</cffunction>
 	
 	<cffunction name="getRole" access="public" returntype="component" output="false">
@@ -57,13 +54,12 @@
 		<cfargument name="filter" type="struct" default="#{}#" />
 		
 		<cfset var defaults = {
-				isArchived = false,
-				orderBy = 'role',
-				orderSort = 'asc'
-			} />
+			isArchived = false,
+			orderBy = 'role',
+			orderSort = 'asc'
+		} />
 		<cfset var results = '' />
 		
-		<!--- Expand the with defaults --->
 		<cfset arguments.filter = extend(defaults, arguments.filter) />
 		
 		<cfquery name="results" datasource="#variables.datasource.name#">
@@ -105,6 +101,53 @@
 		<cfreturn results />
 	</cffunction>
 	
+	<cffunction name="getUsers" access="public" returntype="query" output="false">
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="filter" type="struct" default="#{}#" />
+		
+		<cfset arguments.filter = extend({
+			isArchived = false,
+			orderBy = 'fullname',
+			orderSort = 'asc'
+		}, arguments.filter) />
+		
+		<cfquery name="local.results" datasource="#variables.datasource.name#">
+			SELECT u."userID", u."fullname"
+			FROM "#variables.datasource.prefix#user"."user" u
+			WHERE 1=1
+			
+			<cfif structKeyExists(arguments.filter, 'inRole')>
+				<cfif arguments.filter.inRole>
+					AND EXISTS
+				<cfelse>
+					AND NOT EXISTS
+				</cfif> (
+					SELECT r."roleID"
+					FROM "#variables.datasource.prefix#user"."bRole2User" r
+					WHERE r."userID" = u."userID"
+						AND r."roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" null="#arguments.role.getRoleID() eq ''#">::uuid
+				)
+			</cfif>
+			
+			ORDER BY
+			<cfswitch expression="#arguments.filter.orderBy#">
+				<cfdefaultcase>
+					u."fullname" #arguments.filter.orderSort#
+				</cfdefaultcase>
+			</cfswitch>
+			
+			<cfif structKeyExists(arguments.filter, 'limit')>
+				LIMIT <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.limit#" />
+			</cfif>
+			
+			<cfif structKeyExists(arguments.filter, 'offset')>
+				OFFSET <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.filter.offset#" />
+			</cfif>
+		</cfquery>
+		
+		<cfreturn local.results />
+	</cffunction>
+	
 	<cffunction name="hasRole" access="public" returntype="boolean" output="false">
 		<cfargument name="schemeID" type="string" required="true" />
 		<cfargument name="role" type="string" required="true" />
@@ -131,12 +174,11 @@
 		<cfset var observer = '' />
 		<cfset var results = '' />
 		
-		<!--- Get the event observer --->
 		<cfset observer = getPluginObserver('user', 'role') />
 		
+		<cfset scrub__model(arguments.role) />
 		<cfset validate__model(arguments.role) />
 		
-		<!--- Before Save Event --->
 		<cfset observer.beforeSave(variables.transport, arguments.role) />
 		
 		<cfif arguments.role.getRoleID() eq ''>
@@ -156,9 +198,8 @@
 					<cfthrow type="validation" message="Role name already in use" detail="The '#arguments.role.getRole()#' role already exists." />
 				<cfelse>
 					<!--- Pull in the real roleID --->
-					<cfset arguments.role.setRoleID( results.roleID ) />
+					<cfset arguments.role.setRoleID( results.roleID.toString() ) />
 					
-					<!--- Before Unarchive Event --->
 					<cfset observer.beforeUnarchive(variables.transport, arguments.role) />
 					
 					<!--- Unarchive the role --->
@@ -169,14 +210,12 @@
 								"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 								"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 								"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-								"archivedOn" = NULL, 
-								"updatedOn" = now()
+								"archivedOn" = NULL
 							WHERE
 								"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 						</cfquery>
 					</cftransaction>
 					
-					<!--- After Unarchive Event --->
 					<cfset observer.afterUnarchive(variables.transport, arguments.role) />
 				</cfif>
 			<cfelse>
@@ -184,7 +223,6 @@
 				<!--- Create the new ID --->
 				<cfset arguments.role.setRoleID( createUUID() ) />
 				
-				<!--- Before Create Event --->
 				<cfset observer.beforeCreate(variables.transport, arguments.role) />
 				
 				<cftransaction>
@@ -194,23 +232,19 @@
 							"roleID",
 							"schemeID",
 							"role",
-							"description", 
-							"updatedOn"
+							"description"
 						) VALUES (
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
-							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-							now()
+							<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />
 						)
 					</cfquery>
 				</cftransaction>
 				
-				<!--- After Create Event --->
 				<cfset observer.afterCreate(variables.transport, arguments.role) />
 			</cfif>
 		<cfelse>
-			<!--- Before Update Event --->
 			<cfset observer.beforeUpdate(variables.transport, arguments.role) />
 			
 			<cftransaction>
@@ -220,18 +254,73 @@
 						"role" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRole()#" />,
 						"schemeID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getSchemeID()#" />::uuid,
 						"description" = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.role.getDescription()#" />,
-						"archivedOn" = NULL, 
-						"updatedOn" = now()
+						"archivedOn" = NULL
 					WHERE
 						"roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
 				</cfquery>
 			</cftransaction>
 			
-			<!--- After Update Event --->
 			<cfset observer.afterUpdate(variables.transport, arguments.role) />
 		</cfif>
 		
-		<!--- After Save Event --->
 		<cfset observer.afterSave(variables.transport, arguments.role) />
+	</cffunction>
+	
+	<cffunction name="setRoleUsers" access="public" returntype="void" output="false">
+		<cfargument name="role" type="component" required="true" />
+		<cfargument name="users" type="array" required="true" />
+		
+		<cfset local.observer = getPluginObserver('user', 'role') />
+		
+		<cfset local.observer.beforeUsersSave(variables.transport, arguments.role) />
+		
+		<cfquery datasource="#variables.datasource.name#" name="local.results">
+			SELECT "userID"
+			FROM "#variables.datasource.prefix#user"."bRole2User"
+			WHERE "roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
+		</cfquery>
+		
+		<cftransaction>
+			<!--- Remove Old Users --->
+			<cfquery datasource="#variables.datasource.name#">
+				DELETE
+				FROM "#variables.datasource.prefix#user"."bRole2User"
+				WHERE "roleID" = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid
+					<cfif arrayLen(arguments.users)>
+						AND "userID" NOT IN (
+							<cfloop from="1" to="#arrayLen(arguments.users)#" index="local.i">
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.users[local.i]#" />::uuid<cfif local.i lt arrayLen(arguments.users)>,</cfif>
+							</cfloop>
+						)
+					</cfif>
+			</cfquery>
+			
+			<!--- Find new users --->
+			<cfloop query="local.results">
+				<cfset local.loc = arrayFind(arguments.users, local.results.userID.toString()) />
+				
+				<cfif local.loc>
+					<cfset arrayDeleteAt(arguments.users, local.loc) />
+				</cfif>
+			</cfloop>
+			
+			<cfif arrayLen(arguments.users)>
+				<cfquery datasource="#variables.datasource.name#">
+					INSERT INTO "#variables.datasource.prefix#user"."bRole2User"
+					(
+						"roleID",
+						"userID"
+					) VALUES
+					<cfloop from="1" to="#arrayLen(arguments.users)#" index="local.i">
+						(
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role.getRoleID()#" />::uuid,
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.users[local.i]#" />::uuid
+						)<cfif local.i lt arrayLen(arguments.users)>,</cfif>
+					</cfloop>
+				</cfquery>
+			</cfif>
+		</cftransaction>
+		
+		<cfset local.observer.afterUsersSave(variables.transport, arguments.role) />
 	</cffunction>
 </cfcomponent>

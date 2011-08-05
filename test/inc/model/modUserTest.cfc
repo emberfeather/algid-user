@@ -35,6 +35,21 @@ component extends="algid.inc.resource.base.modelTest" {
 		assertEquals('give,plunder,take', listSort(arrayToList(variables.user.getPermissions('*')), 'text'));
 	}
 	
+	public void function testGetRoles() {
+		variables.user.addRoles('take');
+		variables.user.addRoles('give');
+		
+		assertEquals('give,take', listSort(arrayToList(variables.user.getRoles()), 'text'));
+	}
+	
+	public void function testGetRolesWithDuplicates() {
+		variables.user.addRoles('take');
+		variables.user.addRoles('give');
+		variables.user.addRoles('take');
+		
+		assertEquals('give,take', listSort(arrayToList(variables.user.getRoles()), 'text'));
+	}
+	
 	public void function testHasPermission() {
 		variables.user.addPermissions('scheme', 'give');
 		
@@ -76,5 +91,28 @@ component extends="algid.inc.resource.base.modelTest" {
 		variables.user.addPermissions('plan', 'steal');
 		
 		assertFalse(variables.user.hasPermissions('give,steal', 'scheme'), 'The permissions do not exist in their entirety.');
+	}
+	
+	public void function testHasRole() {
+		variables.user.addRoles('give');
+		
+		assertTrue(variables.user.hasRole('give'), 'The role should exist for the scheme.');
+	}
+	
+	public void function testHasRoleSansRole() {
+		assertFalse(variables.user.hasRole('give'), 'The role should not exist for the scheme');
+	}
+	
+	public void function testHasRolesWithOneSchemeFailMissingRole() {
+		variables.user.addRoles('scheme', 'give');
+		
+		assertFalse(variables.user.hasRoles(['give', 'steal']), 'The role do not exist in their entirety.');
+	}
+	
+	public void function testHasRolesWithMultiSchemeParts() {
+		variables.user.addRoles('give');
+		variables.user.addRoles('grant');
+		
+		assertTrue(variables.user.hasRoles(['give', 'grant']), 'The role should exist for the scheme.');
 	}
 }

@@ -1,7 +1,6 @@
 <cfcomponent extends="algid.inc.resource.base.view" output="false">
 	<cffunction name="edit" access="public" returntype="string" output="false">
 		<cfargument name="scheme" type="component" required="true" />
-		<cfargument name="request" type="struct" default="#{}#" />
 		
 		<cfset var i18n = '' />
 		<cfset var theForm = '' />
@@ -16,10 +15,11 @@
 		
 		<!--- Scheme --->
 		<cfset theForm.addElement('text', {
-				name = "scheme",
-				label = "scheme",
-				value = ( structKeyExists(arguments.request, 'scheme') ? arguments.request.scheme : arguments.scheme.getScheme() )
-			}) />
+			name = "scheme",
+			label = "scheme",
+			required = true,
+			value = arguments.scheme.getScheme()
+		}) />
 		
 		<cfreturn theForm.toHTML(theURL.get()) />
 	</cffunction>

@@ -11,6 +11,19 @@
 		<cfset arguments.theSession.managers.singleton.setUser(temp) />
 	</cffunction>
 	
+	<cffunction name="onApplicationStart" access="public" returntype="void" output="false">
+		<cfargument name="theApplication" type="struct" required="true" />
+		
+		<cfset local.plugin = arguments.theApplication.managers.plugin.getUser() />
+		
+		<cfset local.navDirectory = local.plugin.getStoragePath() & '/extend/admin/navigation/' />
+		
+		<!--- Search for admin directory in the plugin extension point --->
+		<cfif not directoryExists(local.navDirectory)>
+			<cfset directoryCreate(local.navDirectory) />
+		</cfif>
+	</cffunction>
+	
 	<cffunction name="canReinitialize" access="public" returntype="boolean" output="false">
 		<cfargument name="theApplication" type="struct" required="true" />
 		<cfargument name="theSession" type="struct" required="true" />

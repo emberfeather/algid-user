@@ -2,6 +2,7 @@
 	"applicationSingletons": {
 	},
 	"applicationTransients": {
+		"formElementForUser": "plugins.user.inc.resource.structure.form.user"
 	},
 	"i18n": {
 		"locales": [
@@ -23,5 +24,5 @@
 	},
 	"sessionTransients": {
 	},
-	"version": "0.1.5"
+	"version": "0.1.6"
 }
