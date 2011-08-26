@@ -40,12 +40,18 @@
 			
 			$('.level', subPaths).removeClass('deny').addClass('allow');
 			$('input[type="radio"]', subPaths).filter('[value="allow"]').prop('checked', 'checked');
+			
+			// Allow,Deny - Allow the child paths
+			subPaths = $('[data-path^="' + path.data('path') + '/"]');
+			
+			$('.level', subPaths).removeClass('deny').addClass('allow');
+			$('input[type="radio"]', subPaths).filter('[value="allow"]').prop('checked', 'checked');
 		} else {
 			level.removeClass('allow').addClass('deny');
 			
 			inputs.filter('[value="deny"]').prop('checked', 'checked').focus();
 			
-			// Deny,Allow - Deny the child paths
+			// Allow,Deny - Deny the child paths
 			subPaths = $('[data-path^="' + path.data('path') + '/"]');
 			
 			$('.level', subPaths).removeClass('allow').addClass('deny');

@@ -14,4 +14,12 @@ component extends="algid.inc.resource.base.event" {
 		// Add success message
 		arguments.transport.theSession.managers.singleton.getSuccess().addMessages('The navigation role permissions were successfully updated.');
 	}
+	
+	public void function beforeSave( required struct transport, required component navigation ) {
+		// Ensure universal access to login/logout functionality
+		local.nav = arguments.navigation.getNavigation();
+		local.nav.xmlRoot.account.xmlAttributes['allow'] = '*';
+		local.nav.xmlRoot.account.login.xmlAttributes['allow'] = '*';
+		local.nav.xmlRoot.account.logout.xmlAttributes['allow'] = '*';
+	}
 }
