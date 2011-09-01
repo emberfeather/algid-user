@@ -28,7 +28,7 @@
 		}) />
 		
 		<cfset datagrid.addColumn({
-			class = 'phantom align-right',
+			class = 'phantom align-right width-min',
 			value = [ 'delete', 'edit' ],
 			link = [
 				{
