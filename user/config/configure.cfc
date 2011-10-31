@@ -59,6 +59,20 @@
 				</cfdefaultcase>
 			</cfswitch>
 		</cfif>
+		
+		<!--- => 0.1.8 --->
+		<cfif versions.compareVersions(arguments.installedVersion, '0.1.8') lt 0>
+			<!--- Setup the Database --->
+			<cfswitch expression="#variables.datasource.type#">
+				<cfcase value="PostgreSQL">
+					<cfset postgreSQL0_1_8() />
+				</cfcase>
+				<cfdefaultcase>
+					<!--- TODO Remove this thow when a later version supports more database types  --->
+					<cfthrow message="Database Type Not Supported" detail="The #variables.datasource.type# database type is not currently supported" />
+				</cfdefaultcase>
+			</cfswitch>
+		</cfif>
 	</cffunction>
 	
 	<!---
@@ -201,6 +215,43 @@
 		
 		<cfquery datasource="#variables.datasource.name#">
 			COMMENT ON TABLE "#variables.datasource.prefix#user"."bRole2User" IS 'Bridge for applying a role to a user.';
+		</cfquery>
+	</cffunction>
+	
+	<!---
+		Configures the database for v0.1.8
+	--->
+	<cffunction name="postgreSQL0_1_8" access="public" returntype="void" output="false">
+		<!---
+			Timestamps
+		--->
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."user" ALTER "createdOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."user" ALTER "archivedOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."scheme" ALTER "createdOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."scheme" ALTER "updatedOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."scheme" ALTER "archivedOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."role" ALTER "createdOn" TYPE timestamp with time zone;
+		</cfquery>
+		
+		<cfquery datasource="#variables.datasource.name#">
+			ALTER TABLE "#variables.datasource.prefix#user"."role" ALTER "archivedOn" TYPE timestamp with time zone;
 		</cfquery>
 	</cffunction>
 </cfcomponent>
